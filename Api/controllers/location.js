@@ -124,7 +124,7 @@ const getLocation = async (req, res) => {
     const { id } = req.params;
 
     // #################################################################
-    // Get Location wih id and admin
+    // Get Location wih id 
 
     const location = await Location.findOne({
         _id: id,

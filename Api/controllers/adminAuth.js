@@ -31,6 +31,11 @@ const adminSignUp = async (req, res) => {
     await Admin.create(req.body);
 
     // ###########################################################
+    // Handle Create RFID AND API USER FOR ADMIN
+    //
+    //
+
+    // ###########################################################
     // Send Response
     res.json({ msg: "Admin Account Created" });
 };

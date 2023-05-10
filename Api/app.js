@@ -54,6 +54,10 @@ app.use("/api/location", locationRoutes);
 const rateRoutes = require("./routes/rates");
 app.use("/api/rate", rateRoutes);
 
+// CHARGEPOINT ROUTES
+const chargePointRoutes = require("./routes/chargePoint");
+app.use("/api/chargePoint", chargePointRoutes);
+
 // ######################################################################################################
 // ######################################################################################################
 // Handler Middleware
