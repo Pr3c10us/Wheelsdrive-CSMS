@@ -18,12 +18,12 @@ const mongoose = require("mongoose");
 // CORS MIDDLEWARE
 // Set up cors options and middleware
 const corsOptions = {
-  origin: [
-    process.env.CLIENT_ORIGIN_1,
-    process.env.CLIENT_ORIGIN_2,
-    process.env.CLIENT_ORIGIN_3,
-  ],
-  credentials: true,
+    origin: [
+        process.env.CLIENT_ORIGIN_1,
+        process.env.CLIENT_ORIGIN_2,
+        process.env.CLIENT_ORIGIN_3,
+    ],
+    credentials: true,
 };
 app.use(cors(corsOptions));
 
@@ -39,12 +39,20 @@ app.use(express.json());
 
 // HOME ROUTE
 app.get("/", (req, res) => {
-  res.json({ msg: "Welcome To Wheelsdrive" });
+    res.json({ msg: "Welcome To Wheelsdrive" });
 });
 
 // ADMIN ROUTES
 const adminAuthRoutes = require("./routes/adminAuth");
 app.use("/api/admin/auth", adminAuthRoutes);
+
+// LOCATION ROUTES
+const locationRoutes = require("./routes/location");
+app.use("/api/location", locationRoutes);
+
+// RATE ROUTES
+const rateRoutes = require("./routes/rates");
+app.use("/api/rate", rateRoutes);
 
 // ######################################################################################################
 // ######################################################################################################
@@ -63,12 +71,12 @@ app.use(errorHandler);
 // CREATE SERVER
 const port = process.env.PORT || 5000;
 const server = async () => {
-  try {
-    await mongoose.set("strictQuery", false);
-    await mongoose.connect(process.env.MONGODB_URL);
-    app.listen(port, () => console.log(`Server listening on port ${port}`));
-  } catch (error) {
-    console.log(error);
-  }
+    try {
+        await mongoose.set("strictQuery", false);
+        await mongoose.connect(process.env.MONGODB_URL);
+        app.listen(port, () => console.log(`Server listening on port ${port}`));
+    } catch (error) {
+        console.log(error);
+    }
 };
 server();
