@@ -12,6 +12,7 @@ const createLocation = async (req, res) => {
     // add admin object to request body
     req.body.admin = admin;
 
+    // create location
     await Location.create(req.body);
 
     res.json({ msg: "Location created" });
@@ -44,12 +45,12 @@ const adminLocations = async (req, res) => {
     // Set up Pagination
 
     // set limit and page(from query) variable
-    const limit = Number(req.query.page) || 20;
+    const limit = Number(req.query.limit) || 20;
     const page = Number(req.query.page) || 1;
     const skip = (page - 1) * limit;
 
     // edit locations based on limit and page
-    result = result.skip(skip).limit(limit);
+    // result = result.skip(skip).limit(limit);
 
     // #################################################################
     // Send final locations
@@ -78,12 +79,12 @@ const getLocations = async (req, res) => {
     // Set up Pagination
 
     // set limit and page(from query) variable
-    const limit = Number(req.query.page) || 50;
+    const limit = Number(req.query.limit) || 50;
     const page = Number(req.query.page) || 1;
     const skip = (page - 1) * limit;
 
     // edit locations based on limit and page
-    result = result.skip(skip).limit(limit);
+    // result = result.skip(skip).limit(limit);
 
     // #################################################################
     // Send final locations

@@ -16,7 +16,10 @@ const {
 router
     .route("/")
     .post(adminAuthorization, createRate)
-    .get(adminAuthorization, getRates)
+    .get(adminAuthorization, getRates);
+
+router
+    .route("/:id")
     .put(adminAuthorization, updateRate)
     .delete(adminAuthorization, deleteRate);
 
