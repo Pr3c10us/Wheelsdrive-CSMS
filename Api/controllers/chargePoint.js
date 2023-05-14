@@ -1,7 +1,7 @@
 const { BadRequestError, NotFoundError } = require("../errors");
-const Admin = require("../models/Admin");
-const ChargePoint = require("../models/ChargePoint");
-const Location = require("../models/Location");
+const Admin = require("../../Database/models/Admin");
+const ChargePoint = require("../../Database/models/ChargePoint");
+const Location = require("../../Database/models/Location");
 
 const createChargePoint = async (req, res) => {
     // get admin id
@@ -10,12 +10,38 @@ const createChargePoint = async (req, res) => {
     const admin = await Admin.findById(adminId);
 
     // ##########################################################################
+    // Check if chargepoint with name already exist
+    const { name } = req.body;
+    // get chargepoint from database with name
+    const nameExist = await ChargePoint.findOne({ name, admin });
+
+    // throw error if chargepoint with name already exist
+    if (nameExist) {
+        throw new BadRequestError("ChargePoint with name already exist");
+    }
+
+    // ##########################################################################
+    // Check if chargepoint with endpoint already exist
+    const { endpoint } = req.body;
+    if (!endpoint) {
+        throw new BadRequestError("Endpoint is required");
+    }
+
+    // get chargepoint from database with endpoint
+    const endpointExist = await ChargePoint.findOne({ endpoint, admin });
+
+    // throw error if chargepoint with endpoint already exist
+    if (endpointExist) {
+        throw new BadRequestError("ChargePoint with endpoint already exist");
+    }
+
+    // ##########################################################################
     // Get Location
 
     // get location id from request body
     const { locationId } = req.body;
-    // get location from database with id
-    const location = await Location.findById(locationId);
+    // get location from database with id that belongs to admin
+    const location = await Location.findOne({ _id: locationId, admin });
 
     // throw error if location does not exist
     if (!location) {
@@ -184,6 +210,23 @@ const deleteChargePoint = async (req, res) => {
     if (!chargePoint) {
         throw new NotFoundError("chargePoint not found");
     }
+
+    // #################################################################
+    // Delete chargePoint from location
+
+    // get location id from chargePoint
+    const { location } = chargePoint;
+    // get location from database with id
+    const locationFromDb = await Location.findById(location);
+
+    // get index of chargePoint in location
+    const index = locationFromDb.chargePoints.indexOf(chargePoint._id);
+
+    // remove chargePoint from location
+    locationFromDb.chargePoints.splice(index, 1);
+
+    // save location
+    await locationFromDb.save();
 
     res.json({ msg: "chargePoint Deleted" });
 };

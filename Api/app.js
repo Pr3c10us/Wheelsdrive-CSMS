@@ -8,8 +8,17 @@ const cookieParser = require("cookie-parser");
 const express = require("express");
 const app = express();
 
-// Import mongoose
-const mongoose = require("mongoose");
+// Import modules for webSocket
+const http = require("http");
+const server = http.createServer(app);
+const WebSocket = require("ws");
+const wss = new WebSocket.Server({ server });
+
+// Import Database connection function
+const connectToMongodb = require("../Database");
+
+// Import Websocket handler
+const { webSocketHandler } = require("./websocket");
 
 // ######################################################################################################
 // ######################################################################################################
@@ -58,6 +67,10 @@ app.use("/api/rate", rateRoutes);
 const chargePointRoutes = require("./routes/chargePoint");
 app.use("/api/chargePoint", chargePointRoutes);
 
+// APIUSER ROUTES
+const apiUserRoutes = require("./routes/apiUser");
+app.use("/api/apiUser", apiUserRoutes);
+
 // ######################################################################################################
 // ######################################################################################################
 // Handler Middleware
@@ -74,13 +87,18 @@ app.use(errorHandler);
 // ######################################################################################################
 // CREATE SERVER
 const port = process.env.PORT || 5000;
-const server = async () => {
+const serverApp = async () => {
     try {
-        await mongoose.set("strictQuery", false);
-        await mongoose.connect(process.env.MONGODB_URL);
-        app.listen(port, () => console.log(`Server listening on port ${port}`));
+        await connectToMongodb();
+        server.listen(port, () =>
+            console.log(`Server listening on port ${port}`)
+        );
+        // await webSocketHandler(wss)
     } catch (error) {
         console.log(error);
     }
 };
-server();
+serverApp();
+
+// ######################################################################################################
+// ######################################################################################################

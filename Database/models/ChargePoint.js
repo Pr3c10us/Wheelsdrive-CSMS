@@ -6,15 +6,46 @@ const ChargePointSchema = new mongoose.Schema(
         name: {
             type: String,
         },
+        endpoint: {
+            type: String,
+        },
+        ocppVersion: {
+            type: String,
+            enum: {
+                values: ["ocpp1.6", "ocpp2.0", "ocpp2.0.1"],
+            },
+        },
         clientCertificate: {
             type: String,
         },
         notes: {
             type: String,
         },
+        vendor: {
+            type: String,
+        },
+        model: {
+            type: String,
+        },
+        serialNumber: {
+            type: String,
+        },
+        firmwareVersion: {
+            type: String,
+        },
+        iccid: {
+            type: String,
+        },
+        imsi: {
+            type: String,
+        },
         display: {
             type: Boolean,
             default: true,
+        },
+        isConnected: {
+            type: Boolean,
+            default: false,
         },
         location: {
             type: mongoose.Schema.Types.ObjectId,

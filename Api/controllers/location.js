@@ -1,7 +1,7 @@
 // Import modules
 const { NotFoundError } = require("../errors");
-const Admin = require("../models/Admin");
-const Location = require("../models/Location");
+const Admin = require("../../Database/models/Admin");
+const Location = require("../../Database/models/Location");
 
 const createLocation = async (req, res) => {
     // get admin id from auth middleware
@@ -39,7 +39,12 @@ const adminLocations = async (req, res) => {
     }
 
     // get locations for admin
-    let result = Location.find(queryObject);
+    let result = Location.find(queryObject)
+        .populate("chargePoints", {
+            name: 1,
+            _id: 0,
+        })
+        .select("-admin -createdAt -updatedAt -__v");
 
     // #################################################################
     // Set up Pagination
@@ -124,7 +129,7 @@ const getLocation = async (req, res) => {
     const { id } = req.params;
 
     // #################################################################
-    // Get Location wih id 
+    // Get Location wih id
 
     const location = await Location.findOne({
         _id: id,

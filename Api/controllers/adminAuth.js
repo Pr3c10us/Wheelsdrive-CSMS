@@ -3,7 +3,11 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 // Import Admin Model
-const Admin = require("../models/Admin");
+const Admin = require("../../Database/models/Admin");
+// Import User Model
+const ApiUser = require("../../Database/models/ApiUser");
+// Import RFID Model
+const RFID = require("../../Database/models/RFID");
 
 // Import Errors
 const { UnauthorizedError, BadRequestError } = require("../errors");
@@ -28,12 +32,23 @@ const adminSignUp = async (req, res) => {
 
     // ###########################################################
     // Create Admin
-    await Admin.create(req.body);
+    const admin = await Admin.create(req.body);
 
     // ###########################################################
-    // Handle Create RFID AND API USER FOR ADMIN
-    //
-    //
+    // Handle Create Default ApiUser and RFID FOR ADMIN
+    const apiUser = await ApiUser.create({
+        email: req.body.email,
+        isAdmin: true,
+        admin,
+    });
+
+    await RFID.create({
+        name: "Admin Rfid",
+        rfid: "1",
+        blocked: false,
+        apiUser,
+        admin,
+    });
 
     // ###########################################################
     // Send Response

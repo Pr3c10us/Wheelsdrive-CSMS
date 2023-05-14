@@ -1,18 +1,45 @@
 {
-  "name": "ocpp",
-  "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
-  "scripts": {
-    "dev": "nodemon server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "express": "^4.18.2",
-    "ocpp-js": "^1.1.6",
-    "ocpp-rpc": "^2.0.0",
-    "ws": "^8.13.0"
-  }
+    "name": "10-e-commerce-api",
+    "version": "1.0.0",
+    "description": "",
+    "main": "app.js",
+    "scripts": {
+        "start": "pm2 start app.js",
+        "dev": "nodemon app.js",
+        "stop": "pm2 stop app.js"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "axios": "^1.2.2",
+        "bcryptjs": "^2.4.3",
+        "cookie-parser": "^1.4.5",
+        "cors": "^2.8.5",
+        "crypto": "^1.0.1",
+        "dotenv": "^10.0.0",
+        "express": "^4.17.1",
+        "express-async-errors": "^3.1.1",
+        "express-fileupload": "^1.4.0",
+        "express-mongo-sanitize": "^2.1.0",
+        "express-rate-limit": "^5.4.1",
+        "helmet": "^4.6.0",
+        "http-status-codes": "^2.1.4",
+        "joi": "^17.4.0",
+        "jsonwebtoken": "^9.0.0",
+        "mongoose": "^7.1.0",
+        "mongoose-beautiful-unique-validation": "^7.1.1",
+        "morgan": "^1.10.0",
+        "node-persist": "^3.1.0",
+        "pm2": "^5.2.2",
+        "readline-sync": "^1.4.10",
+        "uuid": "^9.0.0",
+        "validator": "^13.6.0",
+        "ws": "^8.13.0",
+        "ws-await": "^4.2.3",
+        "xss-clean": "^0.1.1"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.9",
+        "prettier": "^2.8.7"
+    }
 }

@@ -1,78 +1,197 @@
-const { Socket } = require("dgram");
+// Import required modules
+require("dotenv").config();
+
+// Import Express
 const express = require("express");
 const app = express();
-const port = 9000;
 
+// Import modules for webSocket
 const http = require("http");
 const server = http.createServer(app);
-
 const WebSocket = require("ws");
 const wss = new WebSocket.Server({ server });
 
-const handlingEndpoint = async () => {
-  await server.listen(port, () => console.log("server listening on port 9000"));
+// Import Database modules
+const mongoose = require("mongoose");
+const connectToMongodb = require("../Database");
+const ChargePointModel = require("../Database/models/ChargePoint");
 
-  const connection = new Map();
+// Import Classes
+const chargePointStatus = require("./classes/chargePointStatus");
 
-  wss.on("connection", (ws, request) => {
-    console.log("Established a new connection with");
+// Import Handlers
+const handleVersion16 = require("./controllers/v16/handleVersion16");
 
-    let endpoint = request.url;
-    endpoint = endpoint.replace("/", "");
-    console.log(endpoint);
+// ######################################################################################################
+// ######################################################################################################
+// ######################################################################################################
 
-    connection.set(endpoint, ws);
+// Create a map to store all connected clients
+const clientConnections = new Map();
 
-    const now = new Date();
-    const isoDate = now.toISOString();
+// Create websocket handler function
+wss.on("connection", async (ws, request) => {
+    // ######################################################################################################
+    // ######################################################################################################
+    // STORE WEBSOCKET CONNECTIONS IN A MAP WITH A UNIQUE KEY OF USERID AND CHARGEPOINT ENDPOINT COMBINED FOR EACH CLIENT
 
-    ws.on("message", (msg) => {
-      const data = JSON.parse(msg);
+    // Get user id and charge point endpoint from request url
+    const endpoint = request.url;
+    const userId = endpoint.split("/")[1];
+    const chargePointEndpoint = endpoint.split("/")[2];
 
-      if (data[2] === "BootNotification") {
-        ws.send(
-          JSON.stringify([
-            3,
-            data[1],
-            {
-              currentTime: isoDate,
-              interval: 20,
-              status: "Accepted",
-              reason: "PowerUp",
-            },
-          ])
+    // close connection if userId or chargePointEndpoint is not provided
+    if (!userId || !chargePointEndpoint) {
+        ws.close();
+        return;
+    }
+
+    // close connection if userId is not a valid ObjectId
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+        ws.close();
+        return;
+    }
+
+    // Combine userId and chargePointEndpoint to create a unique key
+    const chargePointKey = userId + chargePointEndpoint;
+
+    // Check if the client is already connected
+    if (clientConnections.has(chargePointKey)) {
+        // If the client is already connected, close the connection
+        ws.close();
+        return;
+    }
+    // add the object to the clients map with chargePointKey as key
+    clientConnections.set(chargePointKey, ws);
+
+    // ######################################################################################################
+    // ######################################################################################################
+    // CHECK DB FOR CHARGEPOINT AND CLIENT CERTIFICATE
+
+    // Check if chargepoint is already registered in the database
+    // Pause the websocket connection until we have cleared chargePoint to communicate with the websocket
+    ws.pause();
+    // Get Info of chargePoint
+    const chargePointInfo = await ChargePointModel.findOne({
+        admin: userId,
+        endpoint: chargePointEndpoint,
+    }); // VERY IMPORTANT VARIABLE
+    // Resume the websocket connection back
+    ws.resume();
+
+    // If chargepoint is not registered in the database, close connection and remove client from map
+    if (!chargePointInfo) {
+        clientConnections.delete(chargePointKey);
+        ws.close();
+        return;
+    }
+
+    // Create function to check if client certificate matches the certificate in the database
+    const checkClientCertificate = async (clientCertificate, socket) => {
+        const clientCert = socket.getPeerCertificate();
+        return (
+            clientCert &&
+            clientCert.thumbprint === clientCertificate.toLowerCase()
         );
-      }
-      if (data[2] === "Authorize") {
-        ws.send(
-          JSON.stringify([
-            3,
-            data[1],
-            {
-              idTagInfo: { status: "Accepted" },
-            },
-          ])
+    };
+
+    if (chargePointInfo.clientCertificate) {
+        const certAuthSuccess = await checkClientCertificate(
+            chargePointInfo.clientCertificate,
+            request.socket
         );
-      }
-      if (data[2] === "Heartbeat") {
-        ws.send(
-          JSON.stringify([
-            3,
-            data[1],
-            {
-              currentTime: isoDate,
-            },
-          ])
-        );
-      }
-      console.log(data);
-    });
-    console.log(connection.keys());
+        if (!certAuthSuccess) {
+            clientConnections.delete(chargePointKey);
+            ws.close();
+            return;
+        }
+    }
+
+    // ######################################################################################################
+    // ######################################################################################################
+    // CREATE CHARGEPOINT STATUS CLASS
+    const chargePointStatusClass = new chargePointStatus(chargePointInfo);
+
+    // ######################################################################################################
+    // ######################################################################################################
+    // Get Protocol from websocket connection
+
+    const ocppProtocol = ws.protocol; // VERY IMPORTANT VARIABLE
+    console.log(ocppProtocol);
+    // If the ocppProtocol is not ocpp1.6, ocpp2.0 or ocpp2.0.1 close the connection
+    if (
+        ocppProtocol != "ocpp1.6" &&
+        ocppProtocol != "ocpp2.0" &&
+        ocppProtocol != "ocpp2.0.1"
+    ) {
+        clientConnections.delete(chargePointKey);
+        ws.close();
+        return;
+    }
+
+    // Assign Protocol and websocket connection to the chargePoint Class
+    chargePointStatusClass.Protocol = ocppProtocol;
+    chargePointStatusClass.WebSocket = ws;
+
+    // If ocpp version is 1.6, pass chargePointStatusClass to ocpp1.6 handler
+    if (ocppProtocol == "ocpp1.6") {
+        handleVersion16(chargePointStatusClass);
+    }
+    if (ocppProtocol == "ocpp2.0" || ocppProtocol == "ocpp2.0.1") {
+        ws.on("message", async (msg) => {
+            const data = JSON.parse(msg);
+
+            console.log(data);
+            if (data[3].meterValue) {
+                console.log(data[3].meterValue[0]);
+            }
+        });
+    }
+    // ######################################################################################################
+    // ######################################################################################################
+    // IF THE WEBSOCKET CONNECTION IS CLOSED, REMOVE THE CLIENT FROM THE MAP
+
     ws.on("close", () => {
-      console.log(`WebSocket connection closed with client ${endpoint}`);
-      connection.delete(endpoint);
+        // Remove the client from the map
+        clientConnections.delete(chargePointKey);
     });
-  });
-};
+});
 
-handlingEndpoint();
+// ######################################################################################################
+// ######################################################################################################
+// Demo api to send message to a specific client
+app.get("/send/:userId/:chargePointEndpoint", async (req, res) => {
+    const userId = req.params.userId;
+    const chargePointEndpoint = req.params.chargePointEndpoint;
+    const chargePointKey = userId + chargePointEndpoint;
+    const ws = clientConnections.get(chargePointKey);
+    if (ws) {
+        ws.send(
+            JSON.stringify([
+                2,
+                "jcuwUHUz3mXrcB9TAx29iGt47LDyfF93pWAv",
+                "Heartbeat",
+                {},
+            ])
+        );
+        res.send("Message sent");
+    } else {
+        res.send("Client not found");
+    }
+});
+
+// ######################################################################################################
+// ######################################################################################################
+// CREATE SERVER
+const port = process.env.PORT || 9000;
+const serverApp = async () => {
+    try {
+        await connectToMongodb();
+        server.listen(port, () =>
+            console.log(`Server listening on port ${port}`)
+        );
+    } catch (error) {
+        console.log(error);
+    }
+};
+serverApp();

@@ -1,0 +1,21 @@
+{
+    "name": "10-e-commerce-api",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "pm2 start app.js",
+        "dev": "nodemon app.js",
+        "stop": "pm2 stop app.js"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "dotenv": "^16.0.3",
+        "mongoose": "^7.1.0"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.9",
+        "prettier": "^2.8.7"
+    }
+}

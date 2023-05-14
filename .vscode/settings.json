@@ -1,3 +1,17 @@
 {
-    "cSpell.words": ["CHARGEPOINT", "csms", "middlewares", "Oyedele", "RFID"]
+    "cSpell.words": [
+        "APIUSER",
+        "CALLRESULT",
+        "chademo",
+        "CHARGEPOINT",
+        "csms",
+        "iccid",
+        "imsi",
+        "measurand",
+        "middlewares",
+        "Oyedele",
+        "RFID",
+        "rfids",
+        "USERID"
+    ]
 }

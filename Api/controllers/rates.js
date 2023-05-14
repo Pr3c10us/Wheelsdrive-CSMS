@@ -1,6 +1,6 @@
 const { NotFoundError } = require("../errors");
-const Admin = require("../models/Admin");
-const Rate = require("../models/Rates");
+const Admin = require("../../Database/models/Admin");
+const Rate = require("../../Database/models/Rates");
 
 const createRate = async (req, res) => {
     // get admin id from auth middleware
