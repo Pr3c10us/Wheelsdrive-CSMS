@@ -1,4 +1,5 @@
-const { NotFoundError } = require("../errors");
+const mongoose = require("mongoose");
+const { NotFoundError, BadRequestError } = require("../errors");
 const Admin = require("../../Database/models/Admin");
 const Rate = require("../../Database/models/Rates");
 
@@ -66,6 +67,11 @@ const updateRate = async (req, res) => {
     const admin = await Admin.findById(adminId);
     // get rate id from request params
     const { id } = req.params;
+    
+    // Check if id is valid mongoose object id
+    if (!mongoose.isValidObjectId(id)) {
+        throw new BadRequestError("Invalid Object Id");
+    }
 
     // #################################################################
     // Get rate with id and admin and update

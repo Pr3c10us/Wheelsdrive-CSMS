@@ -17,6 +17,7 @@ const apiUserSchema = new mongoose.Schema({
     },
     isAdmin: {
         type: Boolean,
+        default: false,
     },
     rfids: [
         {
@@ -35,3 +36,11 @@ const ApiUser = mongoose.model("ApiUser", apiUserSchema);
 
 // Export user model
 module.exports = ApiUser;
+
+// Create demo user
+// const demoUser = new ApiUser({
+//     firstName: "Demo",
+//     lastName: "User",
+//     email: "demo@demo",
+//     mobile: "1234567890",
+// });

@@ -5,7 +5,6 @@ const router = require("express").Router();
 const {
     createApiUser,
     getApiUsers,
-    getApiUser,
     updateApiUser,
     deleteApiUser,
 } = require("../controllers/apiUser");
@@ -22,7 +21,6 @@ router
 
 router
     .route("/:id")
-    .get(adminAuthorization, getApiUser)
     .put(adminAuthorization, updateApiUser)
     .delete(adminAuthorization, deleteApiUser);
 
