@@ -46,6 +46,7 @@ const adminSignUp = async (req, res) => {
         name: "Admin Rfid",
         rfid: "1",
         blocked: false,
+        isAdmin: true,
         apiUser,
         admin,
     });

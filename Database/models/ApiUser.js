@@ -19,12 +19,7 @@ const apiUserSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
-    rfids: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "RFID",
-        },
-    ],
+
     admin: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Admin",

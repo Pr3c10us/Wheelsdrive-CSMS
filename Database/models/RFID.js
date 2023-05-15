@@ -13,12 +13,16 @@ const rfidSchema = new mongoose.Schema(
         expires: {
             type: Date,
         },
+        isAdmin: {
+            type: Boolean,
+            default: false,
+        },
         blocked: {
             type: Boolean,
+            default: false,
         },
         parentRFID: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "RFID",
+            type: String,
         },
         apiUser: {
             type: mongoose.Schema.Types.ObjectId,
@@ -44,6 +48,5 @@ const demoRFID = {
     rfid: "1234",
     expires: "2020-11-01T00:00:00.000Z",
     blocked: false,
-    parentRFID: "5f9d7b3b7e3f7e2b7c3f7e2b",
-    admin: "5f9d7b3b7e3f7e2b7c3f7e2b",
+    adminUserId: "5f8f7b7b9d3e9b1b7c9e4b1b",
 };

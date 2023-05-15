@@ -71,6 +71,10 @@ app.use("/api/chargePoint", chargePointRoutes);
 const apiUserRoutes = require("./routes/apiUser");
 app.use("/api/apiUser", apiUserRoutes);
 
+// RFID ROUTES
+const rfidRoutes = require("./routes/rfid");
+app.use("/api/rfid", rfidRoutes);
+
 // ######################################################################################################
 // ######################################################################################################
 // Handler Middleware
