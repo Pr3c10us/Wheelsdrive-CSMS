@@ -1,4 +1,5 @@
 // Import Handlers
+const handleAuthorize = require("./handleAuthorize");
 const handleBootNotification = require("./handleBootNotification");
 const handleHeartbeat = require("./handleHeartbeat");
 const handleMeterValue = require("./handleMeterValue");
@@ -24,6 +25,9 @@ const processRequest = async (messageIn) => {
             break;
         case "MeterValues":
             messageOut = await handleMeterValue(messageIn);
+            break;
+        case "Authorize":
+            messageOut = await handleAuthorize(messageIn);
             break;
     }
     return messageOut;

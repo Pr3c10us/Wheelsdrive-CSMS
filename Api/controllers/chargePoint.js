@@ -61,13 +61,13 @@ const createChargePoint = async (req, res) => {
 
     const chargePoint = await ChargePoint.create(req.body);
 
-    // ##########################################################################
-    // Add ChargePoint to Location
+    // // ##########################################################################
+    // // Add ChargePoint to Location
 
-    // add chargePoint to location
-    location.chargePoints.push(chargePoint);
-    // save location
-    await location.save();
+    // // add chargePoint to location
+    // location.chargePoints.push(chargePoint);
+    // // save location
+    // await location.save();
 
     res.json({ msg: "charge point added" });
 };
@@ -162,6 +162,55 @@ const updateChargePoint = async (req, res) => {
     const admin = await Admin.findById(adminId);
     // get chargePoint id from request params
     const { id } = req.params;
+    if (!mongoose.isValidObjectId(id)) {
+        throw new BadRequestError("Invalid Object Id");
+    }
+
+    // ##########################################################################
+    // Check if user is trying to update endpoint
+    if (req.body.endpoint) {
+        throw new BadRequestError("Cannot update endpoint");
+    }
+
+    // ##########################################################################
+    // Check if chargepoint with name already exist
+    if (req.body.name) {
+        // get chargepoint from database with name
+        const nameExist = await ChargePoint.findOne({
+            name: req.body.name,
+            admin,
+        });
+
+        // throw error if chargepoint with name already exist
+        if (nameExist) {
+            throw new BadRequestError("ChargePoint with name already exist");
+        }
+    }
+
+    // ##########################################################################
+    // Get Location
+
+    if (req.body.locationId) {
+        // get location id from request body
+        const { locationId } = req.body;
+        // Check if id is valid mongooseId
+        if (!mongoose.isValidObjectId(req.body.locationId)) {
+            throw new BadRequestError("Invalid Object Id");
+        }
+        // get location from database with id that belongs to admin
+        const location = await Location.findOne({ _id: locationId, admin });
+
+        // throw error if location does not exist
+        if (!location) {
+            throw new BadRequestError("Location does not exist");
+        }
+
+        // ##########################################################################
+        // Add location and Admin to request body
+
+        // add location to request body
+        req.body.location = location;
+    }
 
     // #################################################################
     // Get chargePoint with id and admin and update

@@ -11,8 +11,8 @@ const handleBootNotification = async (messageIn) => {
     // Initialize jsonOutPayload to some default values
     let jsonOutPayload = {
         status: "",
+        interval: 60,
         currentTime: new Date().toISOString(),
-        interval: 300,
     };
 
     // Initialize jsonPayload to messageIn.Payload

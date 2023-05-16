@@ -154,6 +154,8 @@ wss.on("connection", async (ws, request) => {
     ws.on("close", () => {
         // Remove the client from the map
         clientConnections.delete(chargePointKey);
+
+        // Change chargePoint status to unconnected
     });
 });
 

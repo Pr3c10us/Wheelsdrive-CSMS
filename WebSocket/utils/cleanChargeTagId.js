@@ -1,4 +1,4 @@
-export const cleanChargeTagId = async (rawChargeTagId) => {
+function cleanChargeTagId(rawChargeTagId) {
     let idTag = rawChargeTagId;
 
     // KEBA adds the serial to the idTag ("<idTag>_<serial>") => cut off suffix
@@ -10,4 +10,6 @@ export const cleanChargeTagId = async (rawChargeTagId) => {
     }
 
     return idTag;
-};
+}
+
+module.exports = cleanChargeTagId;

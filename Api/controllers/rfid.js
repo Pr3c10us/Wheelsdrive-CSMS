@@ -27,6 +27,10 @@ const createRFID = async (req, res) => {
     const parentRFID = await RFID.findOne({ isAdmin: true, admin });
     req.body.parentRFID = parentRFID.rfid;
 
+    // Check if apiUserId is valid mongoose id
+    if (!mongoose.isValidObjectId(req.body.apiUserId)) {
+        throw new BadRequestError("Invalid Object Id");
+    }
     // Get apiUser from db
     const apiUser = await ApiUser.findOne({ _id: req.body.apiUserId, admin });
     // Check if apiUser exists

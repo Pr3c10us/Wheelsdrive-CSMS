@@ -34,12 +34,12 @@ const LocationSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "Admin",
         },
-        chargePoints: [
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "ChargePoint",
-            },
-        ],
+        // chargePoints: [
+        //     {
+        //         type: mongoose.Schema.Types.ObjectId,
+        //         ref: "ChargePoint",
+        //     },
+        // ],
     },
     {
         timestamps: true,
