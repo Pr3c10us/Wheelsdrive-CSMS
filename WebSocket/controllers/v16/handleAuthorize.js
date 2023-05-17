@@ -26,6 +26,16 @@ const handleAuthorize = async (messageIn) => {
     // Get chargePoint from database
     const chargePoint = await ChargePointModel.findById(chargePointId);
 
+    // Create a new log before we handle message
+    await Log.create({
+        result: JSON.stringify(jsonInPayload),
+        message: messageIn[2],
+        origin: "charger",
+        // connectorId: jsonInPayload.connectorId,
+        chargePoint,
+        admin: chargePoint.admin._id,
+    });
+
     let idTag = null;
 
     try {

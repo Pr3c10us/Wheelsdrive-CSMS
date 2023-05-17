@@ -1,8 +1,11 @@
 // Import Handlers
+const Log = require("../../../Database/models/Log");
 const handleAuthorize = require("./handleAuthorize");
 const handleBootNotification = require("./handleBootNotification");
+const handleDataTransfer = require("./handleDataTransfer");
 const handleHeartbeat = require("./handleHeartbeat");
 const handleMeterValue = require("./handleMeterValue");
+const handleStartTransaction = require("./handleStartTransaction");
 const handleStatusNotification = require("./handleStatusNotification");
 
 const processRequest = async (messageIn) => {
@@ -28,6 +31,14 @@ const processRequest = async (messageIn) => {
             break;
         case "Authorize":
             messageOut = await handleAuthorize(messageIn);
+            break;
+        case "DataTransfer":
+            messageOut = await handleDataTransfer(messageIn);
+            break;
+        case "StartTransaction":
+            messageOut = await handleStartTransaction(messageIn);
+            break;
+        default:
             break;
     }
     return messageOut;
