@@ -42,7 +42,7 @@ const adminSignUp = async (req, res) => {
         admin,
     });
 
-    await RFID.create({
+    const rfid = await RFID.create({
         name: "Admin Rfid",
         rfid: "1",
         blocked: false,
@@ -50,6 +50,9 @@ const adminSignUp = async (req, res) => {
         apiUser,
         admin,
     });
+
+    // Add rfid to admin apiUser
+    apiUser.rfids.push(rfid);
 
     // ###########################################################
     // Send Response

@@ -41,7 +41,11 @@ const createRFID = async (req, res) => {
     req.body.apiUser = apiUser;
 
     // Create new apiUser
-    await RFID.create(req.body);
+    const rfidNew = await RFID.create(req.body);
+
+    // Add rfid to apiUser
+    apiUser.rfids.push(rfidNew);
+    await apiUser.save();
 
     res.json({ msg: "RFID Added" });
 };
@@ -107,9 +111,6 @@ const updateRFID = async (req, res) => {
         throw new NotFoundError("RFID Already Exists");
     }
 
-    // Convert expires time to date
-    req.body.expires = new Date(req.body.expires).toISOString();
-
     // Change apiUser if provided
     if (req.body.apiUserId) {
         if (!mongoose.isValidObjectId(req.body.apiUserId)) {
@@ -173,7 +174,18 @@ const deleteRFID = async (req, res) => {
     // #################################################################
     // Get rfid with id and admin and delete
 
-    await RFID.findByIdAndDelete(rfid._id);
+    const rfidNew = await RFID.findByIdAndDelete(rfid._id);
+
+    // Get apiUser from db
+    const apiUser = await ApiUser.findOne({ _id: rfidNew.apiUser, admin });
+
+    // Filter the connectors array to exclude the objectIdToRemove
+    apiUser.rfids = apiUser.rfids.filter(
+        (objectId) => !objectId.equals(rfidNew._id)
+    );
+
+    // Save the updated chargePoint
+    await apiUser.save();
 
     res.json({ msg: "rfid Deleted" });
 };

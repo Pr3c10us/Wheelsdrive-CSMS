@@ -25,6 +25,19 @@ const handleAuthorize = async (messageIn) => {
     const chargePointId = messageIn[messageIn.length - 2];
     // Get chargePoint from database
     const chargePoint = await ChargePointModel.findById(chargePointId);
+    if (!chargePoint) {
+        const errorCode = "InternalError";
+        // Return Error Message with error code FormationViolation
+        const callError = [4, uniqueId, errorCode, "", {}];
+        await Log.create({
+            errorCode: errorCode,
+            message: messageIn[2],
+            origin: "csms",
+            chargePoint,
+            admin: chargePoint.admin._id,
+        });
+        return callError;
+    }
 
     // Create a new log before we handle message
     await Log.create({

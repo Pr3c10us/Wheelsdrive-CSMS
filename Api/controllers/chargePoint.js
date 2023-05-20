@@ -1,8 +1,9 @@
 const { BadRequestError, NotFoundError } = require("../errors");
 const Admin = require("../../Database/models/Admin");
 const ChargePoint = require("../../Database/models/ChargePoint");
+const Connector = require("../../Database/models/Connector");
 const Location = require("../../Database/models/Location");
-
+const mongoose = require("mongoose");
 const createChargePoint = async (req, res) => {
     // get admin id
     const { id: adminId } = req.admin;
@@ -82,7 +83,7 @@ const getChargePoints = async (req, res) => {
     // Get chargePoints based on query
 
     // get name query from request
-    const { name } = req.query;
+    const { name, locationId } = req.query;
 
     // create a query object to filter result and for search attribute add admin to it
     const queryObject = { admin };
@@ -91,6 +92,10 @@ const getChargePoints = async (req, res) => {
     if (name) {
         queryObject.name = { $regex: name, $options: "i" };
     }
+    // If locationId is provided in request query add to query object
+    if (locationId) {
+        queryObject.location = locationId;
+    }
 
     // get chargePoints for admin
     let result = ChargePoint.find(queryObject)
@@ -98,6 +103,13 @@ const getChargePoints = async (req, res) => {
             _id: 0,
             admin: 0,
             chargePoints: 0,
+            createdAt: 0,
+            updatedAt: 0,
+            __v: 0,
+        })
+        .populate("connectors", {
+            _id: 0,
+            chargePoint: 0,
             createdAt: 0,
             updatedAt: 0,
             __v: 0,
@@ -113,7 +125,7 @@ const getChargePoints = async (req, res) => {
     const skip = (page - 1) * limit;
 
     // edit chargePoints based on limit and page
-    // result = result.skip(skip).limit(limit);
+    result = result.skip(skip).limit(limit);
 
     // #################################################################
     // Send final chargePoints
@@ -140,6 +152,13 @@ const getChargePoint = async (req, res) => {
             _id: 0,
             admin: 0,
             chargePoints: 0,
+            createdAt: 0,
+            updatedAt: 0,
+            __v: 0,
+        })
+        .populate("connectors", {
+            _id: 0,
+            chargePoint: 0,
             createdAt: 0,
             updatedAt: 0,
             __v: 0,
@@ -231,6 +250,13 @@ const updateChargePoint = async (req, res) => {
             updatedAt: 0,
             __v: 0,
         })
+        .populate("connectors", {
+            _id: 0,
+            chargePoint: 0,
+            createdAt: 0,
+            updatedAt: 0,
+            __v: 0,
+        })
         // .populate("connectors")
         .select("-admin -createdAt -updatedAt -__v");
 
@@ -260,22 +286,8 @@ const deleteChargePoint = async (req, res) => {
         throw new NotFoundError("chargePoint not found");
     }
 
-    // #################################################################
-    // Delete chargePoint from location
-
-    // get location id from chargePoint
-    const { location } = chargePoint;
-    // get location from database with id
-    const locationFromDb = await Location.findById(location);
-
-    // get index of chargePoint in location
-    const index = locationFromDb.chargePoints.indexOf(chargePoint._id);
-
-    // remove chargePoint from location
-    locationFromDb.chargePoints.splice(index, 1);
-
-    // save location
-    await locationFromDb.save();
+    // Delete all connector with the chargePointId
+    await Connector.deleteMany({ chargePoint });
 
     res.json({ msg: "chargePoint Deleted" });
 };

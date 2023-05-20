@@ -14,7 +14,20 @@ const handleHeartbeat = async (messageIn) => {
 
     // Get chargePoint from database
     const chargePoint = await ChargePointModel.findById(chargePointId);
-
+    if (!chargePoint) {
+        const errorCode = "InternalError";
+        // Return Error Message with error code FormationViolation
+        const callError = [4, uniqueId, errorCode, "", {}];
+        await Log.create({
+            errorCode: errorCode,
+            message: messageIn[2],
+            origin: "csms",
+            chargePoint,
+            admin: chargePoint.admin._id,
+        });
+        return callError;
+    }
+    
     await Log.create({
         message: messageIn[2],
         origin: "charger",

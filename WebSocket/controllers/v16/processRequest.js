@@ -7,6 +7,7 @@ const handleHeartbeat = require("./handleHeartbeat");
 const handleMeterValue = require("./handleMeterValue");
 const handleStartTransaction = require("./handleStartTransaction");
 const handleStatusNotification = require("./handleStatusNotification");
+const handleStopTransaction = require("./handleStopTransaction");
 
 const processRequest = async (messageIn) => {
     let messageOut = null;
@@ -37,6 +38,10 @@ const processRequest = async (messageIn) => {
             break;
         case "StartTransaction":
             messageOut = await handleStartTransaction(messageIn);
+            break;
+
+        case "StopTransaction":
+            messageOut = await handleStopTransaction(messageIn);
             break;
         default:
             break;

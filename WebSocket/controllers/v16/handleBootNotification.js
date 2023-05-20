@@ -11,7 +11,7 @@ const handleBootNotification = async (messageIn) => {
     // Initialize jsonOutPayload to some default values
     let jsonOutPayload = {
         status: "",
-        interval: 60,
+        interval: 300,
         currentTime: new Date().toISOString(),
     };
 
@@ -22,6 +22,19 @@ const handleBootNotification = async (messageIn) => {
 
     // Get chargePoint from database
     const chargePoint = await ChargePointModel.findById(chargePointId);
+    if (!chargePoint) {
+        const errorCode = "InternalError";
+        // Return Error Message with error code FormationViolation
+        const callError = [4, uniqueId, errorCode, "", {}];
+        await Log.create({
+            errorCode: errorCode,
+            message: messageIn[2],
+            origin: "csms",
+            chargePoint,
+            admin: chargePoint.admin._id,
+        });
+        return callError;
+    }
 
     await Log.create({
         result: JSON.stringify(jsonInPayload),

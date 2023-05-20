@@ -43,7 +43,6 @@ const transactionSchema = new mongoose.Schema(
         cost: {
             type: Number,
         },
-
         chargePoint: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "ChargePoint",

@@ -50,7 +50,7 @@ const getRates = async (req, res) => {
     const skip = (page - 1) * limit;
 
     // edit rates based on limit and page
-    // result = result.skip(skip).limit(limit);
+    result = result.skip(skip).limit(limit);
 
     // #################################################################
     // Send final Rates
@@ -67,7 +67,7 @@ const updateRate = async (req, res) => {
     const admin = await Admin.findById(adminId);
     // get rate id from request params
     const { id } = req.params;
-    
+
     // Check if id is valid mongoose object id
     if (!mongoose.isValidObjectId(id)) {
         throw new BadRequestError("Invalid Object Id");

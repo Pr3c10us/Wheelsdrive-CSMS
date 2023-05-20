@@ -2,6 +2,8 @@
 const { NotFoundError } = require("../errors");
 const Admin = require("../../Database/models/Admin");
 const Location = require("../../Database/models/Location");
+const ChargePoint = require("../../Database/models/ChargePoint");
+const Connector = require("../../Database/models/Connector");
 
 const createLocation = async (req, res) => {
     // get admin id from auth middleware
@@ -40,10 +42,10 @@ const adminLocations = async (req, res) => {
 
     // get locations for admin
     let result = Location.find(queryObject)
-        .populate("chargePoints", {
-            name: 1,
-            _id: 0,
-        })
+        // .populate("chargePoints", {
+        //     name: 1,
+        //     _id: 0,
+        // })
         .select("-admin -createdAt -updatedAt -__v");
 
     // #################################################################
@@ -55,7 +57,7 @@ const adminLocations = async (req, res) => {
     const skip = (page - 1) * limit;
 
     // edit locations based on limit and page
-    // result = result.skip(skip).limit(limit);
+    result = result.skip(skip).limit(limit);
 
     // #################################################################
     // Send final locations
@@ -111,14 +113,23 @@ const getAdminLocation = async (req, res) => {
     // #################################################################
     // Get Location wih id and admin
 
-    const location = await Location.findOne({ _id: id, admin }).populate(
+    const locationDetails = await Location.findOne({ _id: id, admin }).populate(
         "admin",
         { company: 1, _id: 0, country: 1 }
     );
 
     // if location doesn't exist throw error
-    if (!location) {
+    if (!locationDetails) {
         throw new NotFoundError("Location not found");
+    }
+
+    let location = { locationDetails };
+
+    // Check for chargePoints in location and add to location object
+    const chargePoints = await ChargePoint.find({ location: locationDetails });
+    // If chargePoints exist add to location object
+    if (chargePoints) {
+        location.chargePoints = chargePoints;
     }
 
     res.json(location);
@@ -131,14 +142,24 @@ const getLocation = async (req, res) => {
     // #################################################################
     // Get Location wih id
 
-    const location = await Location.findOne({
+    const locationDetails = await Location.findOne({
         _id: id,
         display: true,
     }).populate("admin", { company: 1, _id: 0, country: 1 });
 
     // if location doesn't exist throw error
-    if (!location) {
+    if (!locationDetails) {
         throw new NotFoundError("Location not found");
+    }
+
+    let location = { locationDetails };
+
+    // Check for chargePoints in location and add to location object
+    const chargePoints = await ChargePoint.find({ location: locationDetails });
+    // If chargePoints exist add to location object
+    if (chargePoints) {
+        console.log("first");
+        location.chargePoints = chargePoints;
     }
 
     res.json(location);
@@ -189,6 +210,17 @@ const deleteLocation = async (req, res) => {
     if (!location) {
         throw new NotFoundError("Location not found");
     }
+
+    // find all chargePoint in location
+    const allLocationChargePoint = await ChargePoint.find({ location });
+
+    // Delete all chargePoint associated to the location
+    await ChargePoint.deleteMany({ location });
+
+    // Delete all connector of chargeStation in Location
+    await Connector.deleteMany({
+        chargePoint: { $in: allLocationChargePoint },
+    });
 
     res.json({ msg: "Location Deleted" });
 };

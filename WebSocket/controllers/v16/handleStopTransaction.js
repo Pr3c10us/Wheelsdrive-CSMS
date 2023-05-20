@@ -8,7 +8,7 @@ const Rate = require("../../../Database/models/Rates");
 const cleanChargeTagId = require("../../utils/cleanChargeTagId");
 const updateConnector = require("../../utils/updateConnector");
 
-const handleStartTransaction = async (messageIn) => {
+const handleStopTransaction = async (messageIn) => {
     // Initialize messageTypeId to null
     let messageTypeId = null;
     // Initialize uniqueId to messageIn.UniqueId
@@ -20,7 +20,6 @@ const handleStartTransaction = async (messageIn) => {
             parentIdTag: "",
             status: "",
         },
-        TransactionId: 0,
     };
 
     // Initialize jsonPayload to messageIn.Payload
@@ -54,13 +53,12 @@ const handleStartTransaction = async (messageIn) => {
         admin: chargePoint.admin._id,
     });
 
-    let connectorId = -1;
     let errorCode = "";
-
     try {
         messageTypeId = 3;
+
+        // Clean idTag and assign it to idTag
         let idTag = await cleanChargeTagId(jsonInPayload.idTag);
-        connectorId = jsonInPayload.connectorId;
 
         // If idTag is null return status "Accepted"
         if (idTag === null || !idTag) {
@@ -103,60 +101,107 @@ const handleStartTransaction = async (messageIn) => {
             }
         }
 
-        // If connectorId is valid i.e > 0
-        if (connectorId > 0) {
-            // Update connector status to occupied
-            await updateConnector(
-                chargePoint,
-                connectorId,
-                "Occupied",
-                jsonInPayload.meterStart / 1000,
-                jsonInPayload.timestamp
-            );
-        }
-
-        // If idTagInfo.status is Accepted
+        // If status is "Accepted"
         if (jsonOutPayload.idTagInfo.status === "Accepted") {
             try {
-                // Get connector from database
-                const connector = await Connector.findOne({
-                    connectorId,
-                    chargePoint,
-                }).populate("rate");
+                // Get Transaction by transactionId
+                let transaction = await Transaction.findById(
+                    jsonInPayload.transactionId
+                );
 
-                // create unitChargingRate and discountChargingRate
-                let unitChargingRate = 0;
-                let discountChargingRate = 0;
+                if (
+                    !transaction ||
+                    // transaction.chargePoint._id !== chargePoint._id ||
+                    transaction.stopTime
+                ) {
+                    transaction = await Transaction.findOne({
+                        chargePoint: chargePoint._id,
+                    }).sort({ _id: -1 });
+                    console.log("Accepted");
 
-                // Get connectorRate from database if connector has rate
-                if (connector.rate) {
-                    const connectorRate = await Rate.findById(
-                        connector.rate._id
-                    );
-
-                    if (connectorRate) {
-                        // Get unitChargingRate from connectorRate
-                        unitChargingRate = connectorRate.price;
-                        // Get discountChargingRate from connectorRate
-                        discountChargingRate = connectorRate.discount;
+                    if (transaction) {
+                        if (transaction.stopTime) {
+                            transaction = null;
+                        }
+                    } else {
                     }
                 }
 
-                // Create new transaction
-                const transaction = await Transaction.create({
-                    startRFID: idTag,
-                    startTime: jsonInPayload.timestamp,
-                    meterStart: jsonInPayload.meterStart / 1000,
-                    startResult: jsonOutPayload.idTagInfo.status,
-                    unitChargingRate,
-                    discountChargingRate,
-                    chargePoint,
-                    connector,
-                    admin: chargePoint.admin._id,
-                    location: chargePoint.location._id,
-                });
+                // If transaction exists
+                if (transaction) {
+                    // if transaction connectorId is not null
+                    // get connector id of transaction
+                    const connector = await Connector.findById(
+                        transaction.connector._id
+                    );
+                    // If connector exists
+                    if (connector && connector.connectorId > 0) {
+                        await updateConnector(
+                            chargePoint,
+                            connector.connectorId,
+                            null,
+                            jsonInPayload.meterStop / 1000,
+                            jsonInPayload.timestamp
+                        );
+                    } else {
+                    }
 
-                jsonOutPayload.TransactionId = transaction._id;
+                    let valid = true;
+
+                    if (transaction.startRFID != idTag) {
+                        // find rfid in db
+                        const rfid = await RFID.findOne({
+                            rfid: transaction.startRFID,
+                            admin: chargePoint.admin._id,
+                        });
+
+                        if (rfid) {
+                            if (
+                                rfid.parentRFID !=
+                                jsonOutPayload.idTagInfo.parentIdTag
+                            ) {
+                                jsonOutPayload.idTagInfo.status = "Invalid";
+                                valid = false;
+                            }
+                        }
+                    }
+
+                    if (valid) {
+                        // Get total time of transaction in hours
+                        const startDate = new Date(transaction.startTime);
+                        const endDate = new Date(jsonInPayload.timestamp);
+                        const timeDiff =
+                            endDate.getTime() - startDate.getTime();
+                        const totalTime = timeDiff / 3600000;
+
+                        // Get rate of transaction from connector
+                        const rate = await Rate.findById(connector.rate._id);
+
+                        transaction.StopRFID = idTag;
+                        transaction.stopTime = jsonInPayload.timestamp;
+                        transaction.meterStop = jsonInPayload.meterStop / 1000;
+                        transaction.stopReason = jsonInPayload.reason;
+                        transaction.cost =
+                            transaction.unitChargingRate *
+                            totalTime *
+                            (transaction.discountChargingRate / 100);
+                        transaction.totalEnergy = connector.power * totalTime;
+
+                        await transaction.save();
+                    }
+                } else {
+                    errorCode = "PropertyConstraintViolation";
+                    const callError = [4, uniqueId, errorCode, "", {}];
+                    await Log.create({
+                        errorCode: errorCode,
+                        message: messageIn[2],
+                        origin: "csms",
+                        chargePoint,
+                        // connectorId: jsonInPayload.connectorId,
+                        admin: chargePoint.admin._id,
+                    });
+                    return callError;
+                }
             } catch (error) {
                 errorCode = "InternalError";
                 const callError = [4, uniqueId, errorCode, "", {}];
@@ -165,7 +210,7 @@ const handleStartTransaction = async (messageIn) => {
                     message: messageIn[2],
                     origin: "csms",
                     chargePoint,
-                    connectorId: jsonInPayload.connectorId,
+                    // connectorId: jsonInPayload.connectorId,
                     admin: chargePoint.admin._id,
                 });
                 return callError;
@@ -179,25 +224,24 @@ const handleStartTransaction = async (messageIn) => {
             result: JSON.stringify(jsonOutPayload),
             message: messageIn[2],
             origin: "csms",
-            connectorId: jsonInPayload.connectorId,
+            // connectorId: jsonInPayload.connectorId,
             chargePoint,
             admin: chargePoint.admin._id,
         });
         return callResult;
     } catch (error) {
-        console.log(error);
-        errorCode = "InternalError";
+        errorCode = "FormationViolation";
         const callError = [4, uniqueId, errorCode, "", {}];
         await Log.create({
             errorCode: errorCode,
             message: messageIn[2],
             origin: "csms",
             chargePoint,
-            connectorId: jsonInPayload.connectorId,
+            // connectorId: jsonInPayload.connectorId,
             admin: chargePoint.admin._id,
         });
         return callError;
     }
 };
 
-module.exports = handleStartTransaction;
+module.exports = handleStopTransaction;

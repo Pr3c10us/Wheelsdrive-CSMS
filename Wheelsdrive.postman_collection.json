@@ -1,0 +1,1370 @@
+{
+	"info": {
+		"_postman_id": "1a3333de-e5e1-4f57-9fda-5a1939f42083",
+		"name": "Wheelsdrive",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21056865",
+		"_collection_link": "https://blue-capsule-292856.postman.co/workspace/Wheelsdrive-CSMS~19160bed-9975-4dbf-a0ae-888bcf230a73/collection/21056865-1a3333de-e5e1-4f57-9fda-5a1939f42083?action=share&creator=21056865&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "Authorization",
+			"item": [
+				{
+					"name": "Admin Signup",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"firstName\": \"Demo\",\r\n  \"lastName\": \"Admin\",\r\n  \"email\": \"demoMail@gmail.com\",\r\n  \"mobile\": \"+234123456789\",\r\n  \"password\": \"123456\",\r\n  \"country\": \"India\",\r\n  \"company\": \"Wheelsdrive\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/admin/auth/signup",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"admin",
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"demoMail@gmail.com\",\r\n    \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/admin/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"admin",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/admin/auth/logout",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"admin",
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ChargePoints",
+			"item": [
+				{
+					"name": "Get ChargePoints",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/chargePoint",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"chargePoint"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "ABB 1",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "locationId",
+									"value": "64675fed9d4fe7adad6db877",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a ChargePoint",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"AVT 1\",\r\n    \"endpoint\": \"sn-avt-001\",\r\n    // \"clientCertificate\": \"\",\r\n    \"notes\": \"First AVT charger\",\r\n    \"locationId\": \"6467774e8900375f84762dc1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/chargePoint",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"chargePoint"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a ChargePoint",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/chargePoint/{ChargePointId}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"chargePoint",
+								"{ChargePointId}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get a ChargePoint",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api/chargePoint/646768654e1d9d84a8e395d6",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"chargePoint",
+										"646768654e1d9d84a8e395d6"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Update a ChargePoint",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"ChargePoint Main\",\r\n    // \"clientCertificate\": \"clientCertificate\",\r\n    \"notes\": \"notes for d main\",\r\n    // \"locationId\": \"645c01fbdbe4f7702d6620bd\"\r\n    \"display\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/chargePoint/{ChargePointId}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"chargePoint",
+								"{ChargePointId}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update a ChargePoint",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"ABB 1\",\r\n    // \"clientCertificate\": \"clientCertificate\",\r\n    // \"notes\": \"\",\r\n    \"locationId\": \"64675fed9d4fe7adad6db877\",\r\n    \"display\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api/chargePoint/646768654e1d9d84a8e395d6",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"chargePoint",
+										"646768654e1d9d84a8e395d6"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Delete Charge Point",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/chargePoint/{ChargePointId}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"chargePoint",
+								"{ChargePointId}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Delete Charge Point",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api/chargePoint/646777978900375f84762ddb",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"chargePoint",
+										"646777978900375f84762ddb"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "RFID",
+			"item": [
+				{
+					"name": "Create RFID",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " {\r\n    \"name\": \"john 1 \",\r\n    \"rfid\": \"4321\",\r\n    \"expires\": \"2023-11-01\",\r\n    \"blocked\": false,\r\n    \"apiUserId\": \"64678d0fedcad7433dd91c0a\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/rfid",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"rfid"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all RFID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/rfid",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"rfid"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update RFID",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " {\r\n    \"name\": \"John Thomas\",\r\n    \"rfid\": \"1234\",\r\n    \"expires\": \"2020-11-01\",\r\n    \"blocked\": false,\r\n    \"apiUserId\": \"6462157cbf8d842d8c0af834\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/rfid/{RFID}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"rfid",
+								"{RFID}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update RFID",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": " {\r\n    \"name\": \"John Thomas\",\r\n    \"rfid\": \"1234\",\r\n    \"expires\": \"2020-11-01\",\r\n    \"blocked\": false,\r\n    \"apiUserId\": \"6462157cbf8d842d8c0af834\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api/rfid/{RFID}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"rfid",
+										"{RFID}"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Delete RFID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/rfid/{RFID}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"rfid",
+								"{RFID}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Delete RFID",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api/rfid/6467a258d5ad3cada01ffd55",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"rfid",
+										"6467a258d5ad3cada01ffd55"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Connector",
+			"item": []
+		},
+		{
+			"name": "Transactions",
+			"item": []
+		},
+		{
+			"name": "Profile Settings",
+			"item": []
+		},
+		{
+			"name": "Location",
+			"item": [
+				{
+					"name": "Create Location (ADMIN ONLY)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"ChargePoint Location Main\",\r\n  \"address\": \"6-18 My Street Ave\",\r\n  \"zipCode\": \"487118\",\r\n  \"city\": \"Umariya\",\r\n  \"state\": \"Madhya Pradesh\",\r\n  \"country\": \"India\",\r\n  \"latitude\": \"22.891455\",\r\n  \"longitude\": \"79.557451\",\r\n  \"display\": \"true\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/location/admin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"location",
+								"admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Admin Locations (ADMIN ONLY)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/location/admin?name=ChargePoint Location 1&page=1&limit=20",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"location",
+								"admin"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "ChargePoint Location 1"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "20"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a Location (ADMIN ONLY)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/location/admin/{LocationId}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"location",
+								"admin",
+								"{LocationId}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get a Location (ADMIN ONLY)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api/location/admin/64675fed9d4fe7adad6db877",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"location",
+										"admin",
+										"64675fed9d4fe7adad6db877"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "376"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"178-+M1daXL6VVQgJBt6EqSsTJNEaQE\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 19 May 2023 11:44:38 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"_id\": \"64675fed9d4fe7adad6db877\",\n    \"name\": \"ChargePoint Location 1\",\n    \"address\": \"6-18 My Street Ave\",\n    \"zipCode\": \"487118\",\n    \"city\": \"Umariya\",\n    \"state\": \"Madhya Pradesh\",\n    \"country\": \"India\",\n    \"latitude\": \"22.891455\",\n    \"longitude\": \"79.557451\",\n    \"display\": true,\n    \"admin\": {\n        \"country\": \"India\",\n        \"company\": \"Wheelsdrive\"\n    },\n    \"createdAt\": \"2023-05-19T11:39:25.172Z\",\n    \"updatedAt\": \"2023-05-19T11:39:25.172Z\",\n    \"__v\": 0\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Location (ADMIN ONLY)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \" ChargePoint Location Main\",\r\n  \"address\": \"6-18 My Street Ave\",\r\n  \"zipCode\": \"487118\",\r\n  \"city\": \"Umariya\",\r\n  \"state\": \"Madhya Pradesh\",\r\n  \"country\": \"India\",\r\n  \"latitude\": \"22.891455\",\r\n  \"longitude\": \"79.557451\",\r\n  \"display\": \"false\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/location/admin/{LocationId}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"location",
+								"admin",
+								"{LocationId}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update Location (ADMIN ONLY)",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \" ChargePoint Location Main\",\r\n  \"address\": \"6-18 My Street Ave\",\r\n  \"zipCode\": \"487118\",\r\n  \"city\": \"Umariya\",\r\n  \"state\": \"Madhya Pradesh\",\r\n  \"country\": \"India\",\r\n  \"latitude\": \"22.891455\",\r\n  \"longitude\": \"79.557451\",\r\n  \"display\": \"false\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api/location/admin/64675fed9d4fe7adad6db877",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"location",
+										"admin",
+										"64675fed9d4fe7adad6db877"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Delete Location (ADMIN ONLY)",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/location/admin/{LocationId}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"location",
+								"admin",
+								"{LocationId}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Delete Location (ADMIN ONLY)",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api/location/admin/646777498900375f84762dbd",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"location",
+										"admin",
+										"646777498900375f84762dbd"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Get Locations with Display on",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/location/general",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"location",
+								"general"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Ikorodu points 5",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "3",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a location whose display is on",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/location/general/{LocationId}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"location",
+								"general",
+								"{LocationId}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get a location whose display is on",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api/location/general/64675fed9d4fe7adad6db877",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"location",
+										"general",
+										"64675fed9d4fe7adad6db877"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "ChargeRate",
+			"item": [
+				{
+					"name": "Get Charge Rates",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/rate/?page=1&limit=5&name=Charger Rate 1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"rate",
+								""
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "5"
+								},
+								{
+									"key": "name",
+									"value": "Charger Rate 1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a Charge Rate",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Charger Rate 1\",\r\n    \"description\": \"1200 INR per kwH\",\r\n    \"discount\": 10,\r\n    \"price\": 1000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/rate/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"rate",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Rate",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Charger Rate 1\",\r\n    \"description\": \"1200 INR per KwH\",\r\n    \"discount\": 5,\r\n    \"price\": 1200,\r\n    \"currency\": \"INR\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/rate/{RateId}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"rate",
+								"{RateId}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update Rate",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Charger Rate 1\",\r\n    \"description\": \"1200 INR per KwH\",\r\n    \"discount\": 5,\r\n    \"price\": 1200,\r\n    \"currency\": \"INR\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api/rate/6467663e64991c08cc6b74d9",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"rate",
+										"6467663e64991c08cc6b74d9"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "285"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"11d-xWIjpAxs3sIkNVpd1nBj6ZjP1qA\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 19 May 2023 12:11:27 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"msg\": \"rate updated\",\n    \"rate\": {\n        \"_id\": \"6467663e64991c08cc6b74d9\",\n        \"name\": \"Charger Rate 1\",\n        \"description\": \"1200 INR per KwH\",\n        \"currency\": \"INR\",\n        \"discount\": 5,\n        \"price\": 1200,\n        \"admin\": \"64675de29d4fe7adad6db86e\",\n        \"createdAt\": \"2023-05-19T12:06:22.557Z\",\n        \"updatedAt\": \"2023-05-19T12:11:27.043Z\",\n        \"__v\": 0\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete Rates",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/rate/{RateId}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"rate",
+								"{RateId}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Delete Rates",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api/rate/6467663e64991c08cc6b74d9",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"rate",
+										"6467663e64991c08cc6b74d9"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "WebSocket",
+			"item": [
+				{
+					"name": "Ge test",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9000/send/645a97f175cd6701d30e2abc/dodo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"send",
+								"645a97f175cd6701d30e2abc",
+								"dodo"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ApiUser",
+			"item": [
+				{
+					"name": "Create ApiUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"demo\",\r\n    \"lastName\": \"ApiUser\",\r\n    \"email\": \"demoUser@gmail.com\",\r\n    \"mobile\": \"1234567890\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/apiUser",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"apiUser"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all ApiUser",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/apiUser",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"apiUser"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get an ApiUser",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/apiUser/{ApiUserid}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"apiUser",
+								"{ApiUserid}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get an ApiUser",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api/apiUser/64678d0fedcad7433dd91c0a",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"apiUser",
+										"64678d0fedcad7433dd91c0a"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Update ApiUser",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"John\",\r\n    \"lastName\": \"doe\",\r\n    \"email\": \"jdoe@gmail.com\",\r\n    \"mobile\": \"1234567890\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/apiUser/{ApiUserid}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"apiUser",
+								"{ApiUserid}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update ApiUser",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"firstName\": \"John\",\r\n    \"lastName\": \"doe\",\r\n    \"email\": \"jdoe@gmail.com\",\r\n    \"mobile\": \"1234567890\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api/apiUser/64678d0fedcad7433dd91c0a",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"apiUser",
+										"64678d0fedcad7433dd91c0a"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Delete ApiUser",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/apiUser/{ApiUserid}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"apiUser",
+								"{ApiUserid}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Delete ApiUser",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/api/apiUser/64678d1dedcad7433dd91c0e",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"apiUser",
+										"64678d1dedcad7433dd91c0e"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "27"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1b-JjIi9p10aU7Ic4ClSeoFk+tbVlw\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 19 May 2023 14:57:04 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"msg\": \"Invalid Object Id\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Home route",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000"
+				}
+			},
+			"response": []
+		}
+	]
+}
