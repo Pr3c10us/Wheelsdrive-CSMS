@@ -1,8 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import counterReducer from "./counter";
+import errorMessageReducer from "./errorMessage";
+import adminDetails from "./adminDetails";
 
 export default configureStore({
     reducer: {
-        counter: counterReducer,
+        errorMessage: errorMessageReducer,
+        adminDetails: adminDetails,
     },
 });

@@ -55,6 +55,10 @@ app.get("/", (req, res) => {
 const adminAuthRoutes = require("./routes/adminAuth");
 app.use("/api/admin/auth", adminAuthRoutes);
 
+// ADMIN DETAILS ROUTE
+const adminDetailsRoutes = require("./routes/adminDetails");
+app.use("/api/admin/details", adminDetailsRoutes);
+
 // LOCATION ROUTES
 const locationRoutes = require("./routes/location");
 app.use("/api/location", locationRoutes);
