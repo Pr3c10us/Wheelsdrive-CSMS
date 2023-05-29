@@ -1,5 +1,5 @@
 // Import modules
-const { NotFoundError } = require("../errors");
+const { NotFoundError, BadRequestError } = require("../errors");
 const Admin = require("../../Database/models/Admin");
 const Location = require("../../Database/models/Location");
 const ChargePoint = require("../../Database/models/ChargePoint");
@@ -10,6 +10,12 @@ const createLocation = async (req, res) => {
     const { id } = req.admin;
     // get admin info with id
     const admin = await Admin.findById(id);
+
+    // Check if location exist before
+    const exist = await Location.findOne({ name: req.body.name, admin: admin });
+    if (exist) {
+        throw new BadRequestError("Location with name already Exist");
+    }
 
     // add admin object to request body
     req.body.admin = admin;

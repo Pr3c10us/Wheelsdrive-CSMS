@@ -58,7 +58,7 @@ const LoginPage = () => {
                         withCredentials: true,
                     }
                 );
-                router.push("/dashboard");
+                router.push("/dashboard/hub/home");
             } catch (error) {
                 if (error.response) {
                     const errorMsg = error.response.data.msg;

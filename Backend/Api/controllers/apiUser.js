@@ -12,6 +12,26 @@ const createApiUser = async (req, res) => {
     // get admin from database with id
     const admin = await Admin.findById(adminId);
 
+    if (!req.body.username || !req.body.email) {
+        throw new BadRequestError("Please provide username and Email");
+    }
+    // check if user with username exist
+    const usernameExist = await ApiUser.findOne({
+        username: req.body.username,
+        admin: admin,
+    });
+    if (usernameExist) {
+        throw new BadRequestError("User with username already exist");
+    }
+    // // check if user with email exist
+    // const emailExist = await ApiUser.findOne({
+    //     email: req.body.email,
+    //     admin: admin,
+    // });
+    // if (emailExist) {
+    //     throw new BadRequestError("User with email already exist");
+    // }
+
     // Add admin to request body
     req.body.admin = admin;
 
@@ -52,7 +72,7 @@ const getApiUsers = async (req, res) => {
     // Set up Pagination
 
     // set limit and page(from query) variable
-    const limit = Number(req.query.limit) || 2;
+    const limit = Number(req.query.limit) || 20;
     const page = Number(req.query.page) || 1;
     const skip = (page - 1) * limit;
 
@@ -161,7 +181,7 @@ const deleteApiUser = async (req, res) => {
 
     // Check if admin is deleting himself
     if (apiUser.isAdmin) {
-        throw new BadRequestError("Admin can't be deleted");
+        throw new BadRequestError("Admin user can't be deleted");
     }
 
     // #################################################################

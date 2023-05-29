@@ -38,6 +38,7 @@ const adminSignUp = async (req, res) => {
     // Handle Create Default ApiUser and RFID FOR ADMIN
     const apiUser = await ApiUser.create({
         email: req.body.email,
+        username: "Admin",
         isAdmin: true,
         admin,
     });

@@ -1,10 +1,50 @@
-import React from "react";
+import {
+    changeErrorMessage,
+    changeErrorMessageType,
+    changeShowErrorMessage,
+} from "@/redux/errorMessage";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { RxCross1 } from "react-icons/rx";
 
-const Alert = ({ errorMessage, errorMessageType, showErrorMessage }) => {
+const Alert = () => {
+    // get errorMessageReducer Values
+    const errorMessage = useSelector(
+        (state) => state.errorMessage.errorMessage
+    );
+    const errorMessageType = useSelector(
+        (state) => state.errorMessage.errorMessageType
+    );
+    const showErrorMessage = useSelector(
+        (state) => state.errorMessage.showErrorMessage
+    );
+
+    const stopShowing = async () => {
+        dispatch(changeErrorMessageType("Something went wrong"));
+        dispatch(changeErrorMessage(""));
+        dispatch(changeShowErrorMessage(false));
+    };
+
+    const dispatch = useDispatch();
+
+    // const handleEffect = async () => {
+    //     const timeout = setTimeout(async () => {
+    // dispatch(changeErrorMessageType(""));
+    // dispatch(changeErrorMessage(""));
+    // dispatch(changeShowErrorMessage(false));
+    //     }, 5000);
+
+    //     return () => clearTimeout(timeout);
+    // };
+
+    // useEffect(() => {
+    //     handleEffect();
+    // }, [showErrorMessage]);
+
     return (
         <div
             role="alert"
-            className={`rounded absolute sm:w-96 max-w-xs z-50 right-0 top-4 border-s-4 transition-all duration-200 border-red-500 bg-red-50 p-4 ${
+            className={`rounded fixed sm:w-96 max-w-xs z-[70] right-0 top-4 border-s-4 transition-all duration-200 border-red-500 bg-red-50 p-4 ${
                 showErrorMessage
                     ? "sm:-translate-x-4 -translate-x-2"
                     : "translate-x-full"
@@ -28,6 +68,10 @@ const Alert = ({ errorMessage, errorMessageType, showErrorMessage }) => {
                     {" "}
                     {errorMessageType}{" "}
                 </strong>
+                <RxCross1
+                    onClick={stopShowing}
+                    className="text-black ml-auto cursor-pointer"
+                />
             </div>
 
             <p className="mt-2 text-sm text-red-700">{errorMessage}</p>

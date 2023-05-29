@@ -1,0 +1,86 @@
+import div from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import React from "react";
+import { MdOutlineNaturePeople } from "react-icons/md";
+import { SiHubspot } from "react-icons/si";
+
+const SideBar = ({ openMenu, pages, PageIcon }) => {
+    const pathname = usePathname();
+    const router = useRouter()
+    return (
+        <section
+            className={
+                openMenu
+                    ? "fixed inset-0 z-30 flex flex-col gap-6 bg-white border-b-4 border-b-primary py-20 px-4 transition-all duration-500 md:hidden"
+                    : "fixed inset-0 z-30 flex -translate-y-full flex-col gap-6 bg-white border-b-4 border-b-primary py-20 px-10 transition-all duration-500 md:hidden"
+            }
+        >
+            <div>
+                <button
+                    className={`font-medium flex gap-x-6 text-xl justify-center items-center ${
+                        pathname.includes("hub") && "text-accent"
+                    }`}
+                >
+                    <SiHubspot />
+                    My Hub
+                </button>
+                <div className="pl-10">
+                    {pages
+                        .filter((page) => page.url.includes("hub"))
+                        .map((page) => {
+                            return (
+                                <div
+                                    key={page.id}
+                                    className={`flex pt-2 pb-0.5 w-full items-center text-xl hover:text-accent cursor-pointer gap-2 ${
+                                        pathname == page.url
+                                            ? "text-accent border-b-2 border-b-accent"
+                                            : " text-text"
+                                    }`}
+                                    onClick={() => router.push(page.url)}
+                                >
+                                    <PageIcon name={page.name} />
+                                    {page.name}
+                                </div>
+                            );
+                        })}
+                </div>
+            </div>
+            <div>
+                <button
+                    className={`font-medium flex gap-x-6 text-xl justify-center items-center ${
+                        pathname.includes("assets") && "text-accent"
+                    }`}
+                >
+                    <MdOutlineNaturePeople />
+                    My Assets
+                </button>
+                <div className="pl-10">
+                    {pages
+                        .filter(
+                            (page) =>
+                                page.url.includes("assets") &&
+                                page.name != "Rfids"
+                        )
+                        .map((page) => {
+                            return (
+                                <div
+                                    key={page.id}
+                                    className={`flex pt-2 pb-0.5 w-full items-center text-xl hover:text-accent cursor-pointer gap-2 ${
+                                        pathname == page.url
+                                            ? "text-accent border-b-2 border-b-accent"
+                                            : " text-text"
+                                    }`}
+                                    onClick={() => router.push(page.url)}
+                                >
+                                    <PageIcon name={page.name} />
+                                    {page.name}
+                                </div>
+                            );
+                        })}
+                </div>
+            </div>
+        </section>
+    );
+};
+
+export default SideBar;

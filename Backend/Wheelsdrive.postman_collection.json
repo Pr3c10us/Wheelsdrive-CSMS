@@ -338,7 +338,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": " {\r\n    \"name\": \"john 1 \",\r\n    \"rfid\": \"4321\",\r\n    \"expires\": \"2023-11-01\",\r\n    \"blocked\": false,\r\n    \"apiUserId\": \"64678d0fedcad7433dd91c0a\"\r\n}",
+							"raw": " {\r\n    \"name\": \"john 2\",\r\n    \"rfid\": \"4321\",\r\n    \"expires\": \"2023-11-01\",\r\n    \"blocked\": false,\r\n    \"apiUserId\": \"64678d0fedcad7433dd91c0a\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -387,7 +387,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": " {\r\n    \"name\": \"John Thomas\",\r\n    \"rfid\": \"1234\",\r\n    \"expires\": \"2020-11-01\",\r\n    \"blocked\": false,\r\n    \"apiUserId\": \"6462157cbf8d842d8c0af834\"\r\n}",
+							"raw": " {\r\n    \"name\": \"John Thomas\"\r\n    // \"rfid\": \"1234\",\r\n    // \"expires\": \"2020-11-01\",\r\n    // \"blocked\": false,\r\n    // \"apiUserId\": \"6462157cbf8d842d8c0af834\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -416,7 +416,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": " {\r\n    \"name\": \"John Thomas\",\r\n    \"rfid\": \"1234\",\r\n    \"expires\": \"2020-11-01\",\r\n    \"blocked\": false,\r\n    \"apiUserId\": \"6462157cbf8d842d8c0af834\"\r\n}",
+									"raw": " {\r\n    \"name\": \"John doe rf\"\r\n    // \"rfid\": \"1234\",\r\n    // \"expires\": \"2020-11-01\",\r\n    // \"blocked\": false,\r\n    // \"apiUserId\": \"6462157cbf8d842d8c0af834\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -424,7 +424,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:5000/api/rfid/{RFID}",
+									"raw": "http://localhost:5000/api/rfid/6467a25fd5ad3cada01ffd5e",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -433,7 +433,7 @@
 									"path": [
 										"api",
 										"rfid",
-										"{RFID}"
+										"6467a25fd5ad3cada01ffd5e"
 									]
 								}
 							},
@@ -1289,7 +1289,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:5000/api/apiUser/64678d1dedcad7433dd91c0e",
+									"raw": "http://localhost:5000/api/apiUser/64678d0fedcad7433dd91c0a\n",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1298,7 +1298,7 @@
 									"path": [
 										"api",
 										"apiUser",
-										"64678d1dedcad7433dd91c0e"
+										"64678d0fedcad7433dd91c0a\n"
 									]
 								}
 							},
@@ -1347,6 +1347,33 @@
 							"body": "{\n    \"msg\": \"Invalid Object Id\"\n}"
 						}
 					]
+				}
+			]
+		},
+		{
+			"name": "AdminDetails",
+			"item": [
+				{
+					"name": "Get Admin Info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/admin/details/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"admin",
+								"details",
+								""
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},

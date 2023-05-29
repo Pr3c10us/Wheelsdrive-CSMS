@@ -120,7 +120,7 @@ const getChargePoints = async (req, res) => {
     // Set up Pagination
 
     // set limit and page(from query) variable
-    const limit = Number(req.query.limit) || 2;
+    const limit = Number(req.query.limit) || 20;
     const page = Number(req.query.page) || 1;
     const skip = (page - 1) * limit;
 

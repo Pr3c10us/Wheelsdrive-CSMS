@@ -9,6 +9,9 @@ const apiUserSchema = new mongoose.Schema({
     lastName: {
         type: String,
     },
+    username: {
+        type: String,
+    },
     email: {
         type: String,
     },
