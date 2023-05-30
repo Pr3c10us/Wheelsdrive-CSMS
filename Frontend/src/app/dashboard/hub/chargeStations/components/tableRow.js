@@ -12,7 +12,7 @@ const TableRow = ({ chargePoint }) => {
 
     return (
         <>
-            <tr>
+            <tr className="text-base">
                 <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
                     {chargePoint.connectors.length > 0 && (
                         <button
@@ -31,7 +31,7 @@ const TableRow = ({ chargePoint }) => {
                 <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
                     <span className="p-2">{chargePoint.endpoint}</span>
                 </td>
-                <td className="whitespace-nowrap px-4 py-4 grid place-content-center font-medium text-text">
+                <td className="grid place-content-center whitespace-nowrap px-4 py-4 font-medium text-text">
                     {chargePoint.isConnected ? (
                         <HiOutlineStatusOnline className="text-2xl text-green-400" />
                     ) : (
@@ -39,20 +39,20 @@ const TableRow = ({ chargePoint }) => {
                     )}
                 </td>
                 <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
-                    <span className="text-lg p-2">
+                    <span className="p-2 ">
                         {chargePoint.connectors.length}
                     </span>
                 </td>
-                <td className="whitespace-nowrap px-4 py-4 font-medium flex text-text gap-x-2">
-                    <button className="flex gap-x-2 border-primary border w-full py-2 px-2 rounded items-center justify-center">
+                <td className="flex gap-x-2 whitespace-nowrap px-4 py-4 font-medium text-text">
+                    <button className="flex w-full items-center justify-center gap-x-2 rounded border border-primary px-2 py-2">
                         <HiInformationCircle />
                         Details
                     </button>{" "}
-                    <button className="flex gap-x-2 border-primary border w-full py-2 px-2 rounded items-center justify-center">
+                    <button className="flex w-full items-center justify-center gap-x-2 rounded border border-primary px-2 py-2">
                         <HiPencil />
                         Edit
                     </button>
-                    <button className="flex gap-x-2 border-primary border w-full py-2 px-2 rounded items-center justify-center">
+                    <button className="flex w-full items-center justify-center gap-x-2 rounded border border-primary px-2 py-2">
                         <MdDelete /> Delete
                     </button>
                 </td>
@@ -89,10 +89,10 @@ const TableRow = ({ chargePoint }) => {
                                 </tr>
                             </thead>
 
-                            <tbody className="divide-y text-center divide-gray-200">
+                            <tbody className="divide-y divide-gray-200 text-center">
                                 {chargePoint.connectors.map((connector) => {
                                     return (
-                                        <tr>
+                                        <tr className="text-base">
                                             <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
                                                 <span className="p-2">
                                                     {connector.connectorId}
@@ -123,16 +123,16 @@ const TableRow = ({ chargePoint }) => {
                                                     {connector.power}
                                                 </span>
                                             </td>
-                                            <td className="whitespace-nowrap px-4 py-4 font-medium flex text-text gap-x-2">
-                                                <button className="flex gap-x-2 border-primary border w-full py-2 px-2 rounded items-center justify-center">
+                                            <td className="flex gap-x-2 whitespace-nowrap px-4 py-4 font-medium text-text">
+                                                <button className="flex w-full items-center justify-center gap-x-2 rounded border border-primary px-2 py-2">
                                                     <HiInformationCircle />
                                                     Details
                                                 </button>{" "}
-                                                <button className="flex gap-x-2 border-primary border w-full py-2 px-2 rounded items-center justify-center">
+                                                <button className="flex w-full items-center justify-center gap-x-2 rounded border border-primary px-2 py-2">
                                                     <HiPencil />
                                                     Edit
                                                 </button>
-                                                <button className="flex gap-x-2 border-primary border w-full py-2 px-2 rounded items-center justify-center">
+                                                <button className="flex w-full items-center justify-center gap-x-2 rounded border border-primary px-2 py-2">
                                                     <MdDelete /> Delete
                                                 </button>
                                             </td>

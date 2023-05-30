@@ -14,7 +14,7 @@ const TableRow = ({ location }) => {
     };
     return (
         <>
-            <tr>
+            <tr className="text-base">
                 <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
                     <span className="p-2">{location.name}</span>
                 </td>
@@ -25,29 +25,29 @@ const TableRow = ({ location }) => {
                     <span className="p-2">{location.city}</span>
                 </td>
                 <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
-                    <span className="text-lg p-2 grid place-content-center">
+                    <span className="grid place-content-center p-2 text-lg">
                         {location.display ? (
-                            <BsEyeFill className="text-green-400 text-lg" />
+                            <BsEyeFill className="text-lg text-green-400" />
                         ) : (
-                            <BsEyeSlashFill className="text-gray-400 text-lg" />
+                            <BsEyeSlashFill className="text-lg text-gray-400" />
                         )}
                     </span>
                 </td>
-                <td className="whitespace-nowrap px-4 py-4 font-medium flex w-full text-text gap-x-2">
+                <td className="flex w-full gap-x-2 whitespace-nowrap px-4 py-4 font-medium text-text">
                     {/* <button className="flex gap-x-2 border-primary hover:text-primary transition-all duration-200 hover:scale-105 border w-full py-2 px-2 rounded items-center justify-center">
                         <HiInformationCircle />
                         Details
                     </button>{" "} */}
                     <button
                         onClick={() => setOpenEditForm(true)}
-                        className="flex gap-x-2 flex-1 border-black hover:border-primary border-2 hover:text-primary transition-all duration-200 hover:scale-105 w-24 py-2 px-2 rounded items-center justify-center"
+                        className="flex w-24 flex-1 items-center justify-center gap-x-2 rounded border-2 border-black px-2 py-2 transition-all duration-200 hover:scale-105 hover:border-primary hover:text-primary"
                     >
                         <HiPencil />
                         Edit
                     </button>
                     <button
                         onClick={handleDelete}
-                        className="flex gap-x-2 flex-1 border-black border-2 hover:border-red-500 hover:text-red-500 transition-all duration-200 hover:scale-105 w-24 py-2 px-2 rounded items-center justify-center"
+                        className="flex w-24 flex-1 items-center justify-center gap-x-2 rounded border-2 border-black px-2 py-2 transition-all duration-200 hover:scale-105 hover:border-red-500 hover:text-red-500"
                     >
                         <MdDelete /> Delete
                     </button>

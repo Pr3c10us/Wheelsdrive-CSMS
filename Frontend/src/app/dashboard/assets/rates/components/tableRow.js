@@ -15,7 +15,7 @@ const TableRow = ({ rate, handleRefresh }) => {
     };
     return (
         <>
-            <tr>
+            <tr className="text-base">
                 <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
                     <span className="p-2">{rate.name}</span>
                 </td>
@@ -28,18 +28,18 @@ const TableRow = ({ rate, handleRefresh }) => {
                 <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
                     <span className="p-2">{rate.price}</span>
                 </td>
-                <td className="whitespace-nowrap gap-x-4 px-4 py-4 font-medium flex text-text">
+                <td className="flex gap-x-4 whitespace-nowrap px-4 py-4 font-medium text-text">
                     <button
                         onClick={() => setOpenEditForm(true)}
                         className="flex w-full items-center justify-center"
                     >
-                        <HiPencil className="h-6 w-6 hover:text-primary transition-all duration-200 hover:scale-110" />
+                        <HiPencil className="h-6 w-6 transition-all duration-200 hover:scale-110 hover:text-primary" />
                     </button>
                     <button
                         onClick={handleDelete}
                         className="flex w-full items-center justify-center"
                     >
-                        <MdDelete className="h-6 w-6 hover:text-red-500 transition-all duration-200 hover:scale-110" />
+                        <MdDelete className="h-6 w-6 transition-all duration-200 hover:scale-110 hover:text-red-500" />
                     </button>
                 </td>
             </tr>

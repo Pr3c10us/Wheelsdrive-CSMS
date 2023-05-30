@@ -1,4 +1,4 @@
-export default function Head() {
+export default async function Head() {
     return (
         <>
             <title>Wheelsdrive</title>

@@ -51,14 +51,14 @@ const getApiUsers = async (req, res) => {
     // Get apiUser based on query
 
     // get name query from request
-    const { name } = req.query;
+    const { username } = req.query;
 
     // create a query object to filter result and for search attribute add admin to it
     const queryObject = { admin };
 
-    // if name is provided in request query add to query object
-    if (name) {
-        queryObject.name = { $regex: name, $options: "i" };
+    // if username is provided in request query add to query object
+    if (username) {
+        queryObject.username = { $regex: username, $options: "i" };
     }
 
     // get apiUser for admin

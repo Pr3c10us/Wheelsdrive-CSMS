@@ -9,21 +9,21 @@ const Page = () => {
     return (
         <main>
             <nav className=" flex items-center justify-center">
-                <div className="flex items-center pb-2 justify-center w-40 relative">
+                <div className="relative flex w-40 items-center justify-center pb-2">
                     <button
                         onClick={() => setSection("Users")}
-                        className="text-lg font-medium flex-1 px-2"
+                        className="flex-1 border-r px-2 text-lg font-medium"
                     >
                         Users
                     </button>
                     <button
                         onClick={() => setSection("RFIDs")}
-                        className="text-lg font-medium flex-1 px-2"
+                        className="flex-1 px-2 text-lg font-medium"
                     >
                         RFIDs
                     </button>
                     <div
-                        className={`h-1 transition-all duration-200 w-20 bottom-0 left-0 bg-accent absolute ${
+                        className={`absolute bottom-0 left-0 h-1 w-20 bg-accent transition-all duration-200 ${
                             section == "RFIDs" && "translate-x-20"
                         }`}
                     ></div>

@@ -24,8 +24,16 @@ const createRFID = async (req, res) => {
     req.body.expires = new Date(req.body.expires).toISOString();
 
     // Get parent rfid from db
-    const parentRFID = await RFID.findOne({ isAdmin: true, admin });
-    req.body.parentRFID = parentRFID.rfid;
+    // const parentRFID = await RFID.findOne({ isAdmin: true, admin });
+    // req.body.parentRFID = parentRFID.rfid;
+    // Check if parentRFID exist
+    const parentRFID = await RFID.findOne({
+        rfid: req.body.parentRFID,
+        admin,
+    });
+    if (!parentRFID) {
+        throw new NotFoundError("Parent RFID not found");
+    }
 
     // Check if apiUserId is valid mongoose id
     if (!mongoose.isValidObjectId(req.body.apiUserId)) {
@@ -71,7 +79,7 @@ const getRFIDs = async (req, res) => {
     }
 
     // get rfid for admin
-    let result = RFID.find(queryObject);
+    let result = RFID.find(queryObject).populate("apiUser", { username: 1 });
 
     // #################################################################
     // Set up Pagination
@@ -104,11 +112,32 @@ const updateRFID = async (req, res) => {
     if (!mongoose.isValidObjectId(id)) {
         throw new BadRequestError("Invalid Object Id");
     }
+    const rfidDetails = await RFID.findOne({ _id: id, admin });
 
     // Check if rfid exists
     const rfidExist = await RFID.findOne({ rfid: req.body.rfid, admin });
-    if (rfidExist) {
+    if (rfidExist && rfidExist.rfid !== rfidDetails.rfid) {
         throw new NotFoundError("RFID Already Exists");
+    }
+
+    // Check if parentRFID exist if provided
+    if (req.body.parentRFID) {
+        // Check if parentRFID is not equal to current rfid
+        // get rfid "rfid" from db
+        if (rfidDetails.rfid === req.body.parentRFID) {
+            throw new BadRequestError(
+                "Parent RFID can't be same as current RFID"
+            );
+        }
+
+        // Check if parentRFID exist
+        const parentRFID = await RFID.findOne({
+            rfid: req.body.parentRFID,
+            admin,
+        });
+        if (!parentRFID) {
+            throw new NotFoundError("Parent RFID not found");
+        }
     }
 
     // Change apiUser if provided
