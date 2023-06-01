@@ -49,7 +49,7 @@ const Layout = ({ children }) => {
     }
     return (
         <main className="h-full flex flex-col">
-            <SideBar openMenu={openMenu} pages={pages} PageIcon={PageIcon} />
+            <SideBar openMenu={openMenu} pages={pages} PageIcon={PageIcon} setOpenMenu={setOpenMenu}/>
             <NavBar
                 setOpenMenu={setOpenMenu}
                 adminInfo={adminInfo}

@@ -12,9 +12,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { IoIosArrowDown } from "react-icons/io";
 import { useState } from "react";
 import { useEffect } from "react";
-import { BiSearch } from "react-icons/bi";
+import { BiSearch, BiPlus } from "react-icons/bi";
 import { createUsers } from "@/redux/adminDetails";
 import { PuffLoader } from "react-spinners";
+import { usePathname, useRouter } from "next/navigation";
 
 const CreateFormModal = ({ openForm, setOpenForm, handleRefresh }) => {
     const [apiUserId, setApiUserId] = useState("");
@@ -25,6 +26,7 @@ const CreateFormModal = ({ openForm, setOpenForm, handleRefresh }) => {
     const [apiUserIdError, setApiUserIdError] = useState("");
     const users = useSelector((state) => state.adminDetails.users);
     const dispatch = useDispatch();
+    const router = useRouter();
 
     const formik = useFormik({
         initialValues: {
@@ -397,7 +399,9 @@ const CreateFormModal = ({ openForm, setOpenForm, handleRefresh }) => {
                                             />
                                             <BiSearch className="text-slate absolute bottom-0 right-2 top-0 mb-auto mt-auto h-5 w-5 text-gray-400" />
                                         </div>
+
                                         <div className="h-full font-medium [&>div]:border-t">
+                                            
                                             {users.map((user) => {
                                                 return (
                                                     <div
@@ -409,7 +413,9 @@ const CreateFormModal = ({ openForm, setOpenForm, handleRefresh }) => {
                                                             setUsername(
                                                                 user.username
                                                             );
-                                                            setApiUserIdError("")
+                                                            setApiUserIdError(
+                                                                ""
+                                                            );
                                                         }}
                                                         className={`cursor-pointer p-2 transition-all duration-200 hover:bg-accent hover:bg-opacity-10 ${
                                                             apiUserId ==

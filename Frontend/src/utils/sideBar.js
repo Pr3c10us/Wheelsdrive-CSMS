@@ -4,20 +4,22 @@ import React from "react";
 import { MdOutlineNaturePeople } from "react-icons/md";
 import { SiHubspot } from "react-icons/si";
 
-const SideBar = ({ openMenu, pages, PageIcon }) => {
+const SideBar = ({ openMenu, pages, PageIcon, setOpenMenu }) => {
     const pathname = usePathname();
-    const router = useRouter()
+    const router = useRouter();
+    
     return (
+
         <section
             className={
                 openMenu
-                    ? "fixed inset-0 z-30 flex flex-col gap-6 bg-white border-b-4 border-b-primary py-20 px-4 transition-all duration-500 md:hidden"
-                    : "fixed inset-0 z-30 flex -translate-y-full flex-col gap-6 bg-white border-b-4 border-b-primary py-20 px-10 transition-all duration-500 md:hidden"
+                    ? "fixed inset-0 z-30 flex flex-col gap-6 border-b-4 border-b-primary bg-white px-4 py-20 transition-all duration-500 md:hidden"
+                    : "fixed inset-0 z-30 flex -translate-y-full flex-col gap-6 border-b-4 border-b-primary bg-white px-10 py-20 transition-all duration-500 md:hidden"
             }
         >
             <div>
                 <button
-                    className={`font-medium flex gap-x-6 text-xl justify-center items-center ${
+                    className={`flex items-center justify-center gap-x-6 text-xl font-medium ${
                         pathname.includes("hub") && "text-accent"
                     }`}
                 >
@@ -31,12 +33,15 @@ const SideBar = ({ openMenu, pages, PageIcon }) => {
                             return (
                                 <div
                                     key={page.id}
-                                    className={`flex pt-2 pb-0.5 w-full items-center text-xl hover:text-accent cursor-pointer gap-2 ${
+                                    className={`flex w-full cursor-pointer items-center gap-2 pb-0.5 pt-2 text-xl hover:text-accent ${
                                         pathname == page.url
-                                            ? "text-accent border-b-2 border-b-accent"
+                                            ? "border-b-2 border-b-accent text-accent"
                                             : " text-text"
                                     }`}
-                                    onClick={() => router.push(page.url)}
+                                    onClick={() => {
+                                        router.push(page.url);
+                                        setOpenMenu(false);
+                                    }}
                                 >
                                     <PageIcon name={page.name} />
                                     {page.name}
@@ -47,7 +52,7 @@ const SideBar = ({ openMenu, pages, PageIcon }) => {
             </div>
             <div>
                 <button
-                    className={`font-medium flex gap-x-6 text-xl justify-center items-center ${
+                    className={`flex items-center justify-center gap-x-6 text-xl font-medium ${
                         pathname.includes("assets") && "text-accent"
                     }`}
                 >
@@ -65,12 +70,15 @@ const SideBar = ({ openMenu, pages, PageIcon }) => {
                             return (
                                 <div
                                     key={page.id}
-                                    className={`flex pt-2 pb-0.5 w-full items-center text-xl hover:text-accent cursor-pointer gap-2 ${
+                                    className={`flex w-full cursor-pointer items-center gap-2 pb-0.5 pt-2 text-xl hover:text-accent ${
                                         pathname == page.url
-                                            ? "text-accent border-b-2 border-b-accent"
+                                            ? "border-b-2 border-b-accent text-accent"
                                             : " text-text"
                                     }`}
-                                    onClick={() => router.push(page.url)}
+                                    onClick={() => {
+                                        router.push(page.url);
+                                        setOpenMenu(false);
+                                    }}
                                 >
                                     <PageIcon name={page.name} />
                                     {page.name}

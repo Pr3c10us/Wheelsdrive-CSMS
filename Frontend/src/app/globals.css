@@ -31,8 +31,20 @@
     background: #191970;
     border-radius: 100vh;
     border: 3px solid #fdfdfc;
-    cursor: pointer;
   }
+
+  .scrollbar-drop-down::-webkit-scrollbar {
+    width: 1rem;
+    height: 1rem;
+  }
+
+
+  .scrollbar-drop-down::-webkit-scrollbar-thumb {
+    background: #1919703e;
+    border-radius: 100vh;
+    border: 3px solid #fdfdfc;
+  }
+
 
   /* .scrollbar-table::-webkit-scrollbar-thumb:hover {
   } */

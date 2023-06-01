@@ -12,9 +12,7 @@ const handleStopTransaction = require("./handleStopTransaction");
 const processRequest = async (messageIn) => {
     let messageOut = null;
     console.log(messageIn);
-    if (messageIn[3].meterValue) {
-        console.log(messageIn[3].meterValue[0]);
-    }
+
     // Create Switch statement for messageIn.Action
     switch (messageIn[2]) {
         // If messageIn.Action is BootNotification

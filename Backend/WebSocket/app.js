@@ -4,6 +4,8 @@ require("dotenv").config();
 // Import Express
 const express = require("express");
 const app = express();
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
 
 // Import modules for webSocket
 const http = require("http");
@@ -21,7 +23,18 @@ const chargePointStatus = require("./classes/chargePointStatus");
 
 // Import Handlers
 const handleVersion16 = require("./controllers/v16/handleVersion16");
+const Admin = require("../Database/models/Admin");
 
+// Import Middleware
+const adminAuthorization = require("./middleware/adminAuthorization");
+
+// Import ocpp version 1.6 remote functions
+const remoteReset16 = require("./controllers/v16 remote api controller/reset");
+const remoteUnlockConnectors16 = require("./controllers/v16 remote api controller/unlockConnector");
+const RFID = require("../Database/models/RFID");
+const remoteStartTransaction16 = require("./controllers/v16 remote api controller/startTransaction");
+
+// ######################################################################################################
 // ######################################################################################################
 // ######################################################################################################
 // ######################################################################################################
@@ -161,7 +174,31 @@ wss.on("connection", async (ws, request) => {
 
 // ######################################################################################################
 // ######################################################################################################
-// Demo api to send message to a specific client
+// ######################################################################################################
+// ######################################################################################################
+// Middleware
+
+// CORS MIDDLEWARE
+// Set up cors options and middleware
+const corsOptions = {
+    origin: [
+        process.env.CLIENT_ORIGIN_1,
+        process.env.CLIENT_ORIGIN_2,
+        process.env.CLIENT_ORIGIN_3,
+    ],
+    credentials: true,
+};
+app.use(cors(corsOptions));
+
+// COOKIE PARSER MIDDLEWARE
+app.use(cookieParser(process.env.COOKIE_SECRET));
+
+// HANDLE JSON REQUESTS MIDDLEWARE
+app.use(express.json());
+
+// ######################################################################################################
+// ######################################################################################################
+// Api Request handlers
 app.get("/send/:userId/:chargePointEndpoint", async (req, res) => {
     const userId = req.params.userId;
     const chargePointEndpoint = req.params.chargePointEndpoint;
@@ -182,6 +219,167 @@ app.get("/send/:userId/:chargePointEndpoint", async (req, res) => {
     }
 });
 
+// Remote reset handler
+app.get("/reset/:chargePointEndpoint", adminAuthorization, async (req, res) => {
+    // Get User Info from request
+    const { id } = req.admin;
+    // get user info
+    const admin = await Admin.findById(id);
+    // // Get Admin from database
+    // if (!admin) {
+    //     return res.status(404).json({ msg: "Admin not found" });
+    // }
+
+    // Get ChargePoint Info from request
+    const chargePointEndpoint = req.params.chargePointEndpoint;
+    const chargePointKey = id + chargePointEndpoint;
+    const ws = clientConnections.get(chargePointKey);
+
+    // Get ChargePoint Info from database
+    const chargePointInfo = await ChargePointModel.findOne({
+        admin,
+        endpoint: chargePointEndpoint,
+    });
+    if (!chargePointInfo) {
+        return res.status(404).json({ msg: "ChargePoint not found" });
+    }
+
+    if (!chargePointInfo.ocppVersion) {
+        return res.status(404).json({ msg: "ChargePoint not connected" });
+    }
+
+    // Run respective function depending on the protocol
+    if (chargePointInfo.ocppVersion == "ocpp1.6") {
+        await remoteReset16(chargePointInfo, ws, res);
+    } else if (
+        chargePointInfo.ocppVersion == "ocpp2.0" ||
+        chargePointInfo.ocppVersion == "ocpp2.0.1"
+    ) {
+        return;
+    }
+});
+
+// Remote Unlock Connector handler
+app.get(
+    "/unlockConnector/:chargePointEndpoint",
+    adminAuthorization,
+    async (req, res) => {
+        // Get User Info from request
+        const { id } = req.admin;
+        // get user info
+        const admin = await Admin.findById(id);
+        // // Get Admin from database
+        // if (!admin) {
+        //     return res.status(404).json({ msg: "Admin not found" });
+        // }
+
+        // Get ChargePoint Info from request
+        const chargePointEndpoint = req.params.chargePointEndpoint;
+        const chargePointKey = id + chargePointEndpoint;
+        const ws = clientConnections.get(chargePointKey);
+
+        // Get connectorId from request query, convert to number and set to 0 if not provided
+        let connectorId = req.query.connectorId;
+        if (!connectorId) {
+            connectorId = 0;
+        } else {
+            connectorId = Number(connectorId);
+        }
+
+        // Get ChargePoint Info from database
+        const chargePointInfo = await ChargePointModel.findOne({
+            admin,
+            endpoint: chargePointEndpoint,
+        });
+        if (!chargePointInfo) {
+            return res.status(404).json({ msg: "ChargePoint not found" });
+        }
+
+        if (!chargePointInfo.ocppVersion) {
+            return res.status(404).json({ msg: "ChargePoint not connected" });
+        }
+
+        // Run respective function depending on the protocol
+        if (chargePointInfo.ocppVersion == "ocpp1.6") {
+            await remoteUnlockConnectors16(
+                chargePointInfo,
+                ws,
+                res,
+                connectorId
+            );
+        } else if (
+            chargePointInfo.ocppVersion == "ocpp2.0" ||
+            chargePointInfo.ocppVersion == "ocpp2.0.1"
+        ) {
+            return;
+        }
+    }
+);
+
+// Remote Start Transaction handler
+app.get(
+    "/startTransaction/:chargePointEndpoint",
+    adminAuthorization,
+    async (req, res) => {
+        // Get User Info from request
+        const { id } = req.admin;
+        // get user info
+        const admin = await Admin.findById(id);
+        // Get admin Rfid from database
+        const adminRfid = await RFID.findOne({ admin });
+        // // Get Admin from database
+        // if (!admin) {
+        //     return res.status(404).json({ msg: "Admin not found" });
+        // }
+
+        // Get ChargePoint Info from request
+        const chargePointEndpoint = req.params.chargePointEndpoint;
+        const chargePointKey = id + chargePointEndpoint;
+        const ws = clientConnections.get(chargePointKey);
+
+        // Get connectorId from request query, convert to number and set to 0 if not provided
+        let connectorId = Number(req.body.connectorId);
+        if (!connectorId) {
+            return res
+                .status(400)
+                .json({ msg: "ConnectorId or IdTag not provided" });
+        }
+
+        let idTag = req.body.idTag || adminRfid.rfid;
+
+        // Get ChargePoint Info from database
+        const chargePointInfo = await ChargePointModel.findOne({
+            admin,
+            endpoint: chargePointEndpoint,
+        });
+        if (!chargePointInfo) {
+            return res.status(404).json({ msg: "ChargePoint not found" });
+        }
+
+        if (!chargePointInfo.ocppVersion) {
+            return res.status(404).json({ msg: "ChargePoint not connected" });
+        }
+
+        // Run respective function depending on the protocol
+        if (chargePointInfo.ocppVersion == "ocpp1.6") {
+            await remoteStartTransaction16(
+                chargePointInfo,
+                ws,
+                res,
+                idTag,
+                connectorId
+            );
+        } else if (
+            chargePointInfo.ocppVersion == "ocpp2.0" ||
+            chargePointInfo.ocppVersion == "ocpp2.0.1"
+        ) {
+            return;
+        }
+    }
+);
+
+// ######################################################################################################
+// ######################################################################################################
 // ######################################################################################################
 // ######################################################################################################
 // CREATE SERVER

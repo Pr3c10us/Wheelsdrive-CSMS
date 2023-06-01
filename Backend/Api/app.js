@@ -71,6 +71,10 @@ app.use("/api/rate", rateRoutes);
 const chargePointRoutes = require("./routes/chargePoint");
 app.use("/api/chargePoint", chargePointRoutes);
 
+// CONNECTOR ROUTES
+const connectorsRoutes = require("./routes/connectors");
+app.use("/api/connector", connectorsRoutes);
+
 // APIUSER ROUTES
 const apiUserRoutes = require("./routes/apiUser");
 app.use("/api/apiUser", apiUserRoutes);
@@ -107,6 +111,3 @@ const serverApp = async () => {
     }
 };
 serverApp();
-
-// ######################################################################################################
-// ######################################################################################################
