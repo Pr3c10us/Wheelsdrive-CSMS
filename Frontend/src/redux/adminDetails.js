@@ -7,6 +7,7 @@ const initialState = {
     rates: [],
     users: [],
     rfids: [],
+    sessions: [],
     logs: [],
 };
 
@@ -32,6 +33,9 @@ export const adminDetails = createSlice({
         createRfids: (state, action) => {
             state.rfids = action.payload;
         },
+        createSessions: (state, action) => {
+            state.sessions = action.payload;
+        },
         createLogs: (state, action) => {
             state.logs = action.payload;
         },
@@ -46,6 +50,7 @@ export const {
     createUsers,
     createRates,
     createRfids,
+    createSessions,
     createLogs,
 } = adminDetails.actions;
 

@@ -144,6 +144,7 @@ const handleStartTransaction = async (messageIn) => {
 
                 // Create new transaction
                 const transaction = await Transaction.create({
+                    // transactionUniqueId: 
                     startRFID: idTag,
                     startTime: jsonInPayload.timestamp,
                     meterStart: jsonInPayload.meterStart / 1000,

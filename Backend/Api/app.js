@@ -83,6 +83,14 @@ app.use("/api/apiUser", apiUserRoutes);
 const rfidRoutes = require("./routes/rfid");
 app.use("/api/rfid", rfidRoutes);
 
+// SESSION ROUTES
+const sessionRoutes = require("./routes/sessions");
+app.use("/api/sessions", sessionRoutes);
+
+// LOGS ROUTES
+const logsRoutes = require("./routes/logs");
+app.use("/api/logs", logsRoutes);
+
 // ######################################################################################################
 // ######################################################################################################
 // Handler Middleware

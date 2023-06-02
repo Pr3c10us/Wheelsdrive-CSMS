@@ -33,7 +33,7 @@ const handleAuthorize = async (messageIn) => {
             errorCode: errorCode,
             message: messageIn[2],
             origin: "csms",
-            chargePoint,
+            chargePoint: chargePoint,
             admin: chargePoint.admin._id,
         });
         return callError;
