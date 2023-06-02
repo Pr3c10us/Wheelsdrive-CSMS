@@ -229,7 +229,7 @@ const CreateFormModal = ({ openForm, setOpenForm, handleRefresh }) => {
                                 <IoIosArrowDown />
                             </div>
                             <div
-                                className={`scrollbar-drop-down absolute left-1/2 top-full z-[70] grid max-h-52 w-64 -translate-x-1/2 gap-y-4 overflow-x-auto overflow-y-auto rounded-md bg-white transition-all duration-300  ${
+                                className={`scrollbar-drop-down absolute left-1/2 top-full z-[70] grid max-h-52 w-full -translate-x-1/2 gap-y-4 overflow-x-auto overflow-y-auto rounded-md bg-white transition-all duration-300  ${
                                     showLocation
                                         ? "border-2 p-2 opacity-100 shadow-lg"
                                         : "h-0 opacity-0"

@@ -1,4 +1,6 @@
 import { HiPencil } from "react-icons/hi";
+import { FiEdit3 } from "react-icons/fi";
+
 import { MdDelete } from "react-icons/md";
 import axios from "axios";
 import EditFormModal from "./editFormModal";
@@ -52,7 +54,7 @@ const TableRow = ({ user, handleRefresh }) => {
                         onClick={() => setOpenEditForm(true)}
                         className="flex w-full items-center justify-center"
                     >
-                        <HiPencil className="h-6 w-6 transition-all duration-200 hover:scale-110 hover:text-primary" />
+                        <FiEdit3 className="h-6 w-6 transition-all duration-200 hover:scale-110 hover:text-primary" />
                     </button>
                     <button
                         onClick={handleDelete}

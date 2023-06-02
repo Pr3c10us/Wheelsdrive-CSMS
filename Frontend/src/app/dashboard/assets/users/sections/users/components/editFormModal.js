@@ -73,7 +73,7 @@ const CreateFormModal = ({ openForm, setOpenForm, handleRefresh, apiUser }) => {
                         <div className="mb-4 flex w-full flex-col gap-2 sm:col-span-2">
                             <div className="flex w-full items-center justify-between">
                                 <h2 className="text-lg font-semibold">
-                                    Add Api User
+                                    Edit ApiUser
                                 </h2>
                                 <FaTimes
                                     onClick={() => setOpenForm(false)}

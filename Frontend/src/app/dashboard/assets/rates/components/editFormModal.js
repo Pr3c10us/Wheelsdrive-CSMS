@@ -75,7 +75,7 @@ const EditFormModal = ({ openForm, setOpenForm, handleRefresh, rate }) => {
                         <div className="flex w-full flex-col gap-2 sm:col-span-2">
                             <div className="flex w-full items-center justify-between">
                                 <h2 className="text-lg font-semibold">
-                                    Add Charge Rate
+                                    Edit Charge Rate
                                 </h2>
                                 <FaTimes
                                     onClick={() => setOpenForm(false)}

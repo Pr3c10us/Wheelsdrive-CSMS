@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
-import {
-    HiOutlineStatusOnline,
-    HiInformationCircle,
-    HiPencil,
-} from "react-icons/hi";
+import { HiOutlineStatusOnline, HiInformationCircle } from "react-icons/hi";
+import { IoMdPower } from "react-icons/io";
+import { FiEdit3 } from "react-icons/fi";
 import { MdDelete } from "react-icons/md";
 import { HiMinus, HiPlus } from "react-icons/hi2";
 import { useDispatch } from "react-redux";
@@ -13,9 +11,13 @@ import {
     changeShowErrorMessage,
 } from "@/redux/errorMessage";
 import axios from "axios";
+import EditFormModal from "./editFormModal";
+import ConnectorTable from "./connectorComponents/conectorTable";
+import DetailsModal from "./detailsModal";
 
 const TableRow = ({ chargePoint, handleRefresh }) => {
     const [openEditForm, setOpenEditForm] = useState(false);
+    const [openDetails, setOpenDetails] = useState(false);
     const [showConnectors, setShowConnectors] = useState(false);
     const dispatch = useDispatch();
 
@@ -57,9 +59,9 @@ const TableRow = ({ chargePoint, handleRefresh }) => {
                 </td>
                 <td className="grid place-content-center whitespace-nowrap px-4 py-4 font-medium text-text">
                     {chargePoint.isConnected ? (
-                        <HiOutlineStatusOnline className="text-2xl text-green-400" />
+                        <IoMdPower className="text-2xl text-green-400" />
                     ) : (
-                        <HiOutlineStatusOnline className="text-2xl text-gray-400" />
+                        <IoMdPower className="text-2xl text-gray-400" />
                     )}
                 </td>
                 <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
@@ -68,20 +70,23 @@ const TableRow = ({ chargePoint, handleRefresh }) => {
                     </span>
                 </td>
                 <td className="flex w-full gap-x-2 whitespace-nowrap px-4 py-4 font-medium text-text">
-                    {/* <button className="flex gap-x-2 border-primary hover:text-primary transition-all duration-200 hover:scale-105 border w-full py-2 px-2 rounded items-center justify-center">
+                    <button
+                        onClick={() => setOpenDetails(true)}
+                        className="flex w-24 flex-1 items-center justify-center gap-x-2 rounded border border-black px-2 py-2 transition-all duration-200 hover:scale-105 hover:border-primary hover:text-primary"
+                    >
                         <HiInformationCircle />
                         Details
-                    </button>{" "} */}
+                    </button>
                     <button
                         onClick={() => setOpenEditForm(true)}
-                        className="flex w-24 flex-1 items-center justify-center gap-x-2 rounded border-2 border-black px-2 py-2 transition-all duration-200 hover:scale-105 hover:border-primary hover:text-primary"
+                        className="flex w-24 flex-1 items-center justify-center gap-x-2 rounded border border-black px-2 py-2 transition-all duration-200 hover:scale-105 hover:border-primary hover:text-primary"
                     >
-                        <HiPencil />
+                        <FiEdit3 />
                         Edit
                     </button>
                     <button
                         onClick={handleDelete}
-                        className="flex w-24 flex-1 items-center justify-center gap-x-2 rounded border-2 border-black px-2 py-2 transition-all duration-200 hover:scale-105 hover:border-red-500 hover:text-red-500"
+                        className="flex w-24 flex-1 items-center justify-center gap-x-2 rounded border border-black px-2 py-2 transition-all duration-200 hover:scale-105 hover:border-red-500 hover:text-red-500"
                     >
                         <MdDelete /> Delete
                     </button>
@@ -89,97 +94,22 @@ const TableRow = ({ chargePoint, handleRefresh }) => {
             </tr>
 
             {showConnectors && (
-                <tr id="jane-doe-details" className="">
-                    <td colSpan="7" className="p-8">
-                        {/* Another table with details for Jane Doe */}
-                        <table className="min-w-full">
-                            <thead className="ltr:text-left rtl:text-right">
-                                <tr className="bg-primary bg-opacity-25 font-medium">
-                                    <th className="whitespace-nowrap px-4 py-4 font-medium text-text">
-                                        Connector Id
-                                    </th>
-                                    <th className="whitespace-nowrap px-4 py-4 font-medium text-text">
-                                        Status
-                                    </th>
-                                    <th className="whitespace-nowrap px-4 py-4 font-medium text-text">
-                                        Format
-                                    </th>
-                                    <th className="whitespace-nowrap px-4 py-4 font-medium text-text">
-                                        Type
-                                    </th>
-                                    <th className="whitespace-nowrap px-4 py-4 font-medium text-text">
-                                        PowerType
-                                    </th>
-                                    <th className="whitespace-nowrap px-4 py-4 font-medium text-text">
-                                        Power
-                                    </th>
-                                    <th className="whitespace-nowrap px-4 py-4 font-medium text-text">
-                                        Actions
-                                    </th>
-                                </tr>
-                            </thead>
-
-                            <tbody className="divide-y divide-gray-200 text-center">
-                                {chargePoint.connectors.map((connector) => {
-                                    return (
-                                        <tr className="text-base">
-                                            <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
-                                                <span className="p-2">
-                                                    {connector.connectorId}
-                                                </span>
-                                            </td>
-                                            <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
-                                                <span className="p-2">
-                                                    {connector.lastStatus}
-                                                </span>
-                                            </td>
-                                            <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
-                                                <span className="p-2">
-                                                    {connector.format}
-                                                </span>
-                                            </td>
-                                            <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
-                                                <span className="p-2">
-                                                    {connector.type}
-                                                </span>
-                                            </td>
-                                            <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
-                                                <span className="p-2">
-                                                    {connector.powerType}
-                                                </span>
-                                            </td>
-                                            <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
-                                                <span className="p-2">
-                                                    {connector.power}
-                                                </span>
-                                            </td>
-                                            <td className="flex gap-x-2 whitespace-nowrap px-4 py-4 font-medium text-text">
-                                                <button className="flex w-full items-center justify-center gap-x-2 rounded border border-primary px-2 py-2">
-                                                    <HiInformationCircle />
-                                                    Details
-                                                </button>{" "}
-                                                <button className="flex w-full items-center justify-center gap-x-2 rounded border border-primary px-2 py-2">
-                                                    <HiPencil />
-                                                    Edit
-                                                </button>
-                                                <button className="flex w-full items-center justify-center gap-x-2 rounded border border-primary px-2 py-2">
-                                                    <MdDelete /> Delete
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    );
-                                })}
-                            </tbody>
-                        </table>
-                    </td>
-                    
-                </tr>
+                <ConnectorTable
+                    chargePoint={chargePoint}
+                    handleRefresh={handleRefresh}
+                />
             )}
-            <EditFormModa
-                        openForm={openEditForm}
-                        setOpenForm={setOpenEditForm}
-                        chargePoint={chargePoint}
-                    />
+            <EditFormModal
+                openForm={openEditForm}
+                setOpenForm={setOpenEditForm}
+                handleRefresh={handleRefresh}
+                chargePoint={chargePoint}
+            />
+            <DetailsModal
+                openForm={openDetails}
+                setOpenForm={setOpenDetails}
+                chargePoint={chargePoint}
+            />
         </>
     );
 };

@@ -100,7 +100,6 @@ const getChargePoints = async (req, res) => {
     // get chargePoints for admin
     let result = ChargePoint.find(queryObject)
         .populate("location", {
-            _id: 0,
             admin: 0,
             chargePoints: 0,
             createdAt: 0,
@@ -108,7 +107,6 @@ const getChargePoints = async (req, res) => {
             __v: 0,
         })
         .populate("connectors", {
-            _id: 0,
             chargePoint: 0,
             createdAt: 0,
             updatedAt: 0,
@@ -149,7 +147,6 @@ const getChargePoint = async (req, res) => {
 
     const chargePoint = await ChargePoint.findOne({ _id: id, admin })
         .populate("location", {
-            _id: 0,
             admin: 0,
             chargePoints: 0,
             createdAt: 0,
@@ -157,7 +154,6 @@ const getChargePoint = async (req, res) => {
             __v: 0,
         })
         .populate("connectors", {
-            _id: 0,
             chargePoint: 0,
             createdAt: 0,
             updatedAt: 0,

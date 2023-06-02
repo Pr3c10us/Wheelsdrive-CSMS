@@ -17,7 +17,12 @@ import { createLocation, createUsers } from "@/redux/adminDetails";
 import { PuffLoader } from "react-spinners";
 import { usePathname, useRouter } from "next/navigation";
 
-const EditFormModal = ({ openForm, setOpenForm, handleRefresh,chargePoint }) => {
+const EditFormModal = ({
+    openForm,
+    setOpenForm,
+    handleRefresh,
+    chargePoint,
+}) => {
     const [locationId, setLocationId] = useState(chargePoint.location._id);
     const [loading, setLoading] = useState(false);
     const [locationName, setLocationName] = useState(chargePoint.location.name);
@@ -31,7 +36,6 @@ const EditFormModal = ({ openForm, setOpenForm, handleRefresh,chargePoint }) => 
     const formik = useFormik({
         initialValues: {
             name: chargePoint.name,
-            endpoint: chargePoint.endpoint,
             clientCertificate: chargePoint.clientCertificate,
             notes: chargePoint.notes,
         },
@@ -41,9 +45,8 @@ const EditFormModal = ({ openForm, setOpenForm, handleRefresh,chargePoint }) => 
                 setLocationIdError("Please select an ChargeStation");
                 return setSubmitting(false);
             }
-            const chargePoint = {
+            const chargePointDetails = {
                 name: values.name,
-                endpoint: values.endpoint,
                 clientCertificate: values.clientCertificate,
                 notes: values.notes,
                 locationId,
@@ -51,9 +54,9 @@ const EditFormModal = ({ openForm, setOpenForm, handleRefresh,chargePoint }) => 
 
             axios.defaults.withCredentials = true;
             axios
-                .post(
-                    `${process.env.NEXT_PUBLIC_API_URL}chargePoint`,
-                    chargePoint
+                .put(
+                    `${process.env.NEXT_PUBLIC_API_URL}chargePoint/${chargePoint._id}`,
+                    chargePointDetails
                 )
                 .then((data) => {
                     setOpenForm(false);
@@ -73,9 +76,6 @@ const EditFormModal = ({ openForm, setOpenForm, handleRefresh,chargePoint }) => 
         },
         validationSchema: Yup.object({
             name: Yup.string().required("Please fill out ChargeStation name"),
-            endpoint: Yup.string().required(
-                "Please fill out ChargeStation endpoint"
-            ),
             notes: Yup.string().required("Please fill out ChargeStation notes"),
         }),
     });
@@ -104,7 +104,7 @@ const EditFormModal = ({ openForm, setOpenForm, handleRefresh,chargePoint }) => 
         <>
             {openForm && (
                 <div
-                    className={`fixed text-left inset-0 z-50 grid overflow-auto px-4 py-4 sm:overflow-visible sm:px-8 sm:py-0`}
+                    className={`fixed inset-0 z-50 grid overflow-auto px-4 py-4 text-left sm:overflow-visible sm:px-8 sm:py-0`}
                 >
                     <div
                         onClick={() => setOpenForm(false)}
@@ -118,7 +118,7 @@ const EditFormModal = ({ openForm, setOpenForm, handleRefresh,chargePoint }) => 
                         <div className="mb-4 flex w-full flex-col gap-2 sm:col-span-2">
                             <div className="flex w-full items-center justify-between">
                                 <h2 className="text-lg font-semibold">
-                                    Create RFID
+                                    Edit ChargeStation
                                 </h2>
                                 <FaTimes
                                     onClick={() => setOpenForm(false)}
@@ -153,34 +153,6 @@ const EditFormModal = ({ openForm, setOpenForm, handleRefresh,chargePoint }) => 
                                     : ""}
                             </p>
                         </div>
-                        <div className="flex h-full w-full flex-col">
-                            <label
-                                className="text-sm font-semibold"
-                                htmlFor="endpoint"
-                            >
-                                Endpoint
-                            </label>
-                            <input
-                                id="endpoint"
-                                name="endpoint"
-                                type="text"
-                                className={`rounded-md border-2 px-2 py-1 text-lg transition-all duration-200 focus:border-primary focus:outline-primary focus:ring-0 ${
-                                    formik.touched.endpoint &&
-                                    formik.errors.endpoint
-                                        ? "border-red-500 focus:outline-red-500"
-                                        : "focus:border-primary focus:outline-primary"
-                                }`}
-                                onChange={formik.handleChange}
-                                value={formik.values.endpoint}
-                                onBlur={formik.handleBlur}
-                            />
-                            <p className="h-2 px-2 text-xs font-medium text-red-600 sm:h-4">
-                                {formik.touched.endpoint &&
-                                formik.errors.endpoint
-                                    ? formik.errors.endpoint
-                                    : ""}
-                            </p>
-                        </div>
 
                         <div className="flex  h-full w-full flex-col">
                             <label
@@ -210,7 +182,7 @@ const EditFormModal = ({ openForm, setOpenForm, handleRefresh,chargePoint }) => 
                                     : ""}
                             </p>
                         </div>
-                        <div className="relative flex h-full w-full flex-col">
+                        <div className="relative flex h-full w-full flex-col sm:col-span-2">
                             <label
                                 className="text-sm font-semibold"
                                 htmlFor="mobile"
@@ -229,7 +201,7 @@ const EditFormModal = ({ openForm, setOpenForm, handleRefresh,chargePoint }) => 
                                 <IoIosArrowDown />
                             </div>
                             <div
-                                className={`scrollbar-drop-down absolute left-1/2 top-full z-[70] grid max-h-52 w-64 -translate-x-1/2 gap-y-4 overflow-x-auto overflow-y-auto rounded-md bg-white transition-all duration-300  ${
+                                className={`scrollbar-drop-down absolute left-1/2 top-full z-[70] grid max-h-52 w-full -translate-x-1/2 gap-y-4 overflow-x-auto overflow-y-auto rounded-md bg-white transition-all duration-300  ${
                                     showLocation
                                         ? "border-2 p-2 opacity-100 shadow-lg"
                                         : "h-0 opacity-0"
@@ -336,7 +308,7 @@ const EditFormModal = ({ openForm, setOpenForm, handleRefresh,chargePoint }) => 
                                 formik.isSubmitting && "bg-opacity-40"
                             }`}
                         >
-                            Create
+                            Edit
                         </button>
                     </form>
                 </div>

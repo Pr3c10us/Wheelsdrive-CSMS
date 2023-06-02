@@ -10,6 +10,7 @@ import TableRow from "./components/tableRow";
 import { BsCaretLeftFill, BsCaretRightFill } from "react-icons/bs";
 import CreateFormModal from "./components/createFormModal";
 import Alert from "@/utils/alert";
+import Loading from "./loading";
 
 const ChargePoints = () => {
     const [loading, setLoading] = useState(false);
@@ -90,7 +91,7 @@ const ChargePoints = () => {
     }, [page]);
 
     if (loading) {
-        return <div>loading . . .</div>;
+        return <Loading />;
     }
     return (
         <main className="flex flex-col space-y-4">

@@ -1,4 +1,4 @@
-import { HiInformationCircle, HiPencil } from "react-icons/hi";
+import { FiEdit3 } from "react-icons/fi";
 import { MdDelete } from "react-icons/md";
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 import axios from "axios";
@@ -40,14 +40,14 @@ const TableRow = ({ location }) => {
                     </button>{" "} */}
                     <button
                         onClick={() => setOpenEditForm(true)}
-                        className="flex w-24 flex-1 items-center justify-center gap-x-2 rounded border-2 border-black px-2 py-2 transition-all duration-200 hover:scale-105 hover:border-primary hover:text-primary"
+                        className="flex w-24 flex-1 items-center justify-center gap-x-2 rounded border border-black px-2 py-2 transition-all duration-200 hover:scale-105 hover:border-primary hover:text-primary"
                     >
-                        <HiPencil />
+                        <FiEdit3 />
                         Edit
                     </button>
                     <button
                         onClick={handleDelete}
-                        className="flex w-24 flex-1 items-center justify-center gap-x-2 rounded border-2 border-black px-2 py-2 transition-all duration-200 hover:scale-105 hover:border-red-500 hover:text-red-500"
+                        className="flex w-24 flex-1 items-center justify-center gap-x-2 rounded border border-black px-2 py-2 transition-all duration-200 hover:scale-105 hover:border-red-500 hover:text-red-500"
                     >
                         <MdDelete /> Delete
                     </button>
