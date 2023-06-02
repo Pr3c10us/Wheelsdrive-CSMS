@@ -11,7 +11,6 @@ const handleStopTransaction = require("./handleStopTransaction");
 
 const processRequest = async (messageIn) => {
     let messageOut = null;
-    console.log(messageIn);
 
     // Create Switch statement for messageIn.Action
     switch (messageIn[2]) {

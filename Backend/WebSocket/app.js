@@ -133,7 +133,6 @@ wss.on("connection", async (ws, request) => {
     // Get Protocol from websocket connection
 
     const ocppProtocol = ws.protocol; // VERY IMPORTANT VARIABLE
-    console.log(ocppProtocol);
     // If the ocppProtocol is not ocpp1.6, ocpp2.0 or ocpp2.0.1 close the connection
     if (
         ocppProtocol != "ocpp1.6" &&
@@ -155,12 +154,7 @@ wss.on("connection", async (ws, request) => {
     }
     if (ocppProtocol == "ocpp2.0" || ocppProtocol == "ocpp2.0.1") {
         ws.on("message", async (msg) => {
-            const data = JSON.parse(msg);
-
-            console.log(data);
-            if (data[3].meterValue) {
-                console.log(data[3].meterValue[0]);
-            }
+            const data = JSON.parse(msg);            
         });
     }
     // ######################################################################################################
