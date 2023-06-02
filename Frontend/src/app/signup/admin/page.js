@@ -81,7 +81,7 @@ const SignupPage = () => {
                 );
 
                 setTimeout(() => {
-                    router.push(`/login`);
+                    router.push(`/login/admin`);
                 }, 3000);
             } catch (error) {
                 if (error.response) {
