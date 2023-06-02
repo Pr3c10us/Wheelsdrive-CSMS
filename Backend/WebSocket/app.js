@@ -340,16 +340,6 @@ app.get(
         const chargePointKey = id + chargePointEndpoint;
         const ws = clientConnections.get(chargePointKey);
 
-        // Get connectorId from request query, convert to number and set to 0 if not provided
-        let connectorId = Number(req.body.connectorId);
-        if (!connectorId) {
-            return res
-                .status(400)
-                .json({ msg: "ConnectorId or IdTag not provided" });
-        }
-
-        let idTag = req.body.idTag || adminRfid.rfid;
-
         // Get ChargePoint Info from database
         const chargePointInfo = await ChargePointModel.findOne({
             admin,
@@ -357,6 +347,32 @@ app.get(
         });
         if (!chargePointInfo) {
             return res.status(404).json({ msg: "ChargePoint not found" });
+        }
+
+        // Get connectorId from request query, convert to number and set to 0 if not provided
+        let connectorId = Number(req.body.connectorId);
+        if (!connectorId) {
+            return res.status(400).json({ msg: "ConnectorId not provided" });
+        }
+        const connector = await Connector.findOne({
+            chargePoint: chargePointInfo,
+            connectorId,
+        });
+
+        let idTag = req.body.idTag || adminRfid.rfid;
+
+        // If connector is not found don't add connector to the transaction
+        let latestTransaction;
+        // Get transaction
+        latestTransaction = await Transaction.findOne({
+            chargePoint: chargePointInfo,
+            admin,
+            connector,
+        }).sort({
+            createdAt: -1,
+        });
+        if (latestTransaction.stopTime == null || !latestTransaction.stopTime) {
+            return res.status(404).json({ msg: "Connector is Occupied" });
         }
 
         if (!chargePointInfo.ocppVersion) {
@@ -428,8 +444,8 @@ app.get(
             }).sort({
                 createdAt: -1,
             });
-            if (!latestTransaction) {
-                return res.status(404).json({ msg: "Transaction not found" });
+            if (!latestTransaction || latestTransaction.stopTime) {
+                return res.status(404).json({ msg: "No transaction to Stop" });
             }
         } else {
             // Get transaction
@@ -439,8 +455,8 @@ app.get(
             }).sort({
                 createdAt: -1,
             });
-            if (!latestTransaction) {
-                return res.status(404).json({ msg: "Transaction not found" });
+            if (!latestTransaction || latestTransaction.stopTime) {
+                return res.status(404).json({ msg: "No transaction to Stop" });
             }
         }
         let transactionId = req.body.transactionId || latestTransaction._id;
