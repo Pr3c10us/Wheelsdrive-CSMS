@@ -5,6 +5,7 @@ const Admin = require("../../Database/models/Admin");
 const adminAuthorization = async (req, res, next) => {
     // get token from cookie and throw error if token is not present
     const { token } = req.signedCookies;
+    console.log(token);
     if (!token) {
         return res
             .status(400)
