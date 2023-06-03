@@ -176,6 +176,7 @@ const handleStopTransaction = async (messageIn) => {
 
                         // Get rate of transaction from connector
                         // const rate = await Rate.findById(connector.rate._id);
+                        let connectorPower = connector.power || 0
 
                         transaction.StopRFID = idTag;
                         transaction.stopTime = jsonInPayload.timestamp;
@@ -185,7 +186,7 @@ const handleStopTransaction = async (messageIn) => {
                             transaction.unitChargingRate *
                             totalTime *
                             (transaction.discountChargingRate / 100);
-                        transaction.totalEnergy = connector.power * totalTime;
+                        transaction.totalEnergy = connectorPower * totalTime;
 
                         await transaction.save();
                     }
