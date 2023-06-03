@@ -21,7 +21,6 @@ const Loading = () => {
                         <tr className="h-14 bg-gray-200 text-lg font-semibold">
                             <th className="w-24 whitespace-nowrap px-4 py-3 text-text">
                                 {" "}
-                                <span className="grid h-6 w-24 place-content-center rounded bg-white p-2"></span>
                             </th>
                             <th className="w-24 whitespace-nowrap px-4 py-3 text-text">
                                 {" "}
@@ -43,31 +42,20 @@ const Loading = () => {
                                 {" "}
                                 <span className="grid h-6 w-24 place-content-center rounded bg-white p-2"></span>
                             </th>
-                            <th className="w-24 whitespace-nowrap px-4 py-3 text-text">
-                                {" "}
-                                <span className="grid h-6 w-24 place-content-center rounded bg-white p-2"></span>
-                            </th>
-                            <th className="w-24 whitespace-nowrap px-4 py-3 text-text">
-                                {" "}
-                                <span className="grid h-6 w-24 place-content-center rounded bg-white p-2"></span>
-                            </th>
-                            <th className="w-24 whitespace-nowrap px-4 py-3 text-text">
-                                {" "}
-                                <span className="grid h-6 w-24 place-content-center rounded bg-white p-2"></span>
-                            </th>
+                            
                         </tr>
                     </thead>
 
                     <tbody className="divide-y divide-gray-200 text-center">
                         <tr className="text-base">
                             <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
-                                <span className="grid h-6 w-24 place-content-center rounded bg-gray-200 p-2"></span>
+                                <span className="grid h-6 w-8 place-content-center rounded bg-gray-200 p-2"></span>
                             </td>
                             <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
                                 <span className="grid h-6 w-24 place-content-center rounded bg-gray-200 p-2"></span>
                             </td>
                             <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
-                                <span className="grid h-6 w-24 place-content-center rounded bg-gray-200 p-2"></span>
+                                <span className="grid h-6 w-8 place-content-center rounded bg-gray-200 p-2"></span>
                             </td>
                             <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
                                 <span className="grid h-6 w-24 place-content-center rounded bg-gray-200 p-2 text-lg"></span>
@@ -78,25 +66,17 @@ const Loading = () => {
                             <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
                                 <span className="grid h-6 w-24 place-content-center rounded bg-gray-200 p-2"></span>
                             </td>
-                            <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
-                                <span className="grid h-6 w-24 place-content-center rounded bg-gray-200 p-2"></span>
-                            </td>
-                            <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
-                                <span className="grid h-6 w-24 place-content-center rounded bg-gray-200 p-2 text-lg"></span>
-                            </td>
-                            <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
-                                <span className="grid h-6 w-24 place-content-center rounded bg-gray-200 p-2 text-lg"></span>
-                            </td>
+                            
                         </tr>
                         <tr className="text-base">
                             <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
-                                <span className="grid h-6 w-24 place-content-center rounded bg-gray-200 p-2"></span>
+                                <span className="grid h-6 w-8 place-content-center rounded bg-gray-200 p-2"></span>
                             </td>
                             <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
                                 <span className="grid h-6 w-24 place-content-center rounded bg-gray-200 p-2"></span>
                             </td>
                             <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
-                                <span className="grid h-6 w-24 place-content-center rounded bg-gray-200 p-2"></span>
+                                <span className="grid h-6 w-8 place-content-center rounded bg-gray-200 p-2"></span>
                             </td>
                             <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
                                 <span className="grid h-6 w-24 place-content-center rounded bg-gray-200 p-2 text-lg"></span>
@@ -107,25 +87,17 @@ const Loading = () => {
                             <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
                                 <span className="grid h-6 w-24 place-content-center rounded bg-gray-200 p-2"></span>
                             </td>
-                            <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
-                                <span className="grid h-6 w-24 place-content-center rounded bg-gray-200 p-2"></span>
-                            </td>
-                            <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
-                                <span className="grid h-6 w-24 place-content-center rounded bg-gray-200 p-2 text-lg"></span>
-                            </td>
-                            <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
-                                <span className="grid h-6 w-24 place-content-center rounded bg-gray-200 p-2 text-lg"></span>
-                            </td>
+                           
                         </tr>
                         <tr className="text-base">
                             <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
-                                <span className="grid h-6 w-24 place-content-center rounded bg-gray-200 p-2"></span>
+                                <span className="grid h-6 w-8 place-content-center rounded bg-gray-200 p-2"></span>
                             </td>
                             <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
                                 <span className="grid h-6 w-24 place-content-center rounded bg-gray-200 p-2"></span>
                             </td>
                             <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
-                                <span className="grid h-6 w-24 place-content-center rounded bg-gray-200 p-2"></span>
+                                <span className="grid h-6 w-8 place-content-center rounded bg-gray-200 p-2"></span>
                             </td>
                             <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
                                 <span className="grid h-6 w-24 place-content-center rounded bg-gray-200 p-2 text-lg"></span>
@@ -136,15 +108,7 @@ const Loading = () => {
                             <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
                                 <span className="grid h-6 w-24 place-content-center rounded bg-gray-200 p-2"></span>
                             </td>
-                            <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
-                                <span className="grid h-6 w-24 place-content-center rounded bg-gray-200 p-2"></span>
-                            </td>
-                            <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
-                                <span className="grid h-6 w-24 place-content-center rounded bg-gray-200 p-2 text-lg"></span>
-                            </td>
-                            <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
-                                <span className="grid h-6 w-24 place-content-center rounded bg-gray-200 p-2 text-lg"></span>
-                            </td>
+                            
                         </tr>
                     </tbody>
                 </table>
