@@ -16,7 +16,8 @@ const getLogs = async (req, res) => {
     // get Sessions for admin
     let result = Log.find(queryObject)
         .populate("chargePoint", "endpoint")
-        .select("-admin -updatedAt -__v");
+        .select("-admin -updatedAt -__v")
+        .sort("-createdAt");
 
     // #################################################################
     // Set up Pagination

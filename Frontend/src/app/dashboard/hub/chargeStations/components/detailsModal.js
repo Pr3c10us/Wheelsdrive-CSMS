@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { FaTimes } from "react-icons/fa";
 import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
+import { useSelector } from "react-redux";
+import { FiCopy } from "react-icons/fi";
 const containerStyle = {
     width: "100%",
     height: "400px",
 };
 
 const DetailsModal = ({ openForm, setOpenForm, chargePoint }) => {
+    const adminInfo = useSelector((state) => state.adminDetails.adminInfo);
     const [info, setInfo] = useState([]);
     const [map, setMap] = useState(null);
 
@@ -39,9 +42,14 @@ const DetailsModal = ({ openForm, setOpenForm, chargePoint }) => {
                 name: "Name",
                 value: chargePoint.name,
             },
+
             {
                 name: "Endpoint",
                 value: chargePoint.endpoint,
+            },
+            {
+                name: "WebSocket URI",
+                value: `${process.env.NEXT_PUBLIC_WEBSOCKET_URI}/${adminInfo._id}/${chargePoint.endpoint}`,
             },
             {
                 name: "ClientCertificate",
@@ -112,7 +120,7 @@ const DetailsModal = ({ openForm, setOpenForm, chargePoint }) => {
                     ></div>
 
                     <form
-                        className={`relative z-[60] grid w-full grid-cols-1 gap-x-8 gap-y-3 place-self-center rounded-xl bg-white p-10 shadow-lg transition-all duration-500 sm:max-w-2xl`}
+                        className={`relative z-[60] grid w-full grid-cols-1 gap-x-8 gap-y-3 place-self-center rounded-xl bg-white p-10 shadow-lg transition-all duration-500 sm:max-w-3xl`}
                     >
                         <div className="mb-4 flex w-full flex-col gap-2 sm:col-span-2">
                             <div className="flex w-full items-center justify-between">
@@ -126,36 +134,57 @@ const DetailsModal = ({ openForm, setOpenForm, chargePoint }) => {
                             </div>
                             <hr />
                         </div>
-                        <div className="flex w-full flex-col items-center justify-center gap-y-4 text-center text-lg">
+                        <div className="col-span-2 mb-8 grid w-full flex-col text-left text-base sm:grid-cols-2 sm:items-start sm:justify-center">
                             {info.map((D, index) => {
+                                if (D.value) {
                                     return (
-                                    <div
-                                        key={index}
-                                        className="flex w-full items-center justify-between"
-                                    >
-                                        <span className="font-medium">
-                                            {D.name} :
-                                        </span>
-                                        <span>{D.value}</span>
-                                    </div>
-                                )
+                                        <div
+                                            key={index}
+                                            className="flex w-full flex-col justify-center"
+                                        >
+                                            <label className="flex flex-1 items-center gap-x-2 bg-gray-100 px-1 py-2 font-semibold">
+                                                {D.name}
+                                                {D.name == "WebSocket URI" && (
+                                                    <FiCopy
+                                                        className="h-4 w-4 cursor-pointer text-lg text-primary transition-all duration-200 hover:text-accent active:scale-90"
+                                                        onClick={() => {
+                                                            navigator.clipboard.writeText(
+                                                                D.value
+                                                            );
+                                                        }}
+                                                    />
+                                                )}
+                                            </label>
+                                            <p
+                                                className={`flex-1 items-center break-all px-2 py-3  ${
+                                                    (D.name ==
+                                                        "WebSocket URI" ||
+                                                        D.name == "Notes") &&
+                                                    "text-sm"
+                                                }`}
+                                            >
+                                                {D.value}
+                                            </p>
+                                        </div>
+                                    );
+                                }
                             })}
                         </div>
                         <div className="w-full sm:col-span-2">
                             {isLoaded ? (
-                            <GoogleMap
-                                mapContainerStyle={containerStyle}
-                                center={location}
-                                zoom={10}
-                                onLoad={onLoad}
-                                onUnmount={onUnmount}
-                            >
-                                {/* Child components, such as markers, info windows, etc. */}
-                                 <Marker position={location} />
-                            </GoogleMap>
-                        ) : (
-                            <></>
-                        )}
+                                <GoogleMap
+                                    mapContainerStyle={containerStyle}
+                                    center={location}
+                                    zoom={10}
+                                    onLoad={onLoad}
+                                    onUnmount={onUnmount}
+                                >
+                                    {/* Child components, such as markers, info windows, etc. */}
+                                    <Marker position={location} />
+                                </GoogleMap>
+                            ) : (
+                                <></>
+                            )}
                         </div>
                     </form>
                 </div>

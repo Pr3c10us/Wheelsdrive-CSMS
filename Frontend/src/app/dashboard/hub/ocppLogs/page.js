@@ -113,6 +113,9 @@ const Logs = () => {
                             <thead className="ltr:text-left rtl:text-right">
                                 <tr className="bg-primary bg-opacity-25 font-semibold">
                                     <th className="whitespace-nowrap px-4 py-3 text-text">
+                                        
+                                    </th>
+                                    <th className="whitespace-nowrap px-4 py-3 text-text">
                                         TimeStamp
                                     </th>
                                     <th className="whitespace-nowrap px-4 py-3 text-text">

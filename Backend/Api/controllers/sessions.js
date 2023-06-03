@@ -29,8 +29,8 @@ const getSessions = async (req, res) => {
         .populate("chargePoint", "endpoint")
         .populate("connector", "connectorId")
         .populate("location", "name")
-        .select("-admin -createdAt -updatedAt -__v");
-
+        .select("-admin -createdAt -updatedAt -__v")
+        .sort("-createdAt");
     // #################################################################
     // Set up Pagination
 
@@ -50,4 +50,4 @@ const getSessions = async (req, res) => {
     res.json({ nbHits: sessions.length, sessions });
 };
 
-module.exports = {getSessions};
+module.exports = { getSessions };
