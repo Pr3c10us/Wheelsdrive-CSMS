@@ -219,9 +219,12 @@ app.get("/send/:userId/:adminId/:chargePointEndpoint", async (req, res) => {
 // Remote reset handler
 app.get("/reset/:adminId/:chargePointEndpoint", async (req, res) => {
     // Get User Info from request
-    const { id } = req.params.adminId;
+    const id = req.params.adminId;
     // get user info
     const admin = await Admin.findById(id);
+    if(!admin) {
+        return res.status(404).json({msg: "Admin Not found"})
+    }
     // // Get Admin from database
     // if (!admin) {
     //     return res.status(404).json({ msg: "Admin not found" });
@@ -259,9 +262,12 @@ app.get("/reset/:adminId/:chargePointEndpoint", async (req, res) => {
 // Remote Unlock Connector handler
 app.get("/unlockConnector/:adminId/:chargePointEndpoint", async (req, res) => {
     // Get User Info from request
-    const { id } = req.params.adminId;
+    const id = req.params.adminId;
     // get user info
     const admin = await Admin.findById(id);
+    if(!admin) {
+        return res.status(404).json({msg: "Admin Not found"})
+    }
     // // Get Admin from database
     // if (!admin) {
     //     return res.status(404).json({ msg: "Admin not found" });
@@ -307,9 +313,12 @@ app.get("/unlockConnector/:adminId/:chargePointEndpoint", async (req, res) => {
 // Remote Start Transaction handler
 app.get("/startTransaction/:adminId/:chargePointEndpoint", async (req, res) => {
     // Get User Info from request
-    const { id } = req.params.adminId;
+    const id = req.params.adminId;
     // get user info
     const admin = await Admin.findById(id);
+    if(!admin) {
+        return res.status(404).json({msg: "Admin Not found"})
+    }
     // Get admin Rfid from database
     const adminRfid = await RFID.findOne({ admin });
     // // Get Admin from database
@@ -381,9 +390,12 @@ app.get("/startTransaction/:adminId/:chargePointEndpoint", async (req, res) => {
 // Remote Start Transaction handler
 app.get("/stopTransaction/:adminId/:chargePointEndpoint", async (req, res) => {
     // Get User Info from request
-    const { id } = req.params.adminId;
+    const id = req.params.adminId;
     // get user info
     const admin = await Admin.findById(id);
+    if(!admin) {
+        return res.status(404).json({msg: "Admin Not found"})
+    }
     // Get admin Rfid from database
     const adminRfid = await RFID.findOne({ admin });
     // // Get Admin from database
