@@ -76,7 +76,7 @@ const handleStartTransaction = async (messageIn) => {
                 // If RFID exists
                 if (rfid) {
                     // Set parentIdTag
-                    jsonOutPayload.idTagInfo.parentIdTag = rfid.parentRFID;
+                    jsonOutPayload.idTagInfo.parentIdTag = rfid.parentRFID || rfid.rfid;
                     if (rfid.expires) {
                         jsonOutPayload.idTagInfo.expiryDate =
                             rfid.expires.toISOString();
