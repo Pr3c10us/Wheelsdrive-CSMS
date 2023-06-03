@@ -20,7 +20,7 @@ const handleStartTransaction = async (messageIn) => {
             parentIdTag: "",
             status: "",
         },
-        TransactionId: 0,
+        transactionId: 0,
     };
 
     // Initialize jsonPayload to messageIn.Payload
@@ -157,7 +157,7 @@ const handleStartTransaction = async (messageIn) => {
                     location: chargePoint.location._id,
                 });
 
-                jsonOutPayload.TransactionId = transaction._id;
+                jsonOutPayload.transactionId = transaction._id;
             } catch (error) {
                 errorCode = "InternalError";
                 const callError = [4, uniqueId, errorCode, "", {}];
