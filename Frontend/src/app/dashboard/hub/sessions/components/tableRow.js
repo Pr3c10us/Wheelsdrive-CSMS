@@ -1,7 +1,8 @@
-import { FiEdit3 } from "react-icons/fi";
 import { MdDelete } from "react-icons/md";
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 import { useState } from "react";
+import { LuPlugZap } from "react-icons/lu";
+import { IoMdDoneAll } from "react-icons/io";
 
 const TableRow = ({ sessions }) => {
     return (
@@ -18,11 +19,11 @@ const TableRow = ({ sessions }) => {
                     {sessions.stopTime &&
                         new Date(sessions.stopTime).toUTCString()}
                 </td>
-                <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
+                <td className="grid place-content-center whitespace-nowrap px-4 py-4 font-medium text-text">
                     {!sessions.stopTime ? (
-                        <span className="p-2 text-accent">In-Progress</span>
+                        <LuPlugZap className="h-6 w-6 text-accent" />
                     ) : (
-                        <span className="p-2 text-primary">Completed</span>
+                        <IoMdDoneAll className="h-6 w-6 text-green-400" />
                     )}
                 </td>
                 <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
@@ -51,14 +52,18 @@ const TableRow = ({ sessions }) => {
                     )}
                 </td>
                 <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
-                    <span className="p-2">
-                        {Math.round((sessions.totalEnergy || 0) * 100) / 100}
-                    </span>
+                    {sessions.totalEnergy && (
+                        <span className="p-2">
+                            {Math.round(sessions.totalEnergy * 100) / 100}
+                        </span>
+                    )}
                 </td>
                 <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
-                    <span className="p-2">
-                        {Math.round((sessions.cost || 0) * 100) / 100}
-                    </span>
+                    {sessions.cost && (
+                        <span className="p-2">
+                            {Math.round(sessions.cost * 100) / 100}
+                        </span>
+                    )}
                 </td>
             </tr>
         </>

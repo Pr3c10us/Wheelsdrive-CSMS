@@ -145,7 +145,7 @@ const EditFormModal = ({ openForm, setOpenForm, handleRefresh, rate }) => {
                             >
                                 Price{" "}
                                 <span className="text-xs text-gray-400">
-                                    {` `}(INR)
+                                    {` `}(₹)
                                 </span>
                             </label>
                             <input

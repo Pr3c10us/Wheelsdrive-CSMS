@@ -9,10 +9,14 @@ const TableRow = ({ logs }) => {
     return (
         <>
             <tr className="text-sm">
-                <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
+                <td className="grid place-content-center whitespace-nowrap px-4 py-4 font-medium text-text">
                     {logs.result && (
                         <button onClick={() => setShowResult(!showResult)}>
-                            {!showResult ? <HiPlus className="w-5 h-5" /> : <HiMinus className="w-5 h-5" />}
+                            {!showResult ? (
+                                <HiPlus className="h-5 w-5" />
+                            ) : (
+                                <HiMinus className="h-5 w-5" />
+                            )}
                         </button>
                     )}
                 </td>
@@ -21,7 +25,7 @@ const TableRow = ({ logs }) => {
                         {new Date(logs.createdAt).toUTCString()}
                     </span>
                 </td>
-                <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
+                <td className="grid place-content-center whitespace-nowrap px-4 py-4 font-medium text-text">
                     {logs.origin == "charger" && (
                         <MdEvStation className="h-6 w-6" />
                     )}

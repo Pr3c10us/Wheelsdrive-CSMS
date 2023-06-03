@@ -37,7 +37,7 @@ const ConnectorTable = ({ chargePoint, handleRefresh }) => {
                             <th className="whitespace-nowrap px-4 py-4 font-medium text-text">
                                 Rate
                                 <span className="text-xs text-white">
-                                    {` `}(INR)
+                                    {` `}(₹)
                                 </span>
                             </th>
                             <th className="whitespace-nowrap px-4 py-4 font-medium text-text">

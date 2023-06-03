@@ -133,20 +133,20 @@ const Sessions = () => {
 
                                     <th className="whitespace-nowrap px-4 py-3 text-text">
                                         Duration
-                                        <span className="text-xs text-white">
-                                            {` `}(Hours)
+                                        <span className="text-sm text-white font-medium">
+                                            {` `}(H)
                                         </span>
                                     </th>
                                     <th className="whitespace-nowrap px-4 py-3 text-text">
                                         Consumption{" "}
-                                        <span className="text-xs text-white">
-                                            {` `}(KwH)
+                                        <span className="text-sm text-white font-medium">
+                                            {` `}(Kw)
                                         </span>
                                     </th>
                                     <th className="whitespace-nowrap px-4 py-3 text-text">
                                         Cost{" "}
-                                        <span className="text-xs text-white">
-                                            {` `}(INR)
+                                        <span className="text-sm text-white font-medium">
+                                            {` `}(₹)
                                         </span>
                                     </th>
                                 </tr>

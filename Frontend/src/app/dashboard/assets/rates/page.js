@@ -133,7 +133,7 @@ const Rates = () => {
                                     <th className="whitespace-nowrap px-4 py-3 text-text">
                                         Price
                                         <span className="text-xs text-white">
-                                            {` `}(INR)
+                                            {` `}(₹)
                                         </span>
                                     </th>
                                     <th className="whitespace-nowrap px-4 py-3 text-text"></th>

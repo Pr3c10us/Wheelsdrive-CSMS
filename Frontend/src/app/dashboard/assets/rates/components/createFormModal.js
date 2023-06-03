@@ -142,7 +142,7 @@ const CreateFormModal = ({ openForm, setOpenForm, handleRefresh }) => {
                             >
                                 Price{" "}
                                 <span className="text-xs text-gray-400">
-                                    {` `}(INR)
+                                    {` `}(₹)
                                 </span>
                             </label>
                             <input
