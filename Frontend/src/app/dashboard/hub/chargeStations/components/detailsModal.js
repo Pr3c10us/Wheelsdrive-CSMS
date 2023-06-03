@@ -122,7 +122,7 @@ const DetailsModal = ({ openForm, setOpenForm, chargePoint }) => {
                     <form
                         className={`relative z-[60] grid w-full grid-cols-1 gap-x-8 gap-y-3 place-self-center rounded-xl bg-white p-10 shadow-lg transition-all duration-500 sm:max-w-3xl`}
                     >
-                        <div className="mb-4 flex w-full flex-col gap-2 col-span-2">
+                        <div className="col-span-2 mb-4 flex w-full flex-col gap-2">
                             <div className="flex w-full items-center justify-between">
                                 <h2 className="text-xl font-semibold">
                                     ChargeStation Details
@@ -145,14 +145,19 @@ const DetailsModal = ({ openForm, setOpenForm, chargePoint }) => {
                                             <label className="flex flex-1 items-center gap-x-2 bg-gray-100 px-1 py-2 font-semibold">
                                                 {D.name}
                                                 {D.name == "WebSocket URI" && (
-                                                    <FiCopy
-                                                        className="h-4 w-4 cursor-pointer text-lg text-primary transition-all duration-200 hover:text-accent active:scale-90"
-                                                        onClick={() => {
-                                                            navigator.clipboard.writeText(
-                                                                D.value
-                                                            );
-                                                        }}
-                                                    />
+                                                    <div className="relative">
+                                                        <FiCopy
+                                                            className="peer h-4 w-4 cursor-pointer text-lg text-primary transition-all duration-100 hover:text-accent active:scale-90"
+                                                            onClick={() => {
+                                                                navigator.clipboard.writeText(
+                                                                    D.value
+                                                                );
+                                                            }}
+                                                        />
+                                                        <p className="absolute -top-full left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-md bg-white text-accent px-2 transition-all duration-100 py-1 border shadow-lg text-sm opacity-0 peer-active:opacity-100">
+                                                            Copied
+                                                        </p>
+                                                    </div>
                                                 )}
                                             </label>
                                             <p
@@ -170,7 +175,7 @@ const DetailsModal = ({ openForm, setOpenForm, chargePoint }) => {
                                 }
                             })}
                         </div>
-                        <div className="w-full col-span-2">
+                        <div className="col-span-2 w-full">
                             {isLoaded ? (
                                 <GoogleMap
                                     mapContainerStyle={containerStyle}
