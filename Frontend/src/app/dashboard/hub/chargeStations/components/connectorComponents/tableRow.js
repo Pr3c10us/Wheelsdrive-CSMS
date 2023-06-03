@@ -41,7 +41,7 @@ const TableRow = ({ connector, handleRefresh }) => {
                         ""
                     ) : (
                         <span className="p-2">{connector.rate.price}</span>
-                    )}
+                    )} 
                 </td>
                 <td className="flex items-center justify-center gap-x-2 whitespace-nowrap px-4 py-4 font-medium text-text">
                     <button
