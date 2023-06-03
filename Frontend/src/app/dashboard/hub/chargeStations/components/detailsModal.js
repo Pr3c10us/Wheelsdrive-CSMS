@@ -122,7 +122,7 @@ const DetailsModal = ({ openForm, setOpenForm, chargePoint }) => {
                     <form
                         className={`relative z-[60] grid w-full grid-cols-1 gap-x-8 gap-y-3 place-self-center rounded-xl bg-white p-10 shadow-lg transition-all duration-500 sm:max-w-3xl`}
                     >
-                        <div className="mb-4 flex w-full flex-col gap-2 sm:col-span-2">
+                        <div className="mb-4 flex w-full flex-col gap-2 col-span-2">
                             <div className="flex w-full items-center justify-between">
                                 <h2 className="text-xl font-semibold">
                                     ChargeStation Details
