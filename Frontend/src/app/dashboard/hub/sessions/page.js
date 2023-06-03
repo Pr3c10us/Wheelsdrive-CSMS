@@ -144,7 +144,10 @@ const Sessions = () => {
                                         </span>
                                     </th>
                                     <th className="whitespace-nowrap px-4 py-3 text-text">
-                                        Cost
+                                        Cost{" "}
+                                        <span className="text-xs text-white">
+                                            {` `}(INR)
+                                        </span>
                                     </th>
                                 </tr>
                             </thead>

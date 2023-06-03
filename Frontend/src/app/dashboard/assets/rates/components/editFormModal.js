@@ -143,7 +143,10 @@ const EditFormModal = ({ openForm, setOpenForm, handleRefresh, rate }) => {
                                 className="text-sm font-semibold"
                                 htmlFor="name"
                             >
-                                Price
+                                Price{" "}
+                                <span className="text-xs text-gray-400">
+                                    {` `}(INR)
+                                </span>
                             </label>
                             <input
                                 id="price"

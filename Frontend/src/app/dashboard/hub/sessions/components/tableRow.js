@@ -11,12 +11,12 @@ const TableRow = ({ sessions }) => {
                     <span className="p-2">{sessions._id}</span>
                 </td>
                 <td className="w-[50px] whitespace-nowrap break-words px-4 py-4 font-medium text-text">
-                        {sessions.startTime &&
-                            new Date(sessions.startTime).toUTCString()}
+                    {sessions.startTime &&
+                        new Date(sessions.startTime).toUTCString()}
                 </td>
                 <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
-                        {sessions.stopTime &&
-                            new Date(sessions.stopTime).toUTCString()}
+                    {sessions.stopTime &&
+                        new Date(sessions.stopTime).toUTCString()}
                 </td>
                 <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
                     {!sessions.stopTime ? (
@@ -37,20 +37,28 @@ const TableRow = ({ sessions }) => {
                         </span>
                     )}
                 </td>
-                
+
                 <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
                     {sessions.stopTime && (
                         <span className="p-2">
-                            { (new Date(sessions.stopTime).getTime() -
-                                 new Date(sessions.startTime).getTime()) / (1000 * 60 * 60)}
+                            {Math.round(
+                                ((new Date(sessions.stopTime).getTime() -
+                                    new Date(sessions.startTime).getTime()) /
+                                    (1000 * 60 * 60)) *
+                                    100
+                            ) / 100}
                         </span>
                     )}
                 </td>
                 <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
-                    <span className="p-2">{sessions.totalEnergy}</span>
+                    <span className="p-2">
+                        {Math.round((sessions.totalEnergy || 0) * 100) / 100}
+                    </span>
                 </td>
                 <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
-                    <span className="p-2">{sessions.cost}</span>
+                    <span className="p-2">
+                        {Math.round((sessions.cost || 0) * 100) / 100}
+                    </span>
                 </td>
             </tr>
         </>

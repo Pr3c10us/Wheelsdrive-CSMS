@@ -58,20 +58,20 @@ const CreateFormModal = ({ openForm, setOpenForm, handleRefresh }) => {
         <>
             {openForm && (
                 <div
-                    className={`fixed z-50 inset-0 py-4 sm:py-0 sm:px-8 px-4 sm:overflow-visible overflow-auto grid`}
+                    className={`fixed inset-0 z-50 grid overflow-auto px-4 py-4 sm:overflow-visible sm:px-8 sm:py-0`}
                 >
                     <div
                         onClick={() => setOpenForm(false)}
-                        className={`fixed z-50 top-0 left-0 right-0 bottom-0 backdrop-blur-sm bg-primary bg-opacity-20`}
+                        className={`fixed bottom-0 left-0 right-0 top-0 z-50 bg-primary bg-opacity-20 backdrop-blur-sm`}
                     ></div>
 
                     <form
                         onSubmit={formik.handleSubmit}
-                        className={`grid place-self-center shadow-lg  w-full sm:max-w-4xl z-[60] rounded-xl p-10 gap-y-3 gap-x-8 transition-all duration-500 relative bg-white grid-cols-1 sm:grid-cols-2 `}
+                        className={`relative z-[60] grid  w-full grid-cols-1 gap-x-8 gap-y-3 place-self-center rounded-xl bg-white p-10 shadow-lg transition-all duration-500 sm:max-w-4xl sm:grid-cols-2 `}
                     >
-                        <div className="flex sm:col-span-2 flex-col w-full gap-2">
-                            <div className="flex w-full justify-between items-center">
-                                <h2 className="font-semibold text-lg">
+                        <div className="flex w-full flex-col gap-2 sm:col-span-2">
+                            <div className="flex w-full items-center justify-between">
+                                <h2 className="text-lg font-semibold">
                                     Add Charge Rate
                                 </h2>
                                 <FaTimes
@@ -81,7 +81,7 @@ const CreateFormModal = ({ openForm, setOpenForm, handleRefresh }) => {
                             </div>
                             <hr />
                         </div>
-                        <div className="flex flex-col w-full h-full">
+                        <div className="flex h-full w-full flex-col">
                             <label
                                 className="text-sm font-semibold"
                                 htmlFor="name"
@@ -92,7 +92,7 @@ const CreateFormModal = ({ openForm, setOpenForm, handleRefresh }) => {
                                 id="name"
                                 name="name"
                                 type="text"
-                                className={`border-2 text-lg px-2 transition-all duration-200 focus:ring-0 rounded-md py-1 focus:border-primary focus:outline-primary ${
+                                className={`rounded-md border-2 px-2 py-1 text-lg transition-all duration-200 focus:border-primary focus:outline-primary focus:ring-0 ${
                                     formik.touched.name && formik.errors.name
                                         ? "border-red-500 focus:outline-red-500"
                                         : "focus:border-primary focus:outline-primary"
@@ -101,13 +101,13 @@ const CreateFormModal = ({ openForm, setOpenForm, handleRefresh }) => {
                                 value={formik.values.name}
                                 onBlur={formik.handleBlur}
                             />
-                            <p className="text-xs px-2 font-medium text-red-600 h-2 sm:h-4">
+                            <p className="h-2 px-2 text-xs font-medium text-red-600 sm:h-4">
                                 {formik.touched.name && formik.errors.name
                                     ? formik.errors.name
                                     : ""}
                             </p>
                         </div>
-                        <div className="flex flex-col w-full h-full">
+                        <div className="flex h-full w-full flex-col">
                             <label
                                 className="text-sm font-semibold"
                                 htmlFor="name"
@@ -118,7 +118,7 @@ const CreateFormModal = ({ openForm, setOpenForm, handleRefresh }) => {
                                 id="description"
                                 name="description"
                                 type="text"
-                                className={`border-2 text-lg px-2 transition-all duration-200 focus:ring-0 rounded-md py-1 focus:border-primary focus:outline-primary ${
+                                className={`rounded-md border-2 px-2 py-1 text-lg transition-all duration-200 focus:border-primary focus:outline-primary focus:ring-0 ${
                                     formik.touched.description &&
                                     formik.errors.description
                                         ? "border-red-500 focus:outline-red-500"
@@ -128,25 +128,28 @@ const CreateFormModal = ({ openForm, setOpenForm, handleRefresh }) => {
                                 value={formik.values.description}
                                 onBlur={formik.handleBlur}
                             />
-                            <p className="text-xs px-2 font-medium text-red-600 h-2 sm:h-4">
+                            <p className="h-2 px-2 text-xs font-medium text-red-600 sm:h-4">
                                 {formik.touched.description &&
                                 formik.errors.description
                                     ? formik.errors.description
                                     : ""}
                             </p>
                         </div>
-                        <div className="flex flex-col w-full h-full">
+                        <div className="flex h-full w-full flex-col">
                             <label
                                 className="text-sm font-semibold"
                                 htmlFor="name"
                             >
-                                Price
+                                Price{" "}
+                                <span className="text-xs text-gray-400">
+                                    {` `}(INR)
+                                </span>
                             </label>
                             <input
                                 id="price"
                                 name="price"
                                 type="number"
-                                className={`border-2 text-lg px-2 transition-all duration-200 focus:ring-0 rounded-md py-1 focus:border-primary focus:outline-primary ${
+                                className={`rounded-md border-2 px-2 py-1 text-lg transition-all duration-200 focus:border-primary focus:outline-primary focus:ring-0 ${
                                     formik.touched.price && formik.errors.price
                                         ? "border-red-500 focus:outline-red-500"
                                         : "focus:border-primary focus:outline-primary"
@@ -155,25 +158,25 @@ const CreateFormModal = ({ openForm, setOpenForm, handleRefresh }) => {
                                 value={formik.values.price}
                                 onBlur={formik.handleBlur}
                             />
-                            <p className="text-xs px-2 font-medium text-red-600 h-2 sm:h-4">
+                            <p className="h-2 px-2 text-xs font-medium text-red-600 sm:h-4">
                                 {formik.touched.price && formik.errors.price
                                     ? formik.errors.price
                                     : ""}
                             </p>
                         </div>
-                        <div className="flex  flex-col w-full h-full">
+                        <div className="flex  h-full w-full flex-col">
                             <label
                                 className="text-sm font-semibold"
                                 htmlFor="name"
                             >
                                 Discount{" "}
-                                <span className="text-gray-300 ml-2">%</span>
+                                <span className="ml-2 text-gray-300">%</span>
                             </label>
                             <input
                                 id="discount"
                                 name="discount"
                                 type="number"
-                                className={`border-2 text-lg px-2 transition-all duration-200 focus:ring-0 rounded-md py-1 focus:border-primary focus:outline-primary ${
+                                className={`rounded-md border-2 px-2 py-1 text-lg transition-all duration-200 focus:border-primary focus:outline-primary focus:ring-0 ${
                                     formik.touched.discount &&
                                     formik.errors.discount
                                         ? "border-red-500 focus:outline-red-500"
@@ -183,7 +186,7 @@ const CreateFormModal = ({ openForm, setOpenForm, handleRefresh }) => {
                                 value={formik.values.discount}
                                 onBlur={formik.handleBlur}
                             />
-                            <p className="text-xs px-2 font-medium text-red-600 h-2 sm:h-4">
+                            <p className="h-2 px-2 text-xs font-medium text-red-600 sm:h-4">
                                 {formik.touched.discount &&
                                 formik.errors.discount
                                     ? formik.errors.discount
@@ -194,7 +197,7 @@ const CreateFormModal = ({ openForm, setOpenForm, handleRefresh }) => {
                         <button
                             disabled={formik.isSubmitting}
                             type="submit"
-                            className={`sm:col-span-2 bg-primary mt-4 text-white py-2 rounded-md ${
+                            className={`mt-4 rounded-md bg-primary py-2 text-white sm:col-span-2 ${
                                 formik.isSubmitting && "bg-opacity-40"
                             }`}
                         >
