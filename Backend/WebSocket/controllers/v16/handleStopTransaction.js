@@ -175,7 +175,7 @@ const handleStopTransaction = async (messageIn) => {
                         const totalTime = timeDiff / 3600000;
 
                         // Get rate of transaction from connector
-                        const rate = await Rate.findById(connector.rate._id);
+                        // const rate = await Rate.findById(connector.rate._id);
 
                         transaction.StopRFID = idTag;
                         transaction.stopTime = jsonInPayload.timestamp;
