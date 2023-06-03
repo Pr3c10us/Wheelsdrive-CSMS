@@ -201,6 +201,9 @@ app.get("/send/:userId/:adminId/:chargePointEndpoint", async (req, res) => {
     const chargePointEndpoint = req.params.chargePointEndpoint;
     const chargePointKey = userId + chargePointEndpoint;
     const ws = clientConnections.get(chargePointKey);
+    if (!ws) {
+        return res.status(404).json({msg: "Charger has been disconnected"})
+    }
     if (ws) {
         ws.send(
             JSON.stringify([
@@ -222,8 +225,8 @@ app.get("/reset/:adminId/:chargePointEndpoint", async (req, res) => {
     const id = req.params.adminId;
     // get user info
     const admin = await Admin.findById(id);
-    if(!admin) {
-        return res.status(404).json({msg: "Admin Not found"})
+    if (!admin) {
+        return res.status(404).json({ msg: "Admin Not found" });
     }
     // // Get Admin from database
     // if (!admin) {
@@ -234,6 +237,9 @@ app.get("/reset/:adminId/:chargePointEndpoint", async (req, res) => {
     const chargePointEndpoint = req.params.chargePointEndpoint;
     const chargePointKey = id + chargePointEndpoint;
     const ws = clientConnections.get(chargePointKey);
+    if (!ws) {
+        return res.status(404).json({msg: "Charger has been disconnected"})
+    }
 
     // Get ChargePoint Info from database
     const chargePointInfo = await ChargePointModel.findOne({
@@ -265,8 +271,8 @@ app.get("/unlockConnector/:adminId/:chargePointEndpoint", async (req, res) => {
     const id = req.params.adminId;
     // get user info
     const admin = await Admin.findById(id);
-    if(!admin) {
-        return res.status(404).json({msg: "Admin Not found"})
+    if (!admin) {
+        return res.status(404).json({ msg: "Admin Not found" });
     }
     // // Get Admin from database
     // if (!admin) {
@@ -277,6 +283,9 @@ app.get("/unlockConnector/:adminId/:chargePointEndpoint", async (req, res) => {
     const chargePointEndpoint = req.params.chargePointEndpoint;
     const chargePointKey = id + chargePointEndpoint;
     const ws = clientConnections.get(chargePointKey);
+    if (!ws) {
+        return res.status(404).json({msg: "Charger has been disconnected"})
+    }
 
     // Get connectorId from request query, convert to number and set to 0 if not provided
     let connectorId = req.query.connectorId;
@@ -316,8 +325,8 @@ app.get("/startTransaction/:adminId/:chargePointEndpoint", async (req, res) => {
     const id = req.params.adminId;
     // get user info
     const admin = await Admin.findById(id);
-    if(!admin) {
-        return res.status(404).json({msg: "Admin Not found"})
+    if (!admin) {
+        return res.status(404).json({ msg: "Admin Not found" });
     }
     // Get admin Rfid from database
     const adminRfid = await RFID.findOne({ admin });
@@ -330,6 +339,9 @@ app.get("/startTransaction/:adminId/:chargePointEndpoint", async (req, res) => {
     const chargePointEndpoint = req.params.chargePointEndpoint;
     const chargePointKey = id + chargePointEndpoint;
     const ws = clientConnections.get(chargePointKey);
+    if (!ws) {
+        return res.status(404).json({msg: "Charger has been disconnected"})
+    }
 
     // Get ChargePoint Info from database
     const chargePointInfo = await ChargePointModel.findOne({
@@ -393,8 +405,8 @@ app.get("/stopTransaction/:adminId/:chargePointEndpoint", async (req, res) => {
     const id = req.params.adminId;
     // get user info
     const admin = await Admin.findById(id);
-    if(!admin) {
-        return res.status(404).json({msg: "Admin Not found"})
+    if (!admin) {
+        return res.status(404).json({ msg: "Admin Not found" });
     }
     // Get admin Rfid from database
     const adminRfid = await RFID.findOne({ admin });
@@ -407,6 +419,9 @@ app.get("/stopTransaction/:adminId/:chargePointEndpoint", async (req, res) => {
     const chargePointEndpoint = req.params.chargePointEndpoint;
     const chargePointKey = id + chargePointEndpoint;
     const ws = clientConnections.get(chargePointKey);
+    if (!ws) {
+        return res.status(404).json({msg: "Charger has been disconnected"})
+    }
 
     // Get ChargePoint Info from database
     const chargePointInfo = await ChargePointModel.findOne({
