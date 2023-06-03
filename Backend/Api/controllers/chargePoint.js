@@ -106,12 +106,17 @@ const getChargePoints = async (req, res) => {
             updatedAt: 0,
             __v: 0,
         })
-        .populate("connectors", {
-            chargePoint: 0,
-            createdAt: 0,
-            updatedAt: 0,
-            __v: 0,
+        .populate({
+            path: "connectors",
+            select: "-createdAt -updatedAt -__v",
+            populate: { path: "rate" },
         })
+        // .populate("connectors", {
+        //     chargePoint: 0,
+        //     createdAt: 0,
+        //     updatedAt: 0,
+        //     __v: 0,
+        // })
         .select("-admin -createdAt -updatedAt -__v");
 
     // #################################################################
@@ -153,11 +158,10 @@ const getChargePoint = async (req, res) => {
             updatedAt: 0,
             __v: 0,
         })
-        .populate("connectors", {
-            chargePoint: 0,
-            createdAt: 0,
-            updatedAt: 0,
-            __v: 0,
+        .populate({
+            path: "connectors",
+            select: "-createdAt -updatedAt -__v",
+            populate: { path: "admin" },
         })
         // .populate("connectors")
         .select("-admin -createdAt -updatedAt -__v");

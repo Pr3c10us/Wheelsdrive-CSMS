@@ -1,6 +1,6 @@
 import Select from "react-select";
 import { connect, useFormik } from "formik";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaTimes } from "react-icons/fa";
 import axios from "axios";
 import * as Yup from "yup";
@@ -9,9 +9,11 @@ import {
     changeErrorMessageType,
     changeShowErrorMessage,
 } from "@/redux/errorMessage";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const EditFormModal = ({ openForm, setOpenForm, handleRefresh, connector }) => {
+    const rates = useSelector((state) => state.adminDetails.rates);
+    const dispatch = useDispatch();
     const [connectorTypes, setConnectorTypes] = useState([
         { value: "type2", label: "Type 2" },
         { value: "chademo", label: "Chademo" },
@@ -27,21 +29,21 @@ const EditFormModal = ({ openForm, setOpenForm, handleRefresh, connector }) => {
         { value: "AC", label: "AC" },
         { value: "DC", label: "DC" },
     ]);
+    const [connectorRate, setConnectorRate] = useState([]);
 
     const [type, setType] = useState(connector.type);
     const [format, setFormat] = useState(connector.format);
     const [powerType, setPowerType] = useState(connector.powerType);
     const [power, setPower] = useState(connector.power);
     const [active, setActive] = useState(connector.active);
+    const [chargeRate, setChargeRate] = useState(connector.rate);
 
     const [isSubmitting, setIsSubmitting] = useState(false);
-
-    const dispatch = useDispatch();
 
     const onSubmit = (e) => {
         e.preventDefault();
         setIsSubmitting(true);
-        if (!type || !format || !powerType || !power) {
+        if (!type || !format || !powerType || !power || !chargeRate) {
             dispatch(changeErrorMessageType("Failed to Update"));
             dispatch(changeErrorMessage("Please fill in all fields"));
             dispatch(changeShowErrorMessage(true));
@@ -53,6 +55,7 @@ const EditFormModal = ({ openForm, setOpenForm, handleRefresh, connector }) => {
             powerType,
             power,
             active,
+            rate: chargeRate,
         };
         console.log(connectorDetails);
 
@@ -103,6 +106,43 @@ const EditFormModal = ({ openForm, setOpenForm, handleRefresh, connector }) => {
         }),
         singleValue: (defaultStyles) => ({ ...defaultStyles, color: "#000" }),
     };
+
+    const handleEffect = async () => {
+        try {
+            axios.defaults.withCredentials = true;
+            const response = await axios.get(
+                `${process.env.NEXT_PUBLIC_API_URL}rate`
+            );
+            const { rates } = response.data;
+            if (!rates || rates.length <= 0) {
+                const response = await axios.get(
+                    `${process.env.NEXT_PUBLIC_API_URL}rate`
+                );
+                const { rates } = response.data;
+                // dispatch(createRates(rates));
+
+                const selectRate = rates.map((rate) => {
+                    return { value: rate._id, label: rate.name };
+                });
+                setConnectorRate([...selectRate]);
+
+                console.log(connectorRate);
+            }
+            // dispatch(createRates(rates));
+            const selectRate = rates.map((rate) => {
+                console.log(rate);
+                return { value: rate._id, label: rate.name };
+            });
+            setConnectorRate([...selectRate]);
+
+            console.log(connectorRate);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    useEffect(() => {
+        handleEffect();
+    }, []);
 
     return (
         <>
@@ -191,6 +231,25 @@ const EditFormModal = ({ openForm, setOpenForm, handleRefresh, connector }) => {
                         <div className="flex h-full w-full flex-col gap-y-2">
                             <label
                                 className="text-sm font-semibold"
+                                htmlFor="Rate"
+                            >
+                                Connector Charge Rate
+                            </label>
+                            <Select
+                                styles={customStyles}
+                                name="powerType"
+                                options={connectorRate}
+                                value={connectorRate.find(
+                                    (item) => item.value === powerType
+                                )}
+                                onChange={(selectedOption) => {
+                                    setChargeRate(selectedOption.value);
+                                }}
+                            />
+                        </div>
+                        <div className="flex h-full w-full flex-col gap-y-2">
+                            <label
+                                className="text-sm font-semibold"
                                 htmlFor="clientCertificate"
                             >
                                 Connector Power{" "}
@@ -208,6 +267,7 @@ const EditFormModal = ({ openForm, setOpenForm, handleRefresh, connector }) => {
                                 }}
                             />
                         </div>
+
                         <div className="flex h-full w-full gap-x-4 sm:col-span-2 lg:col-span-4">
                             <label className="font-semibold" htmlFor="name">
                                 Active

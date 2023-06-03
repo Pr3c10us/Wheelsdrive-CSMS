@@ -36,6 +36,13 @@ const TableRow = ({ connector, handleRefresh }) => {
                 <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
                     <span className="p-2">{connector.power}</span>
                 </td>
+                <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
+                    {!connector.rate ? (
+                        ""
+                    ) : (
+                        <span className="p-2">{connector.rate.price}</span>
+                    )}
+                </td>
                 <td className="flex items-center justify-center gap-x-2 whitespace-nowrap px-4 py-4 font-medium text-text">
                     <button
                         onClick={() => setOpenForm(true)}
