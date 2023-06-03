@@ -24,8 +24,8 @@ const NavBar = ({
     };
 
     return (
-        <nav className="flex py-1.5 md:py-0 relative bg-background shadow-lg z-40 px-4 border-b-2 border-b-primary items-center gap-x-6 ">
-            <div className="flex flex-1 lg:justify-around items-center gap-4 ">
+        <nav className="relative z-40 flex items-center gap-x-6 border-b-2 border-b-primary bg-background px-4 py-1.5 shadow-lg md:py-0 ">
+            <div className="flex flex-1 items-center gap-4 lg:justify-start lg:pl-8">
                 <Link href="/" className="flex">
                     <Image
                         className="w-28 md:w-36"
@@ -36,16 +36,16 @@ const NavBar = ({
                         priority
                     />
                 </Link>
-                <button className="hidden lg:flex h-min border-2 text-gray-400 border-primary py-1 px-2 rounded-md items-center justify-between w-96">
+                {/* <button className="hidden lg:flex h-min border-2 text-gray-400 border-primary py-1 px-2 rounded-md items-center justify-between w-96">
                     <span className="text-xl">Search</span>
                     <BiSearch className="w-6 h-6 " />
-                </button>
+                </button> */}
             </div>
-            <div className="hidden md:flex flex-1 items-center justify-center">
-                <div className="flex w-80  items-center justify-center relative">
-                    <div className={`relative flex justify-center flex-1 `}>
+            <div className="hidden flex-1 items-center justify-center md:flex">
+                <div className="relative flex  w-80 items-center justify-center">
+                    <div className={`relative flex flex-1 justify-center `}>
                         <button
-                            className={`peer font-medium py-4 px-4 flex gap-x-2 justify-center items-center ${
+                            className={`peer flex items-center justify-center gap-x-2 px-4 py-4 font-medium ${
                                 pathname.includes("hub") && "text-accent "
                             }`}
                         >
@@ -53,14 +53,14 @@ const NavBar = ({
                             <SiHubspot />
                             Hub
                         </button>
-                        <div className="hidden -translate-x-1/2 top-[90%] left-1/2 overflow-hidden border shadow-xl rounded-md bg-white absolute peer-hover:flex flex-col hover:flex z-20">
+                        <div className="absolute left-1/2 top-[90%] z-20 hidden -translate-x-1/2 flex-col overflow-hidden rounded-md border bg-white shadow-xl peer-hover:flex hover:flex">
                             {pages
                                 .filter((page) => page.url.includes("hub"))
                                 .map((page) => {
                                     return (
                                         <div
                                             key={page.id}
-                                            className="flex px-4 py-2 w-full items-center text-xl hover:text-accent cursor-pointer  gap-2"
+                                            className="flex w-full cursor-pointer items-center gap-2 px-4 py-2 text-xl  hover:text-accent"
                                             onClick={() =>
                                                 router.push(page.url)
                                             }
@@ -72,16 +72,16 @@ const NavBar = ({
                                 })}
                         </div>
                     </div>
-                    <div className={`relative flex justify-center flex-1`}>
+                    <div className={`relative flex flex-1 justify-center`}>
                         <button
-                            className={`peer font-medium py-4 px-4 flex gap-x-2 justify-center items-center ${
+                            className={`peer flex items-center justify-center gap-x-2 px-4 py-4 font-medium ${
                                 pathname.includes("assets") && "text-accent "
                             }`}
                         >
                             <MdOutlineNaturePeople />
                             Assets
                         </button>
-                        <div className="hidden -translate-x-1/2 top-[90%] left-1/2 overflow-hidden border shadow-xl rounded-md bg-white absolute peer-hover:flex flex-col hover:flex z-20">
+                        <div className="absolute left-1/2 top-[90%] z-20 hidden -translate-x-1/2 flex-col overflow-hidden rounded-md border bg-white shadow-xl peer-hover:flex hover:flex">
                             {pages
                                 .filter(
                                     (page) =>
@@ -92,7 +92,7 @@ const NavBar = ({
                                     return (
                                         <div
                                             key={page.id}
-                                            className="flex px-6 py-2 w-full items-center text-lg hover:text-accent cursor-pointer  gap-2"
+                                            className="flex w-full cursor-pointer items-center gap-2 px-6 py-2 text-lg  hover:text-accent"
                                             onClick={() =>
                                                 router.push(page.url)
                                             }
@@ -105,16 +105,16 @@ const NavBar = ({
                         </div>
                     </div>
                     <div
-                        className={`w-40 bg-accent left-0 absolute bottom-0 h-1 transition-all duration-200 ${
+                        className={`absolute bottom-0 left-0 h-1 w-40 bg-accent transition-all duration-200 ${
                             pathname.includes("hub") && ""
                         } ${pathname.includes("assets") && "translate-x-40"}`}
                     ></div>
                 </div>
             </div>
             <div className={`relative`}>
-                <div className="peer w-20 grid place-content-center py-2   ">
+                <div className="peer grid w-20 place-content-center py-2   ">
                     <button
-                        className={`gap-x-2 justify-center items-center w-9 h-9 bg-accent text-sm grid place-content-center font-semibold text-white rounded-full`}
+                        className={`grid h-9 w-9 place-content-center items-center justify-center gap-x-2 rounded-full bg-accent text-sm font-semibold text-white`}
                     >
                         {`${adminInfo.firstName.split("")[0]}${
                             adminInfo.lastName.split("")[0]
@@ -122,9 +122,9 @@ const NavBar = ({
                     </button>
                 </div>
 
-                <div className="hidden space-y-2 px-4 py-2 -translate-x-2/3 md:-translate-x-[90%] left-1/4 overflow-hidden border shadow-xl rounded-md bg-white absolute peer-hover:flex flex-col hover:flex z-20">
+                <div className="absolute left-1/4 z-20 hidden -translate-x-2/3 flex-col space-y-2 overflow-hidden rounded-md border bg-white px-4 py-2 shadow-xl peer-hover:flex hover:flex md:-translate-x-[90%]">
                     <div className="flex items-center gap-x-4">
-                        <div className="w-12 h-12 bg-accent grid place-content-center font-semibold text-white rounded-full">{`${
+                        <div className="grid h-12 w-12 place-content-center rounded-full bg-accent font-semibold text-white">{`${
                             adminInfo.firstName.split("")[0]
                         }${adminInfo.lastName.split("")[0]}`}</div>
                         <div className="space-y-1">
@@ -138,7 +138,7 @@ const NavBar = ({
                     <hr />
                     <button
                         onClick={handleLogout}
-                        className="w-full hover:text-accent items-center text-lg gap-x-2 py-2 flex"
+                        className="flex w-full items-center gap-x-2 py-2 text-lg hover:text-accent"
                     >
                         <BiLogOut />
                         Logout
