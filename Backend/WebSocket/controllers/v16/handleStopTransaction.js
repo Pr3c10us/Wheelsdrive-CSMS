@@ -42,7 +42,7 @@ const handleStopTransaction = async (messageIn) => {
         });
         return callError;
     }
-    
+
     // Create a new log before we handle message
     await Log.create({
         result: JSON.stringify(jsonInPayload),
@@ -203,6 +203,7 @@ const handleStopTransaction = async (messageIn) => {
                     return callError;
                 }
             } catch (error) {
+                console.log(error);
                 errorCode = "InternalError";
                 const callError = [4, uniqueId, errorCode, "", {}];
                 await Log.create({
