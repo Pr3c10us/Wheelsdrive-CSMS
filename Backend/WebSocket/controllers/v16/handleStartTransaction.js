@@ -160,7 +160,7 @@ const handleStartTransaction = async (messageIn) => {
                     location: chargePoint.location._id,
                 });
 
-                jsonOutPayload.transactionId = Number(transaction.transactionUniqueId);
+                jsonOutPayload.transactionId = transaction.transactionUniqueId;
             } catch (error) {
                 errorCode = "InternalError";
                 const callError = [4, uniqueId, errorCode, "", {}];

@@ -6,9 +6,7 @@ const ChargePointSchema = new mongoose.Schema(
         name: {
             type: String,
         },
-        transactionId: {
-            type: Number,
-        },
+
         endpoint: {
             type: String,
         },
