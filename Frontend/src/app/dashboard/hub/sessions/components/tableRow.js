@@ -9,7 +9,7 @@ const TableRow = ({ sessions }) => {
         <>
             <tr className="text-xs">
                 <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
-                    <span className="p-2">{sessions._id}</span>
+                    <span className="p-2">{sessions.transactionUniqueId}</span>
                 </td>
                 <td className="w-[50px] whitespace-nowrap break-words px-4 py-4 font-medium text-text">
                     {sessions.startTime &&
