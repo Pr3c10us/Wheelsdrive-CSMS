@@ -339,9 +339,9 @@ app.get("/startTransaction/:adminId/:chargePointEndpoint", async (req, res) => {
     const chargePointEndpoint = req.params.chargePointEndpoint;
     const chargePointKey = id + chargePointEndpoint;
     const ws = clientConnections.get(chargePointKey);
-    if (!ws) {
-        return res.status(404).json({msg: "Charger has been disconnected"})
-    }
+    // if (!ws) {
+    //     return res.status(404).json({msg: "Charger has been disconnected"})
+    // }
 
     // Get ChargePoint Info from database
     const chargePointInfo = await ChargePointModel.findOne({
