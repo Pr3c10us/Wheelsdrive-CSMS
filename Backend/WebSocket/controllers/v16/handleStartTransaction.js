@@ -7,6 +7,7 @@ const RFID = require("../../../Database/models/RFID");
 const Rate = require("../../../Database/models/Rates");
 const cleanChargeTagId = require("../../utils/cleanChargeTagId");
 const updateConnector = require("../../utils/updateConnector");
+const generateTransactionId = require("../../utils/generateTransactionId");
 
 const handleStartTransaction = async (messageIn) => {
     // Initialize messageTypeId to null
@@ -43,7 +44,7 @@ const handleStartTransaction = async (messageIn) => {
         });
         return callError;
     }
-    
+
     // Create a new log before we handle message
     await Log.create({
         result: JSON.stringify(jsonInPayload),
@@ -76,7 +77,8 @@ const handleStartTransaction = async (messageIn) => {
                 // If RFID exists
                 if (rfid) {
                     // Set parentIdTag
-                    jsonOutPayload.idTagInfo.parentIdTag = rfid.parentRFID || rfid.rfid;
+                    jsonOutPayload.idTagInfo.parentIdTag =
+                        rfid.parentRFID || rfid.rfid;
                     if (rfid.expires) {
                         jsonOutPayload.idTagInfo.expiryDate =
                             rfid.expires.toISOString();
@@ -144,8 +146,9 @@ const handleStartTransaction = async (messageIn) => {
 
                 // Create new transaction
                 const transaction = await Transaction.create({
-                    // transactionUniqueId: 
+                    // transactionUniqueId:
                     startRFID: idTag,
+                    transactionUniqueId: generateTransactionId(),
                     startTime: jsonInPayload.timestamp,
                     meterStart: jsonInPayload.meterStart / 1000,
                     startResult: jsonOutPayload.idTagInfo.status,
@@ -157,7 +160,7 @@ const handleStartTransaction = async (messageIn) => {
                     location: chargePoint.location._id,
                 });
 
-                jsonOutPayload.transactionId = transaction._id;
+                jsonOutPayload.transactionId = transaction.transactionUniqueId;
             } catch (error) {
                 errorCode = "InternalError";
                 const callError = [4, uniqueId, errorCode, "", {}];

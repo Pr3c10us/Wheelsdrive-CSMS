@@ -105,9 +105,9 @@ const handleStopTransaction = async (messageIn) => {
         if (jsonOutPayload.idTagInfo.status === "Accepted") {
             try {
                 // Get Transaction by transactionId
-                let transaction = await Transaction.findById(
-                    jsonInPayload.transactionId
-                );
+                let transaction = await Transaction.findOne({
+                    transactionUniqueId: jsonInPayload.transactionId,
+                });
 
                 if (
                     !transaction ||
