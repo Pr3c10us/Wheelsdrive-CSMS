@@ -8,7 +8,7 @@ function generateTransactionId() {
     // Combine the timestamp and random number to create a unique number
     const uniqueNumber = timestamp.toString() + randomNumber.toString();
 
-    return uniqueNumber;
+    return Number(uniqueNumber);
 }
 
 module.exports = generateTransactionId;
