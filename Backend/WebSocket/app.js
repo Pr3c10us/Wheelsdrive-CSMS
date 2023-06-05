@@ -202,7 +202,7 @@ app.get("/send/:userId/:adminId/:chargePointEndpoint", async (req, res) => {
     const chargePointKey = userId + chargePointEndpoint;
     const ws = clientConnections.get(chargePointKey);
     if (!ws) {
-        return res.status(404).json({msg: "Charger has been disconnected"})
+        return res.status(404).json({ msg: "Charger has been disconnected" });
     }
     if (ws) {
         ws.send(
@@ -238,7 +238,7 @@ app.get("/reset/:adminId/:chargePointEndpoint", async (req, res) => {
     const chargePointKey = id + chargePointEndpoint;
     const ws = clientConnections.get(chargePointKey);
     if (!ws) {
-        return res.status(404).json({msg: "Charger has been disconnected"})
+        return res.status(404).json({ msg: "Charger has been disconnected" });
     }
 
     // Get ChargePoint Info from database
@@ -284,7 +284,7 @@ app.get("/unlockConnector/:adminId/:chargePointEndpoint", async (req, res) => {
     const chargePointKey = id + chargePointEndpoint;
     const ws = clientConnections.get(chargePointKey);
     if (!ws) {
-        return res.status(404).json({msg: "Charger has been disconnected"})
+        return res.status(404).json({ msg: "Charger has been disconnected" });
     }
 
     // Get connectorId from request query, convert to number and set to 0 if not provided
@@ -340,7 +340,7 @@ app.get("/startTransaction/:adminId/:chargePointEndpoint", async (req, res) => {
     const chargePointKey = id + chargePointEndpoint;
     const ws = clientConnections.get(chargePointKey);
     if (!ws) {
-        return res.status(404).json({msg: "Charger has been disconnected"})
+        return res.status(404).json({ msg: "Charger has been disconnected" });
     }
 
     // Get ChargePoint Info from database
@@ -420,7 +420,7 @@ app.get("/stopTransaction/:adminId/:chargePointEndpoint", async (req, res) => {
     const chargePointKey = id + chargePointEndpoint;
     const ws = clientConnections.get(chargePointKey);
     if (!ws) {
-        return res.status(404).json({msg: "Charger has been disconnected"})
+        return res.status(404).json({ msg: "Charger has been disconnected" });
     }
 
     // Get ChargePoint Info from database
@@ -464,7 +464,8 @@ app.get("/stopTransaction/:adminId/:chargePointEndpoint", async (req, res) => {
             return res.status(404).json({ msg: "No transaction to Stop" });
         }
     }
-    let transactionId = req.body.transactionId || latestTransaction._id;
+    let transactionId =
+        req.body.transactionId || latestTransaction.transactionUniqueId;
 
     if (!chargePointInfo.ocppVersion) {
         return res.status(404).json({ msg: "ChargePoint not connected" });
