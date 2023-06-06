@@ -1,5 +1,6 @@
 import React from "react";
 import { BsCaretLeftFill, BsCaretRightFill } from "react-icons/bs";
+import { HiPlus } from "react-icons/hi2";
 
 const Loading = () => {
     return (
@@ -42,14 +43,13 @@ const Loading = () => {
                                 {" "}
                                 <span className="grid h-6 w-24 place-content-center rounded bg-white p-2"></span>
                             </th>
-                            
                         </tr>
                     </thead>
 
                     <tbody className="divide-y divide-gray-200 text-center">
                         <tr className="text-base">
                             <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
-                                <span className="grid h-6 w-8 place-content-center rounded bg-gray-200 p-2"></span>
+                                <HiPlus />{" "}
                             </td>
                             <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
                                 <span className="grid h-6 w-24 place-content-center rounded bg-gray-200 p-2"></span>
@@ -66,11 +66,10 @@ const Loading = () => {
                             <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
                                 <span className="grid h-6 w-24 place-content-center rounded bg-gray-200 p-2"></span>
                             </td>
-                            
                         </tr>
                         <tr className="text-base">
                             <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
-                                <span className="grid h-6 w-8 place-content-center rounded bg-gray-200 p-2"></span>
+                                <HiPlus />{" "}
                             </td>
                             <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
                                 <span className="grid h-6 w-24 place-content-center rounded bg-gray-200 p-2"></span>
@@ -87,11 +86,10 @@ const Loading = () => {
                             <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
                                 <span className="grid h-6 w-24 place-content-center rounded bg-gray-200 p-2"></span>
                             </td>
-                           
                         </tr>
                         <tr className="text-base">
                             <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
-                                <span className="grid h-6 w-8 place-content-center rounded bg-gray-200 p-2"></span>
+                                <HiPlus />{" "}
                             </td>
                             <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
                                 <span className="grid h-6 w-24 place-content-center rounded bg-gray-200 p-2"></span>
@@ -108,7 +106,6 @@ const Loading = () => {
                             <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
                                 <span className="grid h-6 w-24 place-content-center rounded bg-gray-200 p-2"></span>
                             </td>
-                            
                         </tr>
                     </tbody>
                 </table>
