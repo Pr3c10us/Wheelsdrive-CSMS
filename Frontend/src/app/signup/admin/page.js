@@ -163,7 +163,7 @@ const SignupPage = () => {
                 </div>
                 <form
                     className="w-full flex flex-col max-w-xs sm:max-w-none sm:px-24 space-y-8 items-center justify-center place-self-center"
-                    onSubmit={formik.handleSubmit}
+                    onSubmit={formik.handleSubmit} 
                 >
                     <section className="space-y-8 w-full">
                         <div className="space-y-2">
