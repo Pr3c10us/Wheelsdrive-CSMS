@@ -21,12 +21,12 @@ const TableRow = ({ connector, handleRefresh, endpoint }) => {
     const [loading, setLoading] = useState(false);
 
     const remoteActionFunction = async (remoteAction) => {
-        setLoading(true);
         const data = {
             connectorId: connector.connectorId,
         };
         const websocket = process.env.NEXT_PUBLIC_WEBSOCKET_URI;
         try {
+            setLoading(true);
             if (
                 connector.lastStatus != "Available" &&
                 remoteAction == "startTransaction"
