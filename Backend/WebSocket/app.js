@@ -288,7 +288,7 @@ app.get("/unlockConnector/:adminId/:chargePointEndpoint", async (req, res) => {
     }
 
     // Get connectorId from request query, convert to number and set to 0 if not provided
-    let connectorId = req.query.connectorId;
+    let connectorId = Number(req.body.connectorId);
     if (!connectorId) {
         connectorId = 0;
     } else {
