@@ -74,7 +74,7 @@ const TableRow = ({ connector, handleRefresh, endpoint }) => {
             >
                 <svg
                     ariaHidden="true"
-                    className="z-[90] mr-2 h-10 w-10 animate-spin fill-accent text-gray-200 dark:text-gray-600"
+                    className="z-[90] mr-2 h-10 w-10 animate-spin fill-accent text-gray-200 "
                     viewBox="0 0 100 101"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
