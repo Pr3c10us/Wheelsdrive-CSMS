@@ -24,7 +24,7 @@ const TableRow = ({ connector, handleRefresh, endpoint }) => {
         const data = {
             connectorId: connector.connectorId,
         };
-        const websocket = process.env.NEXT_PUBLIC_WEBSOCKET_URI;
+        const websocket = process.env.NEXT_PUBLIC_WEBSOCKET_API_URI;
         try {
             setLoading(true);
             if (
