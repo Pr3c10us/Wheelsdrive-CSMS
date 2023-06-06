@@ -34,8 +34,7 @@ const TableRow = ({ connector, handleRefresh, endpoint }) => {
                 dispatch(changeErrorMessageType("Can't Start Transaction"));
                 dispatch(changeErrorMessage("Connector is not available"));
                 dispatch(changeShowErrorMessage(true));
-                return             setLoading(true);
-
+                return setLoading(false);
             }
             if (
                 connector.lastStatus != "Charging" &&
@@ -44,8 +43,7 @@ const TableRow = ({ connector, handleRefresh, endpoint }) => {
                 dispatch(changeErrorMessageType("Can't Stop Transaction"));
                 dispatch(changeErrorMessage("Connector is not charging"));
                 dispatch(changeShowErrorMessage(true));
-                return             setLoading(true);
-
+                return setLoading(false);
             }
 
             await axios.post(
