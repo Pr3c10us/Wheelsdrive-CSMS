@@ -34,7 +34,8 @@ const TableRow = ({ connector, handleRefresh, endpoint }) => {
                 dispatch(changeErrorMessageType("Can't Start Transaction"));
                 dispatch(changeErrorMessage("Connector is not available"));
                 dispatch(changeShowErrorMessage(true));
-                return;
+                return             setLoading(true);
+
             }
             if (
                 connector.lastStatus != "Charging" &&
@@ -43,7 +44,8 @@ const TableRow = ({ connector, handleRefresh, endpoint }) => {
                 dispatch(changeErrorMessageType("Can't Stop Transaction"));
                 dispatch(changeErrorMessage("Connector is not charging"));
                 dispatch(changeShowErrorMessage(true));
-                return;
+                return             setLoading(true);
+
             }
 
             await axios.post(
@@ -54,13 +56,15 @@ const TableRow = ({ connector, handleRefresh, endpoint }) => {
             setLoading(false);
         } catch (error) {
             if (error.response) {
+                setLoading(false);
                 const errorMsg = error.response.data.msg;
                 dispatch(changeErrorMessageType("Remote Action Error"));
                 dispatch(changeErrorMessage(errorMsg));
                 dispatch(changeShowErrorMessage(true));
-                setLoading(false);
             }
+            setLoading(false);
         }
+        setLoading(false);
     };
 
     return (

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { HiOutlineStatusOnline, HiInformationCircle } from "react-icons/hi";
-import { IoMdPower } from "react-icons/io";
+import { DiHtml5Connectivity} from "react-icons/di";
 import { FiEdit3 } from "react-icons/fi";
 import { MdDelete } from "react-icons/md";
 import { HiMinus, HiPlus } from "react-icons/hi2";
@@ -59,9 +59,15 @@ const TableRow = ({ chargePoint, handleRefresh }) => {
                 </td>
                 <td className="grid place-content-center whitespace-nowrap px-4 py-4 font-medium text-text">
                     {chargePoint.isConnected ? (
-                        <IoMdPower className="text-2xl text-green-400" />
+                        <DiHtml5Connectivity
+                            title="Connected"
+                            className="h-7 w-7 text-green-400"
+                        />
                     ) : (
-                        <IoMdPower className="text-2xl text-gray-400" />
+                        <DiHtml5Connectivity
+                            title="Not Connected"
+                            className="h-7 w-7 text-gray-400"
+                        />
                     )}
                 </td>
                 <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
