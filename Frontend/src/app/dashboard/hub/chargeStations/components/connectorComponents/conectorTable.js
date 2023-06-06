@@ -53,6 +53,7 @@ const ConnectorTable = ({ chargePoint, handleRefresh }) => {
                                     handleRefresh={handleRefresh}
                                     key={connector._id}
                                     connector={connector}
+                                    endpoint={chargePoint.endpoint}
                                 />
                             );
                         })}
