@@ -67,7 +67,7 @@ const TableRow = ({ connector, handleRefresh, endpoint }) => {
         <>
             {/* Create Loading animation that blocks whole screen on loading true */}
             <div
-                className={`fixed inset-0 z-[80] grid place-content-center ${
+                className={`fixed  inset-0 z-[80] grid place-content-center ${
                     loading ? "backdrop-blur-sm" : "hidden"
                 }`}
                 role="status"
