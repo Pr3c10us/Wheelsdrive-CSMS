@@ -10,6 +10,9 @@ import {
 } from "@/redux/errorMessage";
 import { useDispatch } from "react-redux";
 import { HiInformationCircle } from "react-icons/hi2";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+
 
 const CreateFormModal = ({ openForm, setOpenForm, handleRefresh, apiUser }) => {
     const dispatch = useDispatch();
@@ -193,7 +196,7 @@ const CreateFormModal = ({ openForm, setOpenForm, handleRefresh, apiUser }) => {
                                     : ""}
                             </p>
                         </div>
-                        <div className="flex h-full w-full flex-col sm:col-span-2">
+                        {/* <div className="flex h-full w-full flex-col sm:col-span-2">
                             <label
                                 className="text-sm font-semibold"
                                 htmlFor="mobile"
@@ -213,6 +216,59 @@ const CreateFormModal = ({ openForm, setOpenForm, handleRefresh, apiUser }) => {
                                 onChange={formik.handleChange}
                                 value={formik.values.mobile}
                                 onBlur={formik.handleBlur}
+                            />
+                            <p className="h-2 px-2 text-xs font-medium text-red-600 sm:h-4">
+                                {formik.touched.mobile && formik.errors.mobile
+                                    ? formik.errors.mobile
+                                    : ""}
+                            </p>
+                        </div> */}
+                        <div className="flex h-full w-full flex-col sm:col-span-2">
+                            <label
+                                className="text-sm font-semibold"
+                                htmlFor="email"
+                            >
+                                Mobile Number
+                            </label>
+                            <PhoneInput
+                                onlyCountries={["in"]}
+                                country={"in"}
+                                inputProps={{
+                                    id: "mobile",
+                                    required: true,
+                                    name: "mobile",
+                                }}
+                                type="text"
+                                className={`rounded-md border-2 px-2 py-1 text-lg transition-all duration-200 focus:ring-0 ${
+                                    formik.touched.mobile &&
+                                    formik.errors.mobile
+                                        ? "border-red-500 focus:outline-red-500"
+                                        : "focus:border-primary focus:outline-primary"
+                                }`}
+                                onChange={(phone) =>
+                                    formik.setFieldValue("mobile", phone)
+                                }
+                                value={formik.values.mobile}
+                                containerStyle={{
+                                    width: "100%",
+                                    paddingLeft: 0,
+                                    paddingTop: "0.25rem",
+                                    paddingBottom: "0.25rem",
+                                    // height: "100%",
+                                }}
+                                buttonStyle={{
+                                    background: "none",
+                                    border: "none",
+                                    borderRight: "solid 1px",
+                                    borderColor: "gray",
+                                }}
+                                inputStyle={{
+                                    width: "100%",
+                                    border: "none",
+                                    fontSize: "1.125rem",
+                                    lineHeight: "1.75rem",
+                                    // height: "100%",
+                                }}
                             />
                             <p className="h-2 px-2 text-xs font-medium text-red-600 sm:h-4">
                                 {formik.touched.mobile && formik.errors.mobile

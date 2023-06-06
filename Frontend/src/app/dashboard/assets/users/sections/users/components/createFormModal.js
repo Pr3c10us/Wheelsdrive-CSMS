@@ -10,6 +10,8 @@ import {
 } from "@/redux/errorMessage";
 import { useDispatch } from "react-redux";
 import { HiInformationCircle } from "react-icons/hi2";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 
 const CreateFormModal = ({ openForm, setOpenForm, handleRefresh }) => {
     const dispatch = useDispatch();
@@ -56,20 +58,20 @@ const CreateFormModal = ({ openForm, setOpenForm, handleRefresh }) => {
         <>
             {openForm && (
                 <div
-                    className={`fixed z-50 inset-0 py-4 sm:py-0 sm:px-8 px-4 sm:overflow-visible overflow-auto grid`}
+                    className={`fixed inset-0 z-50 grid overflow-auto px-4 py-4 sm:overflow-visible sm:px-8 sm:py-0`}
                 >
                     <div
                         onClick={() => setOpenForm(false)}
-                        className={`fixed z-50 top-0 left-0 right-0 bottom-0 backdrop-blur-sm bg-primary bg-opacity-20`}
+                        className={`fixed bottom-0 left-0 right-0 top-0 z-50 bg-primary bg-opacity-20 backdrop-blur-sm`}
                     ></div>
 
                     <form
                         onSubmit={formik.handleSubmit}
-                        className={`grid place-self-center shadow-lg  w-full sm:max-w-4xl z-[60] rounded-xl p-10 gap-y-3 gap-x-8 transition-all duration-500 relative bg-white grid-cols-1 sm:grid-cols-2`}
+                        className={`relative z-[60] grid  w-full grid-cols-1 gap-x-8 gap-y-3 place-self-center rounded-xl bg-white p-10 shadow-lg transition-all duration-500 sm:max-w-4xl sm:grid-cols-2`}
                     >
-                        <div className="flex sm:col-span-2 flex-col w-full gap-2">
-                            <div className="flex w-full justify-between items-center">
-                                <h2 className="font-semibold text-lg">
+                        <div className="flex w-full flex-col gap-2 sm:col-span-2">
+                            <div className="flex w-full items-center justify-between">
+                                <h2 className="text-lg font-semibold">
                                     Add Api User
                                 </h2>
                                 <FaTimes
@@ -79,9 +81,9 @@ const CreateFormModal = ({ openForm, setOpenForm, handleRefresh }) => {
                             </div>
                             <hr />
                         </div>
-                        <div className="sm:col-span-2 sm:px-8 mb-4">
-                            <div className="bg-primary text-xs sm:text-base items-center rounded-lg font-medium bg-opacity-40 border-2 border-primary flex gap-x-4 px-4 py-4">
-                                <HiInformationCircle className="w-10 h-10" />
+                        <div className="mb-4 sm:col-span-2 sm:px-8">
+                            <div className="flex items-center gap-x-4 rounded-lg border-2 border-primary bg-primary bg-opacity-40 px-4 py-4 text-xs font-medium sm:text-base">
+                                <HiInformationCircle className="h-10 w-10" />
                                 <p>
                                     This will create a Wheelsdrive API user
                                     object and not a driver app user. App users
@@ -89,7 +91,7 @@ const CreateFormModal = ({ openForm, setOpenForm, handleRefresh }) => {
                                 </p>
                             </div>
                         </div>
-                        <div className="flex flex-col w-full h-full">
+                        <div className="flex h-full w-full flex-col">
                             <label
                                 className="text-sm font-semibold"
                                 htmlFor="username"
@@ -100,7 +102,7 @@ const CreateFormModal = ({ openForm, setOpenForm, handleRefresh }) => {
                                 id="username"
                                 name="username"
                                 type="text"
-                                className={`border-2 text-lg px-2 transition-all duration-200 focus:ring-0 rounded-md py-1 focus:border-primary focus:outline-primary ${
+                                className={`rounded-md border-2 px-2 py-1 text-lg transition-all duration-200 focus:border-primary focus:outline-primary focus:ring-0 ${
                                     formik.touched.username &&
                                     formik.errors.username
                                         ? "border-red-500 focus:outline-red-500"
@@ -110,14 +112,14 @@ const CreateFormModal = ({ openForm, setOpenForm, handleRefresh }) => {
                                 value={formik.values.username}
                                 onBlur={formik.handleBlur}
                             />
-                            <p className="text-xs px-2 font-medium text-red-600 h-2 sm:h-4">
+                            <p className="h-2 px-2 text-xs font-medium text-red-600 sm:h-4">
                                 {formik.touched.username &&
                                 formik.errors.username
                                     ? formik.errors.username
                                     : ""}
                             </p>
                         </div>
-                        <div className="flex flex-col w-full h-full">
+                        <div className="flex h-full w-full flex-col">
                             <label
                                 className="text-sm font-semibold"
                                 htmlFor="firstName"
@@ -128,7 +130,7 @@ const CreateFormModal = ({ openForm, setOpenForm, handleRefresh }) => {
                                 id="firstName"
                                 name="firstName"
                                 type="text"
-                                className={`border-2 text-lg px-2 transition-all duration-200 focus:ring-0 rounded-md py-1 focus:border-primary focus:outline-primary ${
+                                className={`rounded-md border-2 px-2 py-1 text-lg transition-all duration-200 focus:border-primary focus:outline-primary focus:ring-0 ${
                                     formik.touched.firstName &&
                                     formik.errors.firstName
                                         ? "border-red-500 focus:outline-red-500"
@@ -138,14 +140,14 @@ const CreateFormModal = ({ openForm, setOpenForm, handleRefresh }) => {
                                 value={formik.values.firstName}
                                 onBlur={formik.handleBlur}
                             />
-                            <p className="text-xs px-2 font-medium text-red-600 h-2 sm:h-4">
+                            <p className="h-2 px-2 text-xs font-medium text-red-600 sm:h-4">
                                 {formik.touched.firstName &&
                                 formik.errors.firstName
                                     ? formik.errors.firstName
                                     : ""}
                             </p>
                         </div>
-                        <div className="flex flex-col w-full h-full">
+                        <div className="flex h-full w-full flex-col">
                             <label
                                 className="text-sm font-semibold"
                                 htmlFor="lastname"
@@ -156,7 +158,7 @@ const CreateFormModal = ({ openForm, setOpenForm, handleRefresh }) => {
                                 id="lastName"
                                 name="lastName"
                                 type="text"
-                                className={`border-2 text-lg px-2 transition-all duration-200 focus:ring-0 rounded-md py-1 focus:border-primary focus:outline-primary ${
+                                className={`rounded-md border-2 px-2 py-1 text-lg transition-all duration-200 focus:border-primary focus:outline-primary focus:ring-0 ${
                                     formik.touched.lastName &&
                                     formik.errors.lastName
                                         ? "border-red-500 focus:outline-red-500"
@@ -166,14 +168,14 @@ const CreateFormModal = ({ openForm, setOpenForm, handleRefresh }) => {
                                 value={formik.values.lastName}
                                 onBlur={formik.handleBlur}
                             />
-                            <p className="text-xs px-2 font-medium text-red-600 h-2 sm:h-4">
+                            <p className="h-2 px-2 text-xs font-medium text-red-600 sm:h-4">
                                 {formik.touched.lastName &&
                                 formik.errors.lastName
                                     ? formik.errors.lastName
                                     : ""}
                             </p>
                         </div>
-                        <div className="flex  flex-col w-full h-full">
+                        <div className="flex  h-full w-full flex-col">
                             <label
                                 className="text-sm font-semibold"
                                 htmlFor="email"
@@ -184,7 +186,7 @@ const CreateFormModal = ({ openForm, setOpenForm, handleRefresh }) => {
                                 id="email"
                                 name="email"
                                 type="text"
-                                className={`border-2 text-lg px-2 transition-all duration-200 focus:ring-0 rounded-md py-1 focus:border-primary focus:outline-primary ${
+                                className={`rounded-md border-2 px-2 py-1 text-lg transition-all duration-200 focus:border-primary focus:outline-primary focus:ring-0 ${
                                     formik.touched.email && formik.errors.email
                                         ? "border-red-500 focus:outline-red-500"
                                         : "focus:border-primary focus:outline-primary"
@@ -193,13 +195,13 @@ const CreateFormModal = ({ openForm, setOpenForm, handleRefresh }) => {
                                 value={formik.values.email}
                                 onBlur={formik.handleBlur}
                             />
-                            <p className="text-xs px-2 font-medium text-red-600 h-2 sm:h-4">
+                            <p className="h-2 px-2 text-xs font-medium text-red-600 sm:h-4">
                                 {formik.touched.email && formik.errors.email
                                     ? formik.errors.email
                                     : ""}
                             </p>
                         </div>
-                        <div className="flex sm:col-span-2 flex-col w-full h-full">
+                        {/* <div className="flex sm:col-span-2 flex-col w-full h-full">
                             <label
                                 className="text-sm font-semibold"
                                 htmlFor="mobile"
@@ -225,12 +227,65 @@ const CreateFormModal = ({ openForm, setOpenForm, handleRefresh }) => {
                                     ? formik.errors.mobile
                                     : ""}
                             </p>
+                        </div> */}
+                        <div className="flex h-full w-full flex-col sm:col-span-2">
+                            <label
+                                className="text-sm font-semibold"
+                                htmlFor="email"
+                            >
+                                Mobile Number
+                            </label>
+                            <PhoneInput
+                                onlyCountries={["in"]}
+                                country={"in"}
+                                inputProps={{
+                                    id: "mobile",
+                                    required: true,
+                                    name: "mobile",
+                                }}
+                                type="text"
+                                className={`rounded-md border-2 px-2 py-1 text-lg transition-all duration-200 focus:ring-0 ${
+                                    formik.touched.mobile &&
+                                    formik.errors.mobile
+                                        ? "border-red-500 focus:outline-red-500"
+                                        : "focus:border-primary focus:outline-primary"
+                                }`}
+                                onChange={(phone) =>
+                                    formik.setFieldValue("mobile", phone)
+                                }
+                                value={formik.values.mobile}
+                                containerStyle={{
+                                    width: "100%",
+                                    paddingLeft: 0,
+                                    paddingTop: "0.25rem",
+                                    paddingBottom: "0.25rem",
+                                    // height: "100%",
+                                }}
+                                buttonStyle={{
+                                    background: "none",
+                                    border: "none",
+                                    borderRight: "solid 1px",
+                                    borderColor: "gray",
+                                }}
+                                inputStyle={{
+                                    width: "100%",
+                                    border: "none",
+                                    fontSize: "1.125rem",
+                                    lineHeight: "1.75rem",
+                                    // height: "100%",
+                                }}
+                            />
+                            <p className="h-2 px-2 text-xs font-medium text-red-600 sm:h-4">
+                                {formik.touched.mobile && formik.errors.mobile
+                                    ? formik.errors.mobile
+                                    : ""}
+                            </p>
                         </div>
 
                         <button
                             disabled={formik.isSubmitting}
                             type="submit"
-                            className={`sm:col-span-2 bg-primary mt-4 text-white py-2 rounded-md ${
+                            className={`mt-4 rounded-md bg-primary py-2 text-white sm:col-span-2 ${
                                 formik.isSubmitting && "bg-opacity-40"
                             }`}
                         >
