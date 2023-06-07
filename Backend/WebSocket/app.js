@@ -378,8 +378,10 @@ app.post(
         }).sort({
             createdAt: -1,
         });
-        if (!latestTransaction.stopTime) {
-            return res.status(404).json({ msg: "Connector is Occupied" });
+        if (latestTransaction) {
+            if (!latestTransaction.stopTime) {
+                return res.status(404).json({ msg: "Connector is Occupied" });
+            }
         }
 
         if (!chargePointInfo.ocppVersion) {
