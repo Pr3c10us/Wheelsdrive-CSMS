@@ -378,7 +378,7 @@ app.post(
         }).sort({
             createdAt: -1,
         });
-        if (latestTransaction.stopTime == null || !latestTransaction.stopTime) {
+        if (!latestTransaction.stopTime) {
             return res.status(404).json({ msg: "Connector is Occupied" });
         }
 
