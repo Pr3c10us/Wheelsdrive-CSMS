@@ -161,11 +161,15 @@ wss.on("connection", async (ws, request) => {
     // ######################################################################################################
     // IF THE WEBSOCKET CONNECTION IS CLOSED, REMOVE THE CLIENT FROM THE MAP
 
-    ws.on("close", () => {
+    ws.on("close", async () => {
         // Remove the client from the map
         clientConnections.delete(chargePointKey);
 
         // Change chargePoint status to unconnected
+        await ChargePointModel.findOneAndUpdate(
+            { _id: chargePointInfo._id },
+            { isConnected: false }
+        );
     });
 });
 
