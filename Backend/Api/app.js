@@ -20,6 +20,10 @@ const connectToMongodb = require("../Database");
 // Import Websocket handler
 const { webSocketHandler } = require("./websocket");
 
+const bodyParser = require("body-parser");
+const swaggerJsdoc = require("swagger-jsdoc");
+const swaggerUi = require("swagger-ui-express");
+
 // ######################################################################################################
 // ######################################################################################################
 // Middleware
@@ -31,6 +35,7 @@ const corsOptions = {
         process.env.CLIENT_ORIGIN_1,
         process.env.CLIENT_ORIGIN_2,
         process.env.CLIENT_ORIGIN_3,
+        process.env.CLIENT_ORIGIN_4,
     ],
     credentials: true,
 };
@@ -90,6 +95,13 @@ app.use("/api/sessions", sessionRoutes);
 // LOGS ROUTES
 const logsRoutes = require("./routes/logs");
 app.use("/api/logs", logsRoutes);
+
+// SWAGGER UI ROUTE
+const { readFileSync } = require("fs");
+const YAML = require("yaml");
+const file = readFileSync("./Wheelsdrive.postman_collection.yml", "utf8");
+const swaggerDocument = YAML.parse(file);
+app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // ######################################################################################################
 // ######################################################################################################

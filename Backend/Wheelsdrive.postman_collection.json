@@ -48,7 +48,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"demoMail@gmail.com\",\r\n    \"password\": \"123456\"\r\n}",
+							"raw": "{\r\n    \"email\": \"rahulbhat13@yahoo.co.in\",\r\n    \"password\": \"E!ement131184\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -148,7 +148,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"AVT 1\",\r\n    \"endpoint\": \"sn-avt-001\",\r\n    // \"clientCertificate\": \"\",\r\n    \"notes\": \"First AVT charger\",\r\n    \"locationId\": \"6467774e8900375f84762dc1\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Abb 1\",\r\n    \"endpoint\": \"sn-abb-001\",\r\n    // \"clientCertificate\": \"\",\r\n    \"notes\": \"First Abb charger\",\r\n    \"locationId\": \"64797708682cccab0dadb53a\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -338,7 +338,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": " {\r\n    \"name\": \"john 2\",\r\n    \"rfid\": \"4321\",\r\n    \"expires\": \"2023-11-01\",\r\n    \"blocked\": false,\r\n    \"apiUserId\": \"64678d0fedcad7433dd91c0a\"\r\n}",
+							"raw": " {\r\n    \"name\": \"Pr3c10us RFID 2\",\r\n    \"rfid\": \"1234\",\r\n    \"expires\": \"2023-11-01\",\r\n    \"parentRFID\": \"4321\",\r\n    // \"blocked\": false,\r\n    \"apiUserId\": \"6473c8e68a705867ac057473\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -416,7 +416,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": " {\r\n    \"name\": \"John doe rf\"\r\n    // \"rfid\": \"1234\",\r\n    // \"expires\": \"2020-11-01\",\r\n    // \"blocked\": false,\r\n    // \"apiUserId\": \"6462157cbf8d842d8c0af834\"\r\n}",
+									"raw": " {\r\n    \"name\": \"Pr3c10us RFID 1\",\r\n    \"rfid\": \"4321\",\r\n    \"parentRFID\":\"1\"\r\n    // \"expires\": \"2020-11-01\",\r\n    // \"blocked\": false,\r\n    // \"apiUserId\": \"6462157cbf8d842d8c0af834\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -424,7 +424,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:5000/api/rfid/6467a25fd5ad3cada01ffd5e",
+									"raw": "http://localhost:5000/api/rfid/6474a4568a705867ac0575a7",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -433,7 +433,7 @@
 									"path": [
 										"api",
 										"rfid",
-										"6467a25fd5ad3cada01ffd5e"
+										"6474a4568a705867ac0575a7"
 									]
 								}
 							},
@@ -494,11 +494,169 @@
 		},
 		{
 			"name": "Connector",
-			"item": []
+			"item": [
+				{
+					"name": "Update Connector",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"type\": \"type2\",\r\n    \"format\": \"socket\",\r\n    \"powerType\": \"AC\",\r\n    \"power\": 7.4,\r\n    \"active\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/connector/{connectorId}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"connector",
+								"{connectorId}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update Connector",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"type\": \"type2\",\r\n    \"format\": \"socket\",\r\n    \"powerType\": \"AC\",\r\n    \"power\": 7.4,\r\n    \"active\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/api/connector/6477b5cd6d902336337bce6c",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"api",
+										"connector",
+										"6477b5cd6d902336337bce6c"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "27"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1b-JjIi9p10aU7Ic4ClSeoFk+tbVlw\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 01 Jun 2023 13:52:10 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"msg\": \"Invalid Object Id\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get a Connector Info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/connector/6477b5cd6d902336337bce6c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"connector",
+								"6477b5cd6d902336337bce6c"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "Transactions",
-			"item": []
+			"item": [
+				{
+					"name": "Get Transactions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/sessions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"sessions"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "2",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "Profile Settings",
@@ -514,7 +672,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"name\": \"ChargePoint Location Main\",\r\n  \"address\": \"6-18 My Street Ave\",\r\n  \"zipCode\": \"487118\",\r\n  \"city\": \"Umariya\",\r\n  \"state\": \"Madhya Pradesh\",\r\n  \"country\": \"India\",\r\n  \"latitude\": \"22.891455\",\r\n  \"longitude\": \"79.557451\",\r\n  \"display\": \"true\"\r\n}",
+							"raw": "{\r\n  \"name\": \"ChargePoint Location 3\",\r\n  \"address\": \"6-18 My Street Ave\",\r\n  \"zipCode\": \"487118\",\r\n  \"city\": \"Umariya\",\r\n  \"state\": \"Madhya Pradesh\",\r\n  \"country\": \"India\",\r\n  \"latitude\": \"22.891455\",\r\n  \"longitude\": \"79.557451\",\r\n  \"display\": \"true\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -543,7 +701,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5000/api/location/admin?name=ChargePoint Location 1&page=1&limit=20",
+							"raw": "http://localhost:5000/api/location/admin",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -557,15 +715,18 @@
 							"query": [
 								{
 									"key": "name",
-									"value": "ChargePoint Location 1"
+									"value": "ChargePoint Location 1",
+									"disabled": true
 								},
 								{
 									"key": "page",
-									"value": "1"
+									"value": "1",
+									"disabled": true
 								},
 								{
 									"key": "limit",
-									"value": "20"
+									"value": "20",
+									"disabled": true
 								}
 							]
 						}
@@ -865,7 +1026,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5000/api/rate/?page=1&limit=5&name=Charger Rate 1",
+							"raw": "http://localhost:5000/api/rate/",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -879,15 +1040,18 @@
 							"query": [
 								{
 									"key": "page",
-									"value": "1"
+									"value": "1",
+									"disabled": true
 								},
 								{
 									"key": "limit",
-									"value": "5"
+									"value": "5",
+									"disabled": true
 								},
 								{
 									"key": "name",
-									"value": "Charger Rate 1"
+									"value": "Charger Rate 1",
+									"disabled": true
 								}
 							]
 						}
@@ -901,7 +1065,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Charger Rate 1\",\r\n    \"description\": \"1200 INR per kwH\",\r\n    \"discount\": 10,\r\n    \"price\": 1000\r\n}",
+							"raw": "{\r\n    \"name\": \"Charger Rate 2\",\r\n    \"description\": \"500 INR per kwH\",\r\n    \"discount\": 0,\r\n    \"price\": 500\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1098,6 +1262,137 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Remote Reset v16",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://ocpp.wheelsdrive.com:9000/reset/6479fc45513ae1ee10758180/CS-ABB-00001",
+							"protocol": "http",
+							"host": [
+								"ocpp",
+								"wheelsdrive",
+								"com"
+							],
+							"port": "9000",
+							"path": [
+								"reset",
+								"6479fc45513ae1ee10758180",
+								"CS-ABB-00001"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remote Unlock Connector v16",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"connectorId\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://websocket.wheeelsdrive.com/unlockConnector/6479fc45513ae1ee10758180/sn-abb-001",
+							"protocol": "https",
+							"host": [
+								"websocket",
+								"wheeelsdrive",
+								"com"
+							],
+							"path": [
+								"unlockConnector",
+								"6479fc45513ae1ee10758180",
+								"sn-abb-001"
+							],
+							"query": [
+								{
+									"key": "connectorId",
+									"value": "2",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remote Start Transaction",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"connectorId\": 1,\r\n    \"idTag\": \"1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://ocpp.wheelsdrive.com:9000/startTransaction/6479fc45513ae1ee10758180/CS-ABB-00001",
+							"protocol": "http",
+							"host": [
+								"ocpp",
+								"wheelsdrive",
+								"com"
+							],
+							"port": "9000",
+							"path": [
+								"startTransaction",
+								"6479fc45513ae1ee10758180",
+								"CS-ABB-00001"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remote Stop Transaction",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    // \"connectorId\": 1\r\n    // \"transactionId\": 1.6859237703935737e+22\t\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://ocpp.wheelsdrive.com:9000/stopTransaction/6479fc45513ae1ee10758180/CS-ABB-00001",
+							"protocol": "http",
+							"host": [
+								"ocpp",
+								"wheelsdrive",
+								"com"
+							],
+							"port": "9000",
+							"path": [
+								"stopTransaction",
+								"6479fc45513ae1ee10758180",
+								"CS-ABB-00001"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -1111,7 +1406,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"firstName\": \"demo\",\r\n    \"lastName\": \"ApiUser\",\r\n    \"email\": \"demoUser@gmail.com\",\r\n    \"mobile\": \"1234567890\"\r\n}",
+							"raw": "{\r\n    \"username\": \"PDD 2\",\r\n    \"firstName\": \"Puff\",\r\n    \"lastName\": \"ApiUser\",\r\n    \"email\": \"puffd@gmail.com\",\r\n    \"mobile\": \"1234567890\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1139,7 +1434,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5000/api/apiUser",
+							"raw": "http://localhost:5000/api/apiUser?page=1&limit=50&username=pr3c10",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1148,6 +1443,20 @@
 							"path": [
 								"api",
 								"apiUser"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "50"
+								},
+								{
+									"key": "username",
+									"value": "pr3c10"
+								}
 							]
 						}
 					},
@@ -1370,6 +1679,62 @@
 								"admin",
 								"details",
 								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Logs",
+			"item": [
+				{
+					"name": "Get Logs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/logs?page=2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"logs"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "100",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remote Stop Transaction",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9000/stopTransaction/sn-abb-001",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"stopTransaction",
+								"sn-abb-001"
 							]
 						}
 					},

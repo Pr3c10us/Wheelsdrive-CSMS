@@ -1,0 +1,864 @@
+openapi: 3.0.0
+info:
+    title: Wheelsdrive
+    version: 1.0.0
+servers:
+    - url: https://server.wheelsdrive.com
+    - url: http://localhost:5000
+    - url: http://ocpp.wheelsdrive.com:9000
+    - url: https://websocket.wheeelsdrive.com
+tags:
+    - name: Authorization
+    - name: ChargePoints
+    - name: RFID
+    - name: Connector
+    - name: Transactions
+    - name: Profile Settings
+    - name: Location
+    - name: ChargeRate
+    - name: WebSocket
+    - name: ApiUser
+    - name: AdminDetails
+    - name: Logs
+paths:
+    /api/admin/auth/signup:
+        post:
+            tags:
+                - Authorization
+            summary: Admin Signup
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            example:
+                                firstName: Demo
+                                lastName: Admin
+                                email: demoMail@gmail.com
+                                mobile: "+234123456789"
+                                password: "123456"
+                                country: India
+                                company: Wheelsdrive
+            responses:
+                "200":
+                    description: Successful response
+                    content:
+                        application/json: {}
+    /api/admin/auth/login:
+        post:
+            tags:
+                - Authorization
+            summary: Admin Login
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            example:
+                                email: demo@yahoo.co.in
+                                password: password
+            responses:
+                "200":
+                    description: Successful response
+                    content:
+                        application/json: {}
+    /api/admin/auth/logout:
+        get:
+            tags:
+                - Authorization
+            summary: Logout
+            responses:
+                "200":
+                    description: Successful response
+                    content:
+                        application/json: {}
+    /api/chargePoint:
+        get:
+            tags:
+                - ChargePoints
+            summary: Get ChargePoints
+            responses:
+                "200":
+                    description: Successful response
+                    content:
+                        application/json: {}
+        post:
+            tags:
+                - ChargePoints
+            summary: Create a ChargePoint
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            example:
+                                name: Abb 1
+                                endpoint: sn-abb-001
+                                notes: First Abb charger
+                                locationId: 64797708682cccab0dadb53a
+            responses:
+                "200":
+                    description: Successful response
+                    content:
+                        application/json: {}
+    /api/chargePoint/{ChargePointId}:
+        get:
+            tags:
+                - ChargePoints
+            summary: Get a ChargePoint
+            parameters:
+                - name: ChargePointId
+                  in: path
+                  schema:
+                      type: string
+                  required: true
+            responses:
+                undefined:
+                    content:
+                        text/plain:
+                            schema:
+                                type: string
+                            example: null
+        put:
+            tags:
+                - ChargePoints
+            summary: Update a ChargePoint
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            example:
+                                name: ChargePoint Main
+                                notes: notes for d main
+                                display: false
+            parameters:
+                - name: ChargePointId
+                  in: path
+                  schema:
+                      type: string
+                  required: true
+            responses:
+                undefined:
+                    content:
+                        text/plain:
+                            schema:
+                                type: string
+                            example: null
+        delete:
+            tags:
+                - ChargePoints
+            summary: Delete Charge Point
+            parameters:
+                - name: ChargePointId
+                  in: path
+                  schema:
+                      type: string
+                  required: true
+            responses:
+                undefined:
+                    content:
+                        text/plain:
+                            schema:
+                                type: string
+                            example: null
+    /api/rfid:
+        post:
+            tags:
+                - RFID
+            summary: Create RFID
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            example:
+                                name: Pr3c10us RFID 2
+                                rfid: "1234"
+                                expires: "2023-11-01"
+                                parentRFID: "4321"
+                                apiUserId: 6473c8e68a705867ac057473
+            responses:
+                "200":
+                    description: Successful response
+                    content:
+                        application/json: {}
+        get:
+            tags:
+                - RFID
+            summary: Get all RFID
+            responses:
+                "200":
+                    description: Successful response
+                    content:
+                        application/json: {}
+    /api/rfid/{RFID}:
+        put:
+            tags:
+                - RFID
+            summary: Update RFID
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            example:
+                                name: John Thomas
+            parameters:
+                - name: RFID
+                  in: path
+                  schema:
+                      type: string
+                  required: true
+            responses:
+                undefined:
+                    content:
+                        text/plain:
+                            schema:
+                                type: string
+                            example: null
+        delete:
+            tags:
+                - RFID
+            summary: Delete RFID
+            parameters:
+                - name: RFID
+                  in: path
+                  schema:
+                      type: string
+                  required: true
+            responses:
+                undefined:
+                    content:
+                        text/plain:
+                            schema:
+                                type: string
+                            example: null
+    /api/connector/{connectorId}:
+        put:
+            tags:
+                - Connector
+            summary: Update Connector
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            example:
+                                type: type2
+                                format: socket
+                                powerType: AC
+                                power: 7.4
+                                active: true
+            parameters:
+                - name: connectorId
+                  in: path
+                  schema:
+                      type: string
+                  required: true
+            responses:
+                "400":
+                    description: Bad Request
+                    headers:
+                        X-Powered-By:
+                            schema:
+                                type: string
+                                example: Express
+                        Vary:
+                            schema:
+                                type: string
+                                example: Origin
+                        Access-Control-Allow-Credentials:
+                            schema:
+                                type: boolean
+                                example: "true"
+                        Content-Type:
+                            schema:
+                                type: string
+                                example: application/json; charset=utf-8
+                        Content-Length:
+                            schema:
+                                type: integer
+                                example: "27"
+                        ETag:
+                            schema:
+                                type: string
+                                example: W/"1b-JjIi9p10aU7Ic4ClSeoFk+tbVlw"
+                        Date:
+                            schema:
+                                type: string
+                                example: Thu, 01 Jun 2023 13:52:10 GMT
+                        Connection:
+                            schema:
+                                type: string
+                                example: keep-alive
+                        Keep-Alive:
+                            schema:
+                                type: string
+                                example: timeout=5
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                            example:
+                                msg: Invalid Object Id
+        get:
+            tags:
+                - Connector
+            summary: Get a Connector Info
+            responses:
+                "200":
+                    description: Successful response
+                    content:
+                        application/json: {}
+
+    /api/sessions:
+        get:
+            tags:
+                - Transactions
+            summary: Get Transactions
+            responses:
+                "200":
+                    description: Successful response
+                    content:
+                        application/json: {}
+    /api/location/admin:
+        post:
+            tags:
+                - Location
+            summary: Create Location (ADMIN ONLY)
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            example:
+                                name: ChargePoint Location 3
+                                address: 6-18 My Street Ave
+                                zipCode: "487118"
+                                city: Umariya
+                                state: Madhya Pradesh
+                                country: India
+                                latitude: "22.891455"
+                                longitude: "79.557451"
+                                display: "true"
+            responses:
+                "200":
+                    description: Successful response
+                    content:
+                        application/json: {}
+        get:
+            tags:
+                - Location
+            summary: Get Admin Locations (ADMIN ONLY)
+            responses:
+                "200":
+                    description: Successful response
+                    content:
+                        application/json: {}
+    /api/location/admin/{LocationId}:
+        get:
+            tags:
+                - Location
+            summary: Get a Location (ADMIN ONLY)
+            parameters:
+                - name: LocationId
+                  in: path
+                  schema:
+                      type: string
+                  required: true
+            responses:
+                "200":
+                    description: OK
+                    headers:
+                        X-Powered-By:
+                            schema:
+                                type: string
+                                example: Express
+                        Vary:
+                            schema:
+                                type: string
+                                example: Origin
+                        Access-Control-Allow-Credentials:
+                            schema:
+                                type: boolean
+                                example: "true"
+                        Content-Type:
+                            schema:
+                                type: string
+                                example: application/json; charset=utf-8
+                        Content-Length:
+                            schema:
+                                type: integer
+                                example: "376"
+                        ETag:
+                            schema:
+                                type: string
+                                example: W/"178-+M1daXL6VVQgJBt6EqSsTJNEaQE"
+                        Date:
+                            schema:
+                                type: string
+                                example: Fri, 19 May 2023 11:44:38 GMT
+                        Connection:
+                            schema:
+                                type: string
+                                example: keep-alive
+                        Keep-Alive:
+                            schema:
+                                type: string
+                                example: timeout=5
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                            example:
+                                _id: 64675fed9d4fe7adad6db877
+                                name: ChargePoint Location 1
+                                address: 6-18 My Street Ave
+                                zipCode: "487118"
+                                city: Umariya
+                                state: Madhya Pradesh
+                                country: India
+                                latitude: "22.891455"
+                                longitude: "79.557451"
+                                display: true
+                                admin:
+                                    country: India
+                                    company: Wheelsdrive
+                                createdAt: "2023-05-19T11:39:25.172Z"
+                                updatedAt: "2023-05-19T11:39:25.172Z"
+                                __v: 0
+        put:
+            tags:
+                - Location
+            summary: Update Location (ADMIN ONLY)
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            example:
+                                name: " ChargePoint Location Main"
+                                address: 6-18 My Street Ave
+                                zipCode: "487118"
+                                city: Umariya
+                                state: Madhya Pradesh
+                                country: India
+                                latitude: "22.891455"
+                                longitude: "79.557451"
+                                display: "false"
+            parameters:
+                - name: LocationId
+                  in: path
+                  schema:
+                      type: string
+                  required: true
+            responses:
+                undefined:
+                    content:
+                        text/plain:
+                            schema:
+                                type: string
+                            example: null
+        delete:
+            tags:
+                - Location
+            summary: Delete Location (ADMIN ONLY)
+            parameters:
+                - name: LocationId
+                  in: path
+                  schema:
+                      type: string
+                  required: true
+            responses:
+                undefined:
+                    content:
+                        text/plain:
+                            schema:
+                                type: string
+                            example: null
+    /api/location/general:
+        get:
+            tags:
+                - Location
+            summary: Get Locations with Display on
+            responses:
+                "200":
+                    description: Successful response
+                    content:
+                        application/json: {}
+    /api/location/general/{LocationId}:
+        get:
+            tags:
+                - Location
+            summary: Get a location whose display is on
+            parameters:
+                - name: LocationId
+                  in: path
+                  schema:
+                      type: string
+                  required: true
+            responses:
+                undefined:
+                    content:
+                        text/plain:
+                            schema:
+                                type: string
+                            example: null
+    /api/rate/:
+        get:
+            tags:
+                - ChargeRate
+            summary: Get Charge Rates
+            responses:
+                "200":
+                    description: Successful response
+                    content:
+                        application/json: {}
+        post:
+            tags:
+                - ChargeRate
+            summary: Create a Charge Rate
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            example:
+                                name: Charger Rate 2
+                                description: 500 INR per kwH
+                                discount: 0
+                                price: 500
+            responses:
+                "200":
+                    description: Successful response
+                    content:
+                        application/json: {}
+    /api/rate/{RateId}:
+        put:
+            tags:
+                - ChargeRate
+            summary: Update Rate
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            example:
+                                name: Charger Rate 1
+                                description: 1200 INR per KwH
+                                discount: 5
+                                price: 1200
+                                currency: INR
+            parameters:
+                - name: RateId
+                  in: path
+                  schema:
+                      type: string
+                  required: true
+            responses:
+                "200":
+                    description: OK
+                    headers:
+                        X-Powered-By:
+                            schema:
+                                type: string
+                                example: Express
+                        Vary:
+                            schema:
+                                type: string
+                                example: Origin
+                        Access-Control-Allow-Credentials:
+                            schema:
+                                type: boolean
+                                example: "true"
+                        Content-Type:
+                            schema:
+                                type: string
+                                example: application/json; charset=utf-8
+                        Content-Length:
+                            schema:
+                                type: integer
+                                example: "285"
+                        ETag:
+                            schema:
+                                type: string
+                                example: W/"11d-xWIjpAxs3sIkNVpd1nBj6ZjP1qA"
+                        Date:
+                            schema:
+                                type: string
+                                example: Fri, 19 May 2023 12:11:27 GMT
+                        Connection:
+                            schema:
+                                type: string
+                                example: keep-alive
+                        Keep-Alive:
+                            schema:
+                                type: string
+                                example: timeout=5
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                            example:
+                                msg: rate updated
+                                rate:
+                                    _id: 6467663e64991c08cc6b74d9
+                                    name: Charger Rate 1
+                                    description: 1200 INR per KwH
+                                    currency: INR
+                                    discount: 5
+                                    price: 1200
+                                    admin: 64675de29d4fe7adad6db86e
+                                    createdAt: "2023-05-19T12:06:22.557Z"
+                                    updatedAt: "2023-05-19T12:11:27.043Z"
+                                    __v: 0
+        delete:
+            tags:
+                - ChargeRate
+            summary: Delete Rates
+            parameters:
+                - name: RateId
+                  in: path
+                  schema:
+                      type: string
+                  required: true
+            responses:
+                undefined:
+                    content:
+                        text/plain:
+                            schema:
+                                type: string
+                            example: null
+    /reset/{userId}/{endpoint}:
+        post:
+            tags:
+                - WebSocket
+            summary: Remote Reset v16
+            requestBody:
+                content: {}
+            responses:
+                "200":
+                    description: Successful response
+                    content:
+                        application/json: {}
+    /unlockConnector/{userId}/{endpoint}:
+        post:
+            tags:
+                - WebSocket
+            summary: Remote Unlock Connector v16
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            example:
+                                connectorId: 1
+            responses:
+                "200":
+                    description: Successful response
+                    content:
+                        application/json: {}
+    /startTransaction/{userId}/{endpoint}:
+        get:
+            tags:
+                - WebSocket
+            summary: Remote Start Transaction
+            responses:
+                "200":
+                    description: Successful response
+                    content:
+                        application/json: {}
+    /stopTransaction/{userId}/{endpoint}:
+        get:
+            tags:
+                - WebSocket
+            summary: Remote Stop Transaction
+            responses:
+                "200":
+                    description: Successful response
+                    content:
+                        application/json: {}
+    /api/apiUser:
+        post:
+            tags:
+                - ApiUser
+            summary: Create ApiUser
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            example:
+                                username: PDD 2
+                                firstName: Puff
+                                lastName: ApiUser
+                                email: puffd@gmail.com
+                                mobile: "1234567890"
+            responses:
+                "200":
+                    description: Successful response
+                    content:
+                        application/json: {}
+        get:
+            tags:
+                - ApiUser
+            summary: Get all ApiUser
+            parameters:
+                - name: page
+                  in: query
+                  schema:
+                      type: integer
+                  example: "1"
+                - name: limit
+                  in: query
+                  schema:
+                      type: integer
+                  example: "50"
+                - name: username
+                  in: query
+                  schema:
+                      type: string
+                  example: pr3c10
+            responses:
+                "200":
+                    description: Successful response
+                    content:
+                        application/json: {}
+    /api/apiUser/{ApiUserid}:
+        get:
+            tags:
+                - ApiUser
+            summary: Get an ApiUser
+            parameters:
+                - name: ApiUserid
+                  in: path
+                  schema:
+                      type: string
+                  required: true
+            responses:
+                undefined:
+                    content:
+                        text/plain:
+                            schema:
+                                type: string
+                            example: null
+        put:
+            tags:
+                - ApiUser
+            summary: Update ApiUser
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            example:
+                                firstName: John
+                                lastName: doe
+                                email: jdoe@gmail.com
+                                mobile: "1234567890"
+            parameters:
+                - name: ApiUserid
+                  in: path
+                  schema:
+                      type: string
+                  required: true
+            responses:
+                undefined:
+                    content:
+                        text/plain:
+                            schema:
+                                type: string
+                            example: null
+        delete:
+            tags:
+                - ApiUser
+            summary: Delete ApiUser
+            parameters:
+                - name: ApiUserid
+                  in: path
+                  schema:
+                      type: string
+                  required: true
+            responses:
+                "400":
+                    description: Bad Request
+                    headers:
+                        X-Powered-By:
+                            schema:
+                                type: string
+                                example: Express
+                        Vary:
+                            schema:
+                                type: string
+                                example: Origin
+                        Access-Control-Allow-Credentials:
+                            schema:
+                                type: boolean
+                                example: "true"
+                        Content-Type:
+                            schema:
+                                type: string
+                                example: application/json; charset=utf-8
+                        Content-Length:
+                            schema:
+                                type: integer
+                                example: "27"
+                        ETag:
+                            schema:
+                                type: string
+                                example: W/"1b-JjIi9p10aU7Ic4ClSeoFk+tbVlw"
+                        Date:
+                            schema:
+                                type: string
+                                example: Fri, 19 May 2023 14:57:04 GMT
+                        Connection:
+                            schema:
+                                type: string
+                                example: keep-alive
+                        Keep-Alive:
+                            schema:
+                                type: string
+                                example: timeout=5
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                            example:
+                                msg: Invalid Object Id
+    /api/admin/details/:
+        get:
+            tags:
+                - AdminDetails
+            summary: Get Admin Info
+            responses:
+                "200":
+                    description: Successful response
+                    content:
+                        application/json: {}
+    /api/logs:
+        get:
+            tags:
+                - Logs
+            summary: Get Logs
+            parameters:
+                - name: page
+                  in: query
+                  schema:
+                      type: integer
+                  example: "2"
+            responses:
+                "200":
+                    description: Successful response
+                    content:
+                        application/json: {}
+    /:
+        get:
+            tags:
+                - default
+            summary: Home route
+            responses:
+                "200":
+                    description: Successful response
+                    content:
+                        application/json: {}
