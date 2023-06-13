@@ -604,7 +604,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5000/api/connector/6477b5cd6d902336337bce6c",
+							"raw": "http://localhost:5000/api/connector/{connectorId}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -613,7 +613,7 @@
 							"path": [
 								"api",
 								"connector",
-								"6477b5cd6d902336337bce6c"
+								"{connectorId}"
 							]
 						}
 					},
@@ -1269,18 +1269,16 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "http://ocpp.wheelsdrive.com:9000/reset/6479fc45513ae1ee10758180/CS-ABB-00001",
+							"raw": "http://localhost:9000/reset/6479fc45513ae1ee10758180/64806fe0906ce0087caba437",
 							"protocol": "http",
 							"host": [
-								"ocpp",
-								"wheelsdrive",
-								"com"
+								"localhost"
 							],
 							"port": "9000",
 							"path": [
 								"reset",
 								"6479fc45513ae1ee10758180",
-								"CS-ABB-00001"
+								"64806fe0906ce0087caba437"
 							]
 						}
 					},
@@ -1301,17 +1299,16 @@
 							}
 						},
 						"url": {
-							"raw": "https://websocket.wheeelsdrive.com/unlockConnector/6479fc45513ae1ee10758180/sn-abb-001",
-							"protocol": "https",
+							"raw": "http://localhost:9000/unlockConnector/6479fc45513ae1ee10758180/64806fe0906ce0087caba437",
+							"protocol": "http",
 							"host": [
-								"websocket",
-								"wheeelsdrive",
-								"com"
+								"localhost"
 							],
+							"port": "9000",
 							"path": [
 								"unlockConnector",
 								"6479fc45513ae1ee10758180",
-								"sn-abb-001"
+								"64806fe0906ce0087caba437"
 							],
 							"query": [
 								{
@@ -1326,15 +1323,12 @@
 				},
 				{
 					"name": "Remote Start Transaction",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"connectorId\": 1,\r\n    \"idTag\": \"1234\"\r\n}",
+							"raw": "{\r\n    \"connectorId\": 2,\r\n    \"idTag\": \"1234\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1342,18 +1336,16 @@
 							}
 						},
 						"url": {
-							"raw": "http://ocpp.wheelsdrive.com:9000/startTransaction/6479fc45513ae1ee10758180/CS-ABB-00001",
+							"raw": "http://localhost:9000/startTransaction/6479fc45513ae1ee10758180/64806fe0906ce0087caba437",
 							"protocol": "http",
 							"host": [
-								"ocpp",
-								"wheelsdrive",
-								"com"
+								"localhost"
 							],
 							"port": "9000",
 							"path": [
 								"startTransaction",
 								"6479fc45513ae1ee10758180",
-								"CS-ABB-00001"
+								"64806fe0906ce0087caba437"
 							]
 						}
 					},
@@ -1361,15 +1353,12 @@
 				},
 				{
 					"name": "Remote Stop Transaction",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    // \"connectorId\": 1\r\n    // \"transactionId\": 1.6859237703935737e+22\t\r\n}",
+							"raw": "{\r\n    \"connectorId\": 2\r\n    // \"transactionId\": 1.6859237703935737e+22\t\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1377,18 +1366,16 @@
 							}
 						},
 						"url": {
-							"raw": "http://ocpp.wheelsdrive.com:9000/stopTransaction/6479fc45513ae1ee10758180/CS-ABB-00001",
+							"raw": "http://localhost:9000/stopTransaction/6479fc45513ae1ee10758180/64806fe0906ce0087caba437",
 							"protocol": "http",
 							"host": [
-								"ocpp",
-								"wheelsdrive",
-								"com"
+								"localhost"
 							],
 							"port": "9000",
 							"path": [
 								"stopTransaction",
 								"6479fc45513ae1ee10758180",
-								"CS-ABB-00001"
+								"64806fe0906ce0087caba437"
 							]
 						}
 					},
@@ -1735,6 +1722,165 @@
 							"path": [
 								"stopTransaction",
 								"sn-abb-001"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User Auth",
+			"item": [
+				{
+					"name": "User Registration",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstname\": \"John\",\r\n    \"lastname\": \"Doe\",\r\n    \"username\": \"Pdd\",\r\n    \"mobile\": \"+2347013991106\",\r\n    \"password\": \"123456\",\r\n    \"pin\": \"1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/user/auth/signup",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"user",
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify Code",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"mobile\": \"+2347013991106\",\r\n    \"code\": \"731355\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/user/auth/verifyCode",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"user",
+								"auth",
+								"verifyCode"
+							],
+							"query": [
+								{
+									"key": "code",
+									"value": "105660",
+									"disabled": true
+								},
+								{
+									"key": "mobile",
+									"value": "+2347013991106",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send Code",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"mobile\": \"+2347013991106\",\r\n    \"resend\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/user/auth/sendCode",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"user",
+								"auth",
+								"sendCode"
+							],
+							"query": [
+								{
+									"key": "mobile",
+									"value": "+2347013991106",
+									"disabled": true
+								},
+								{
+									"key": "resend",
+									"value": "yes",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Log in",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"Pdd\",\r\n    \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/user/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"user",
+								"auth",
+								"login"
 							]
 						}
 					},

@@ -60,6 +60,10 @@ app.get("/", (req, res) => {
 const adminAuthRoutes = require("./routes/adminAuth");
 app.use("/api/admin/auth", adminAuthRoutes);
 
+// USER ROUTES
+const userAuthRoutes = require("./routes/userAuth");
+app.use("/api/user/auth", userAuthRoutes);
+
 // ADMIN DETAILS ROUTE
 const adminDetailsRoutes = require("./routes/adminDetails");
 app.use("/api/admin/details", adminDetailsRoutes);

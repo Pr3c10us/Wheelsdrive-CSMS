@@ -55,10 +55,10 @@ wss.on("connection", async (ws, request) => {
     const endpoint = request.url;
     const chargePointId = endpoint.split("/")[1];
     // const userId = endpoint.split("/")[1];
-    // const chargePointEndpoint = endpoint.split("/")[2];
+    // const chargePointId = endpoint.split("/")[2];
 
-    // close connection if userId or chargePointEndpoint is not provided
-    // if (!userId || !chargePointEndpoint) {
+    // close connection if userId or chargePointId is not provided
+    // if (!userId || !chargePointId) {
     //     ws.close();
     //     return;
     // }
@@ -77,8 +77,8 @@ wss.on("connection", async (ws, request) => {
         return;
     }
 
-    // Combine userId and chargePointEndpoint to create a unique key
-    // const chargePointKey = userId + chargePointEndpoint;
+    // Combine userId and chargePointId to create a unique key
+    // const chargePointKey = userId + chargePointId;
     const chargePointKey = chargePointId;
 
     // Check if the client is already connected
@@ -100,7 +100,7 @@ wss.on("connection", async (ws, request) => {
     // Get Info of chargePoint
     // const chargePointInfo = await ChargePointModel.findOne({
     //     admin: userId,
-    //     endpoint: chargePointEndpoint,
+    //     _id: chargePointId,
     // }); // VERY IMPORTANT VARIABLE
     const chargePointInfo = await ChargePointModel.findById(chargePointId); // VERY IMPORTANT VARIABLE
     // Resume the websocket connection back
@@ -123,12 +123,17 @@ wss.on("connection", async (ws, request) => {
     };
 
     if (chargePointInfo.clientCertificate) {
-        const certAuthSuccess = await checkClientCertificate(
-            chargePointInfo.clientCertificate,
-            request.socket
-        );
-        if (!certAuthSuccess) {
-            clientConnections.delete(chargePointKey);
+        try {
+            const certAuthSuccess = await checkClientCertificate(
+                chargePointInfo.clientCertificate,
+                request.socket
+            );
+            if (!certAuthSuccess) {
+                clientConnections.delete(chargePointKey);
+                ws.close();
+                return;
+            }
+        } catch (error) {
             ws.close();
             return;
         }
@@ -211,10 +216,10 @@ app.use(express.json());
 // ######################################################################################################
 // ######################################################################################################
 // Api Request handlers
-app.get("/send/:userId/:adminId/:chargePointEndpoint", async (req, res) => {
+app.get("/send/:userId/:adminId/:chargePointId", async (req, res) => {
     const userId = req.params.userId;
-    const chargePointEndpoint = req.params.chargePointEndpoint;
-    const chargePointKey = userId + chargePointEndpoint;
+    const chargePointId = req.params.chargePointId;
+    const chargePointKey = userId + chargePointId;
     const ws = clientConnections.get(chargePointKey);
     if (!ws) {
         return res.status(404).json({ msg: "Charger has been disconnected" });
@@ -235,7 +240,7 @@ app.get("/send/:userId/:adminId/:chargePointEndpoint", async (req, res) => {
 });
 
 // Remote reset handler
-app.post("/reset/:adminId/:chargePointEndpoint", async (req, res) => {
+app.post("/reset/:adminId/:chargePointId", async (req, res) => {
     // Get User Info from request
     const id = req.params.adminId;
     // get user info
@@ -249,8 +254,8 @@ app.post("/reset/:adminId/:chargePointEndpoint", async (req, res) => {
     // }
 
     // Get ChargePoint Info from request
-    const chargePointEndpoint = req.params.chargePointEndpoint;
-    const chargePointKey = id + chargePointEndpoint;
+    const chargePointId = req.params.chargePointId;
+    const chargePointKey = chargePointId;
     const ws = clientConnections.get(chargePointKey);
     if (!ws) {
         return res.status(404).json({ msg: "Charger has been disconnected" });
@@ -259,7 +264,7 @@ app.post("/reset/:adminId/:chargePointEndpoint", async (req, res) => {
     // Get ChargePoint Info from database
     const chargePointInfo = await ChargePointModel.findOne({
         admin,
-        endpoint: chargePointEndpoint,
+        _id: chargePointId,
     });
     if (!chargePointInfo) {
         return res.status(404).json({ msg: "ChargePoint not found" });
@@ -281,7 +286,7 @@ app.post("/reset/:adminId/:chargePointEndpoint", async (req, res) => {
 });
 
 // Remote Unlock Connector handler
-app.post("/unlockConnector/:adminId/:chargePointEndpoint", async (req, res) => {
+app.post("/unlockConnector/:adminId/:chargePointId", async (req, res) => {
     // Get User Info from request
     const id = req.params.adminId;
     // get user info
@@ -295,8 +300,8 @@ app.post("/unlockConnector/:adminId/:chargePointEndpoint", async (req, res) => {
     // }
 
     // Get ChargePoint Info from request
-    const chargePointEndpoint = req.params.chargePointEndpoint;
-    const chargePointKey = id + chargePointEndpoint;
+    const chargePointId = req.params.chargePointId;
+    const chargePointKey = chargePointId;
     const ws = clientConnections.get(chargePointKey);
     if (!ws) {
         return res.status(404).json({ msg: "Charger has been disconnected" });
@@ -313,7 +318,7 @@ app.post("/unlockConnector/:adminId/:chargePointEndpoint", async (req, res) => {
     // Get ChargePoint Info from database
     const chargePointInfo = await ChargePointModel.findOne({
         admin,
-        endpoint: chargePointEndpoint,
+        _id: chargePointId,
     });
     if (!chargePointInfo) {
         return res.status(404).json({ msg: "ChargePoint not found" });
@@ -336,7 +341,7 @@ app.post("/unlockConnector/:adminId/:chargePointEndpoint", async (req, res) => {
 
 // Remote Start Transaction handler
 app.post(
-    "/startTransaction/:adminId/:chargePointEndpoint",
+    "/startTransaction/:adminId/:chargePointId",
     async (req, res) => {
         // Get User Info from request
         const id = req.params.adminId;
@@ -353,8 +358,8 @@ app.post(
         // }
 
         // Get ChargePoint Info from request
-        const chargePointEndpoint = req.params.chargePointEndpoint;
-        const chargePointKey = id + chargePointEndpoint;
+        const chargePointId = req.params.chargePointId;
+        const chargePointKey = chargePointId;
         const ws = clientConnections.get(chargePointKey);
         if (!ws) {
             return res
@@ -365,7 +370,7 @@ app.post(
         // Get ChargePoint Info from database
         const chargePointInfo = await ChargePointModel.findOne({
             admin,
-            endpoint: chargePointEndpoint,
+            _id: chargePointId,
         });
         if (!chargePointInfo) {
             return res.status(404).json({ msg: "ChargePoint not found" });
@@ -422,7 +427,7 @@ app.post(
 );
 
 // Remote Start Transaction handler
-app.post("/stopTransaction/:adminId/:chargePointEndpoint", async (req, res) => {
+app.post("/stopTransaction/:adminId/:chargePointId", async (req, res) => {
     // Get User Info from request
     const id = req.params.adminId;
     // get user info
@@ -438,8 +443,8 @@ app.post("/stopTransaction/:adminId/:chargePointEndpoint", async (req, res) => {
     // }
 
     // Get ChargePoint Info from request
-    const chargePointEndpoint = req.params.chargePointEndpoint;
-    const chargePointKey = id + chargePointEndpoint;
+    const chargePointId = req.params.chargePointId;
+    const chargePointKey = chargePointId;
     const ws = clientConnections.get(chargePointKey);
     if (!ws) {
         return res.status(404).json({ msg: "Charger has been disconnected" });
@@ -448,7 +453,7 @@ app.post("/stopTransaction/:adminId/:chargePointEndpoint", async (req, res) => {
     // Get ChargePoint Info from database
     const chargePointInfo = await ChargePointModel.findOne({
         admin,
-        endpoint: chargePointEndpoint,
+        _id: chargePointId,
     });
     if (!chargePointInfo) {
         return res.status(404).json({ msg: "ChargePoint not found" });
