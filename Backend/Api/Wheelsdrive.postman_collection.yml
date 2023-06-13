@@ -54,8 +54,8 @@ paths:
             schema:
               type: object
               example:
-                email: rahulbhat13@yahoo.co.in
-                password: E!ement131184
+                email: demoMail@gmail.com
+                password: '123456'
       responses:
         '200':
           description: Successful response
@@ -721,8 +721,8 @@ paths:
               example:
                 username: PDD 2
                 firstName: Puff
-                lastName: ApiUser
-                email: puffd@gmail.com
+                lastName: demo
+                email: demoMail@gmail.com
                 mobile: '1234567890'
       responses:
         '200':
