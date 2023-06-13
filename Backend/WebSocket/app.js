@@ -53,23 +53,33 @@ wss.on("connection", async (ws, request) => {
 
     // Get user id and charge point endpoint from request url
     const endpoint = request.url;
-    const userId = endpoint.split("/")[1];
-    const chargePointEndpoint = endpoint.split("/")[2];
+    const chargePointId = endpoint.split("/")[1];
+    // const userId = endpoint.split("/")[1];
+    // const chargePointEndpoint = endpoint.split("/")[2];
 
     // close connection if userId or chargePointEndpoint is not provided
-    if (!userId || !chargePointEndpoint) {
+    // if (!userId || !chargePointEndpoint) {
+    //     ws.close();
+    //     return;
+    // }
+    if (!chargePointId) {
         ws.close();
         return;
     }
 
     // close connection if userId is not a valid ObjectId
-    if (!mongoose.Types.ObjectId.isValid(userId)) {
+    // if (!mongoose.Types.ObjectId.isValid(userId)) {
+    //     ws.close();
+    //     return;
+    // }
+    if (!mongoose.Types.ObjectId.isValid(chargePointId)) {
         ws.close();
         return;
     }
 
     // Combine userId and chargePointEndpoint to create a unique key
-    const chargePointKey = userId + chargePointEndpoint;
+    // const chargePointKey = userId + chargePointEndpoint;
+    const chargePointKey = chargePointId;
 
     // Check if the client is already connected
     if (clientConnections.has(chargePointKey)) {
@@ -88,10 +98,11 @@ wss.on("connection", async (ws, request) => {
     // Pause the websocket connection until we have cleared chargePoint to communicate with the websocket
     ws.pause();
     // Get Info of chargePoint
-    const chargePointInfo = await ChargePointModel.findOne({
-        admin: userId,
-        endpoint: chargePointEndpoint,
-    }); // VERY IMPORTANT VARIABLE
+    // const chargePointInfo = await ChargePointModel.findOne({
+    //     admin: userId,
+    //     endpoint: chargePointEndpoint,
+    // }); // VERY IMPORTANT VARIABLE
+    const chargePointInfo = await ChargePointModel.findById(chargePointId); // VERY IMPORTANT VARIABLE
     // Resume the websocket connection back
     ws.resume();
 

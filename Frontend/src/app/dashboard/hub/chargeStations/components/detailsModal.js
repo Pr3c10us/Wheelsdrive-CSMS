@@ -49,7 +49,7 @@ const DetailsModal = ({ openForm, setOpenForm, chargePoint }) => {
             },
             {
                 name: "WebSocket URI",
-                value: `${process.env.NEXT_PUBLIC_WEBSOCKET_URI}/${adminInfo._id}/${chargePoint.endpoint}`,
+                value: `${process.env.NEXT_PUBLIC_WEBSOCKET_URI}/${chargePoint._id}`,
             },
             {
                 name: "ClientCertificate",
@@ -154,7 +154,7 @@ const DetailsModal = ({ openForm, setOpenForm, chargePoint }) => {
                                                                 );
                                                             }}
                                                         />
-                                                        <p className="absolute -top-full left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-md bg-white text-accent px-2 transition-all duration-100 py-1 border shadow-lg text-sm opacity-0 peer-active:opacity-100">
+                                                        <p className="absolute -top-full left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-md border bg-white px-2 py-1 text-sm text-accent opacity-0 shadow-lg transition-all duration-100 peer-active:opacity-100">
                                                             Copied
                                                         </p>
                                                     </div>
