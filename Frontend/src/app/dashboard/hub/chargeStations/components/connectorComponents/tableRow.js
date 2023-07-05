@@ -14,7 +14,7 @@ import { BsFillUnlockFill } from "react-icons/bs";
 import { GrPowerReset } from "react-icons/gr";
 import axios from "axios";
 
-const TableRow = ({ connector, handleRefresh, endpoint }) => {
+const TableRow = ({ connector, handleRefresh, chargePointId }) => {
     const [openForm, setOpenForm] = React.useState(false);
     const admin = useSelector((state) => state.adminDetails.adminInfo);
     const dispatch = useDispatch();
@@ -37,7 +37,7 @@ const TableRow = ({ connector, handleRefresh, endpoint }) => {
                 return setLoading(false);
             }
             if (
-                connector.lastStatus != "Charging" &&
+                connector.lastStatus == "Available" &&
                 remoteAction == "stopTransaction"
             ) {
                 dispatch(changeErrorMessageType("Can't Stop Transaction"));
@@ -47,7 +47,7 @@ const TableRow = ({ connector, handleRefresh, endpoint }) => {
             }
 
             await axios.post(
-                `${websocket}${remoteAction}/${admin._id}/${endpoint}`,
+                `${websocket}${remoteAction}/${admin._id}/${chargePointId}`,
                 data
             );
             handleRefresh();
