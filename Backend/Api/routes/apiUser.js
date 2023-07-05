@@ -11,7 +11,7 @@ const {
 } = require("../controllers/apiUser");
 
 // Import adminAuthorization middleware
-const adminAuthorization = require("../middlewares/adminAuthorization.js");
+const {adminAuthorization} = require("../middlewares/adminAuthorization.js");
 
 // Create apiUser routes
 

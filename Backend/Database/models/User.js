@@ -19,6 +19,12 @@ const userSchema = new mongoose.Schema({
         type: String,
         unique: true,
     },
+    carDetails: {
+        type: String,
+    },
+    chargerAccess: {
+        type: String,
+    },
     password: {
         type: String,
     },
@@ -44,7 +50,7 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model("User", userSchema);
 
-module.exports = { User };
+module.exports = User ;
 
 // Demo user object
 // {

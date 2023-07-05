@@ -2,7 +2,7 @@
 const router = require("express").Router();
 
 // Import adminAuthorization middleware
-const adminAuthorization = require("../middlewares/adminAuthorization.js");
+const {adminAuthorization} = require("../middlewares/adminAuthorization.js");
 
 // Import ChargePoint model
 const { getSessions } = require("../controllers/sessions.js");

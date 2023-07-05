@@ -120,6 +120,7 @@ const verifyCode = async (req, res) => {
 
     // Check if the code is correct
     if (code !== user.otp[0]) {
+        console.log(code, user.otp[0], code !== user.otp[0]);
         throw new BadRequestError("The code provided is incorrect");
     }
     // Check if the code has expired

@@ -10,7 +10,7 @@ const {
 } = require("../controllers/rfid");
 
 // Import adminAuthorization middleware
-const adminAuthorization = require("../middlewares/adminAuthorization.js");
+const {adminAuthorization} = require("../middlewares/adminAuthorization.js");
 
 // Create rfid routes
 
