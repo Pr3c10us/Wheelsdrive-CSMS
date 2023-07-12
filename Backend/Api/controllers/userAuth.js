@@ -1,4 +1,4 @@
-const { User } = require("../../Database/models/User");
+const User = require("../../Database/models/User");
 const { ForbiddenError, NotFoundError, BadRequestError } = require("../errors");
 const bcrypt = require("bcryptjs");
 const { PublishCommand } = require("@aws-sdk/client-sns");

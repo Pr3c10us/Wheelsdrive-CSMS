@@ -12,6 +12,7 @@ import {
 import { MdNotStarted, MdOutlineStopCircle } from "react-icons/md";
 import { BsFillUnlockFill } from "react-icons/bs";
 import { GrPowerReset } from "react-icons/gr";
+import { IoQrCode } from "react-icons/io5";
 import axios from "axios";
 
 const TableRow = ({ connector, handleRefresh, chargePointId }) => {
@@ -130,20 +131,20 @@ const TableRow = ({ connector, handleRefresh, chargePointId }) => {
                 <td className="flex items-center justify-center gap-x-2 whitespace-nowrap px-4 py-4 font-medium text-text">
                     <div className="relative flex cursor-pointer items-center  justify-end">
                         {/* <BiDotsVerticalRounded className="peer w-8 h-8 text-3xl transition-all duration-200" /> */}
-                        <div className="flex items-center gap-x-2">
+                        <div className="flex  items-center gap-x-2">
                             <button
                                 title="Edit Connector Info"
                                 onClick={() => setOpenForm(true)}
                                 className="flex w-full items-center justify-center transition-all duration-200 hover:scale-110"
                             >
-                                <FiEdit3 className="h-6 w-6 transition-all duration-200 " />
+                                <FiEdit3 className="h-7 w-7 transition-all duration-200 " />
                             </button>
                             <button
                                 onClick={() => remoteActionFunction("reset")}
                                 title="Remote Reset"
                                 className=" transition-all duration-200 hover:scale-110"
                             >
-                                <GrPowerReset className="h-5 w-5" />
+                                <GrPowerReset className="h-6 w-6" />
                             </button>
                             <button
                                 onClick={() =>
@@ -152,7 +153,7 @@ const TableRow = ({ connector, handleRefresh, chargePointId }) => {
                                 title="Remote Unlock"
                                 className=" transition-all duration-200 hover:scale-110"
                             >
-                                <BsFillUnlockFill className="h-5 w-5" />
+                                <BsFillUnlockFill className="h-6 w-6" />
                             </button>
                             <button
                                 onClick={() =>
@@ -161,7 +162,7 @@ const TableRow = ({ connector, handleRefresh, chargePointId }) => {
                                 title="Remote Start"
                                 className=" transition-all duration-200 hover:scale-110"
                             >
-                                <MdNotStarted className="h-6 w-6 text-green-500" />
+                                <MdNotStarted className="h-7 w-7 text-green-500" />
                             </button>
                             <button
                                 onClick={() =>
@@ -170,7 +171,15 @@ const TableRow = ({ connector, handleRefresh, chargePointId }) => {
                                 title="Remote Stop"
                                 className=" transition-all duration-200 hover:scale-110"
                             >
-                                <MdOutlineStopCircle className="h-6 w-6 text-red-500" />
+                                <MdOutlineStopCircle className="h-7 w-7 text-red-500" />
+                            </button>
+                            <button
+                                title="Download Qr Code"
+                                className=" transition-all duration-200 hover:scale-110"
+                            >
+                                <a href={connector.qrcode_url} target="_blank">
+                                    <IoQrCode className="h-7 w-7 text-black" />
+                                </a>
                             </button>
                         </div>
                     </div>

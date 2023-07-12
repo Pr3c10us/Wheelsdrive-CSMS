@@ -67,6 +67,8 @@ app.use("/api/user/auth", userAuthRoutes);
 const userLocationRoutes = require("./routes/userLocation");
 app.use("/api/user/location", userLocationRoutes);
 
+const userChargePoints = require("./routes/userChargePoints");
+app.use("/api/user/chargePoints", userChargePoints);
 // ADMIN DETAILS ROUTE
 const adminDetailsRoutes = require("./routes/adminDetails");
 app.use("/api/admin/details", adminDetailsRoutes);

@@ -72,6 +72,7 @@ const handleStatusNotification = async (messageIn) => {
 
         // Run updateConnector function
         await updateConnector(chargePoint, connectorId, newStatus, null, null);
+        // Run
 
         // Create callResult
         const callResult = [messageTypeId, uniqueId, jsonOutPayload];

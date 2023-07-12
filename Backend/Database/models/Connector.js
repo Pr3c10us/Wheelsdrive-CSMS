@@ -38,7 +38,7 @@ const connectorSchema = new mongoose.Schema(
                     "Unavailable",
                     "Faulted",
                     "Charging",
-                    "Undefined"
+                    "Undefined",
                 ],
             },
         },
@@ -51,6 +51,9 @@ const connectorSchema = new mongoose.Schema(
         active: {
             type: Boolean,
             default: false,
+        },
+        qrcode_url: {
+            type: String,
         },
         chargePoint: {
             type: mongoose.Schema.Types.ObjectId,

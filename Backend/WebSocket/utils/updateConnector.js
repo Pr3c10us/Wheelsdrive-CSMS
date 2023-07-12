@@ -68,6 +68,7 @@
 
 // Import connector model
 const Connector = require("../../Database/models/Connector");
+const { generateAndStoreQRCode } = require("./uploadQrCode");
 
 const updateConnector = async (
     chargePoint,
@@ -105,6 +106,16 @@ const updateConnector = async (
                 // Save the updates
                 await newConnector.save();
 
+                // Generate and store qr code
+                await generateAndStoreQRCode(
+                    `${newConnector._id}`,
+                    `${newConnector._id}.png`
+                );
+                newConnector.qrcode_url = `https://${process.env.S3_QR_CODE_BUCKET_NAME}.s3.amazonaws.com/${newConnector._id}.png`;
+
+                // Save the updates
+                await newConnector.save();
+                
                 // Add connector to chargePoint
                 chargePoint.connectors.push(newConnector._id);
                 await chargePoint.save();
@@ -124,8 +135,7 @@ const updateConnector = async (
                 await connectorStatus.save();
             }
         }
-    } catch (error) {
-    }
+    } catch (error) {}
 };
 
 module.exports = updateConnector;
