@@ -5,6 +5,7 @@ const User = require("../../Database/models/User");
 
 const adminAuthorization = async (req, res, next) => {
     // check if auth header exist
+    console.log(req.headers.authorization);
     if (
         !req.headers ||
         !req.headers.authorization ||

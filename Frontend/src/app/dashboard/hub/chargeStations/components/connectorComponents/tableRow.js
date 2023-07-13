@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FiEdit3 } from "react-icons/fi";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { HiOutlineStatusOnline } from "react-icons/hi";
@@ -48,8 +48,13 @@ const TableRow = ({ connector, handleRefresh, chargePointId }) => {
             }
 
             await axios.post(
-                `${websocket}${remoteAction}/${admin._id}/${chargePointId}`,
-                data
+                `${websocket}admin/${remoteAction}/${connector._id}`,
+                data,
+                {
+                    headers: {
+                        Authorization: `JWT ${localStorage.getItem("token")}`,
+                    },
+                }
             );
             handleRefresh();
             setLoading(false);
