@@ -24,6 +24,13 @@ const getConnectorInfo = async (req, res) => {
             updatedAt: 0,
             __v: 0,
         })
+        .populate("rate", {
+            admin: 0,
+            chargePoints: 0,
+            createdAt: 0,
+            updatedAt: 0,
+            __v: 0,
+        })
         // .populate("connectors")
         .select("-admin -createdAt -updatedAt -__v");
 
@@ -49,10 +56,14 @@ const updateConnector = async (req, res) => {
 
     // ##########################################################################
     // Update connector with id and admin
-    const connector = await Connector.findOneAndUpdate({ _id: id, admin }, req.body, {
-        new: true,
-        runValidators: true,
-    })
+    const connector = await Connector.findOneAndUpdate(
+        { _id: id, admin },
+        req.body,
+        {
+            new: true,
+            runValidators: true,
+        }
+    )
         .populate("chargePoint", {
             _id: 0,
             admin: 0,

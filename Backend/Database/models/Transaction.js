@@ -37,7 +37,7 @@ const transactionSchema = new mongoose.Schema(
         discountChargingRate: {
             type: Number,
         },
-        totalEnergy:{
+        totalEnergy: {
             type: Number,
         },
         cost: {

@@ -99,7 +99,10 @@ const adminLogIn = async (req, res) => {
         signed: true,
     };
 
-    res.cookie("token", token, cookieOptions).json({ msg: "Login Successful" });
+    res.cookie("token", token, cookieOptions).json({
+        msg: "Login Successful",
+        token,
+    });
 };
 
 const logout = async (req, res) => {

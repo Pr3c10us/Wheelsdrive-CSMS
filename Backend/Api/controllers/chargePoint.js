@@ -4,6 +4,9 @@ const ChargePoint = require("../../Database/models/ChargePoint");
 const Connector = require("../../Database/models/Connector");
 const Location = require("../../Database/models/Location");
 const mongoose = require("mongoose");
+const { PutObjectCommand } = require("@aws-sdk/client-s3");
+const s3 = require("../aws/s3");
+
 const createChargePoint = async (req, res) => {
     // get admin id
     const { id: adminId } = req.admin;
@@ -286,9 +289,16 @@ const deleteChargePoint = async (req, res) => {
         throw new NotFoundError("chargePoint not found");
     }
 
+    // Delete all connector in the chargePoint qr code from s3 bucket
+    chargePoint.connectors.forEach(async (connector) => {
+        await s3.deleteObject({
+            Bucket: process.env.S3_QR_CODE_BUCKET_NAME,
+            Key: `${connector}.png`,
+        });
+    });
     // Delete all connector with the chargePointId
     await Connector.deleteMany({ chargePoint });
-
+    
     res.json({ msg: "chargePoint Deleted" });
 };
 

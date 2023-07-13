@@ -8,6 +8,8 @@ const handleHeartbeat = async (messageIn) => {
     let jsonOutPayload = {
         currentTime: new Date().toISOString(),
     };
+    // Initialize uniqueId to messageIn.UniqueId
+    let uniqueId = messageIn[1];
 
     // Get chargePointId from message
     const chargePointId = messageIn[messageIn.length - 2];
@@ -27,7 +29,7 @@ const handleHeartbeat = async (messageIn) => {
         });
         return callError;
     }
-    
+
     await Log.create({
         message: messageIn[2],
         origin: "charger",
