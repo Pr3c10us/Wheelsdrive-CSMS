@@ -68,25 +68,23 @@ const getChargePoints = async (req, res) => {
     // get chargePoint id from request params
     const { id } = req.params;
 
-    // check if id is proper objectId
-    if (!mongoose.isValidObjectId(id)) {
-        throw new BadRequestError("Invalid Id");
-    }
-
     // #################################################################
-    // Get chargePoint wih id
-    const chargePoint = await ChargePoint.findById(id)
-        .populate("location", {
+    // Get chargePoint wih id and admin
+
+    const chargePoint = await Connector.findOne({ _id: id })
+        .populate("chargePoint", {
             admin: 0,
             chargePoints: 0,
             createdAt: 0,
             updatedAt: 0,
             __v: 0,
         })
-        .populate({
-            path: "connectors",
-            select: "-createdAt -updatedAt -__v",
-            populate: { path: "admin" },
+        .populate("rate", {
+            admin: 0,
+            chargePoints: 0,
+            createdAt: 0,
+            updatedAt: 0,
+            __v: 0,
         })
         // .populate("connectors")
         .select("-admin -createdAt -updatedAt -__v");
