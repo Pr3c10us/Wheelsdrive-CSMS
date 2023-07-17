@@ -63,7 +63,7 @@ const createChargePoint = async (req, res) => {
     // ##########################################################################
     // Create ChargePoint
 
-    const chargePoint = await ChargePoint.create(req.body);
+    await ChargePoint.create(req.body);
 
     // // ##########################################################################
     // // Add ChargePoint to Location

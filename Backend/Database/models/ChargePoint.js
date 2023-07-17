@@ -6,7 +6,7 @@ const ChargePointSchema = new mongoose.Schema(
         name: {
             type: String,
         },
-
+        
         endpoint: {
             type: String,
         },
