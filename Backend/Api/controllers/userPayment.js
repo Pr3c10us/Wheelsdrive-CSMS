@@ -1,5 +1,5 @@
 const User = require("../../Database/models/User");
-const TopUpTransaction = require("../../Database/models/topupTransaction");
+const TopUpTransaction = require("../../Database/models/topUpTransaction");
 const razorpayInstance = require("../razorpay/razorPay");
 const Razorpay = require("razorpay");
 
