@@ -1,6 +1,6 @@
 const User = require("../../Database/models/User");
 const TopUpTransaction = require("../../Database/models/topUpTransaction");
-const razorpayInstance = require("../razorpay/razorPay");
+const razorpayInstance = require("../razorPay/razorPay");
 const Razorpay = require("razorpay");
 
 const order = async (req, res) => {
