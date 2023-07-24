@@ -56,9 +56,13 @@ app.get("/", (req, res) => {
     res.json({ msg: "Welcome To Wheelsdrive" });
 });
 
-// ADMIN ROUTES
+// ADMIN AUTH ROUTES
 const adminAuthRoutes = require("./routes/adminAuth");
 app.use("/api/admin/auth", adminAuthRoutes);
+
+// ADMIN DASHBOARD ROUTE
+const dashboardRoute = require("./routes/dashboard");
+app.use("/api/admin/dashboard", dashboardRoute);
 
 // USER ROUTES
 const userAuthRoutes = require("./routes/userAuth");
@@ -69,6 +73,9 @@ app.use("/api/user/location", userLocationRoutes);
 
 const userChargePoints = require("./routes/userChargePoints");
 app.use("/api/user/chargePoints", userChargePoints);
+
+const userPaymentRoutes = require("./routes/userPayment");
+app.use("/api/user/payment", userPaymentRoutes);
 // ADMIN DETAILS ROUTE
 const adminDetailsRoutes = require("./routes/adminDetails");
 app.use("/api/admin/details", adminDetailsRoutes);

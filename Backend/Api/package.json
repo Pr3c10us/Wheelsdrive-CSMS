@@ -33,6 +33,7 @@
     "morgan": "^1.10.0",
     "node-persist": "^3.1.0",
     "pm2": "^5.2.2",
+    "razorpay": "^2.9.1",
     "readline-sync": "^1.4.10",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^4.6.3",
