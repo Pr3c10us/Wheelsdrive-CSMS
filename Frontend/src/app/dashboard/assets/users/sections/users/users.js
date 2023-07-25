@@ -83,7 +83,7 @@ const Users = () => {
         }
     };
 
-    if (loading) {
+    if (loading || refreshing) {
         return <Loading />;
     }
     return (
@@ -107,12 +107,7 @@ const Users = () => {
                     Create
                 </button>
             </div>
-            {refreshing ? (
-                <div className="w-full py-20 grid place-content-center">
-                    <HashLoader color="#191970" />
-                </div>
-            ) : (
-                <>
+            
                     <div className="overflow-x-auto relative border-primary border rounded-md shadow-lg scrollbar-table">
                         <table className="min-w-full divide-y-2 divide-primary bg-white text-sm">
                             <thead className="ltr:text-left rtl:text-right">
@@ -154,8 +149,7 @@ const Users = () => {
                         setOpenForm={setOpenForm}
                         handleRefresh={handleRefresh}
                     />
-                </>
-            )}
+                
             <div className="flex items-center justify-end text-xl py-4">
                 <BsCaretLeftFill
                     className="text-primary cursor-pointer"

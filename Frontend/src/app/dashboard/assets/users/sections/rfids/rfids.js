@@ -84,7 +84,7 @@ const Rfids = () => {
         }
     };
 
-    if (loading) {
+    if (loading || refreshing) {
         return <Loading />;
     }
     return (
@@ -108,58 +108,52 @@ const Rfids = () => {
                     Create
                 </button>
             </div>
-            {refreshing ? (
-                <div className="grid w-full place-content-center py-20">
-                    <HashLoader color="#191970" />
-                </div>
-            ) : (
-                <>
-                    <div className="scrollbar-table relative overflow-x-auto rounded-md border border-primary shadow-lg">
-                        <table className="min-w-full divide-y-2 divide-primary bg-white text-sm">
-                            <thead className="ltr:text-left rtl:text-right">
-                                <tr className="bg-primary bg-opacity-25 text-base font-semibold">
-                                    <th className="whitespace-nowrap px-4 py-3 text-text">
-                                        Name
-                                    </th>
-                                    <th className="whitespace-nowrap px-4 py-3 text-text">
-                                        RFID
-                                    </th>
-                                    <th className="whitespace-nowrap px-4 py-3 text-text">
-                                        Expires
-                                    </th>
-                                    <th className="whitespace-nowrap px-4 py-3 text-text">
-                                        Blocked{" "}
-                                    </th>
-                                    <th className="whitespace-nowrap px-4 py-3 text-text">
-                                        ParentRFID
-                                    </th>
-                                    <th className="whitespace-nowrap px-4 py-3 text-text">
-                                        ApiUser
-                                    </th>
-                                    <th className="whitespace-nowrap px-4 py-3 text-text"></th>
-                                </tr>
-                            </thead>
 
-                            <tbody className="divide-y divide-gray-200 text-center">
-                                {rfids.map((rfid) => {
-                                    return (
-                                        <TableRow
-                                            rfid={rfid}
-                                            key={rfid._id}
-                                            handleRefresh={handleRefresh}
-                                        />
-                                    );
-                                })}
-                            </tbody>
-                        </table>
-                    </div>
-                    <CreateFormModal
-                        openForm={openForm}
-                        setOpenForm={setOpenForm}
-                        handleRefresh={handleRefresh}
-                    />
-                </>
-            )}
+            <div className="scrollbar-table relative overflow-x-auto rounded-md border border-primary shadow-lg">
+                <table className="min-w-full divide-y-2 divide-primary bg-white text-sm">
+                    <thead className="ltr:text-left rtl:text-right">
+                        <tr className="bg-primary bg-opacity-25 text-base font-semibold">
+                            <th className="whitespace-nowrap px-4 py-3 text-text">
+                                Name
+                            </th>
+                            <th className="whitespace-nowrap px-4 py-3 text-text">
+                                RFID
+                            </th>
+                            <th className="whitespace-nowrap px-4 py-3 text-text">
+                                Expires
+                            </th>
+                            <th className="whitespace-nowrap px-4 py-3 text-text">
+                                Blocked{" "}
+                            </th>
+                            <th className="whitespace-nowrap px-4 py-3 text-text">
+                                ParentRFID
+                            </th>
+                            <th className="whitespace-nowrap px-4 py-3 text-text">
+                                ApiUser
+                            </th>
+                            <th className="whitespace-nowrap px-4 py-3 text-text"></th>
+                        </tr>
+                    </thead>
+
+                    <tbody className="divide-y divide-gray-200 text-center">
+                        {rfids.map((rfid) => {
+                            return (
+                                <TableRow
+                                    rfid={rfid}
+                                    key={rfid._id}
+                                    handleRefresh={handleRefresh}
+                                />
+                            );
+                        })}
+                    </tbody>
+                </table>
+            </div>
+            <CreateFormModal
+                openForm={openForm}
+                setOpenForm={setOpenForm}
+                handleRefresh={handleRefresh}
+            />
+
             <div className="flex items-center justify-end py-4 text-xl">
                 <BsCaretLeftFill
                     className="cursor-pointer text-primary"

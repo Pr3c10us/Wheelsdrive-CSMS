@@ -13,6 +13,10 @@ const getLogs = async (req, res) => {
     // create a query object to filter result and for search attribute add admin to it
     const queryObject = { admin };
 
+    if (req.query.chargePoint) {
+        queryObject.chargePoint = req.query.chargePoint;
+    }
+
     // get Sessions for admin
     let result = Log.find(queryObject)
         .populate("chargePoint", "endpoint")

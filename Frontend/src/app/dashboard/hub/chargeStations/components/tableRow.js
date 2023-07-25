@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
-import { HiOutlineStatusOnline, HiInformationCircle } from "react-icons/hi";
-import { DiHtml5Connectivity} from "react-icons/di";
+import {
+    HiOutlineStatusOnline,
+    HiInformationCircle,
+    HiMenu,
+} from "react-icons/hi";
+import { DiHtml5Connectivity } from "react-icons/di";
 import { FiEdit3 } from "react-icons/fi";
 import { MdDelete } from "react-icons/md";
 import { HiMinus, HiPlus } from "react-icons/hi2";
@@ -14,11 +18,15 @@ import axios from "axios";
 import EditFormModal from "./editFormModal";
 import ConnectorTable from "./connectorComponents/conectorTable";
 import DetailsModal from "./detailsModal";
+import { CgNotes } from "react-icons/cg";
 
 const TableRow = ({ chargePoint, handleRefresh }) => {
     const [openEditForm, setOpenEditForm] = useState(false);
     const [openDetails, setOpenDetails] = useState(false);
     const [showConnectors, setShowConnectors] = useState(false);
+    const [showMenu, setShowMenu] = useState(false);
+    const [showLogs, setShowLogs] = useState(false);
+
     const dispatch = useDispatch();
 
     const handleDelete = async () => {
@@ -75,27 +83,53 @@ const TableRow = ({ chargePoint, handleRefresh }) => {
                         {chargePoint.connectors.length}
                     </span>
                 </td>
-                <td className="flex w-full gap-x-2 whitespace-nowrap px-4 py-4 font-medium text-text">
+                <td className="z-0 flex w-full gap-x-2 whitespace-nowrap px-4 py-4 font-medium text-text">
                     <button
                         onClick={() => setOpenDetails(true)}
-                        className="flex w-24 flex-1 items-center justify-center gap-x-2 rounded border border-black px-2 py-2 transition-all duration-200 hover:scale-105 hover:border-primary hover:text-primary"
+                        className="flex flex-1 items-center justify-center gap-x-2 rounded border border-black px-2.5 py-2 transition-all duration-200 hover:scale-105 hover:border-primary hover:text-primary"
                     >
                         <HiInformationCircle />
                         Details
                     </button>
                     <button
-                        onClick={() => setOpenEditForm(true)}
-                        className="flex w-24 flex-1 items-center justify-center gap-x-2 rounded border border-black px-2 py-2 transition-all duration-200 hover:scale-105 hover:border-primary hover:text-primary"
+                        onClick={() => setOpenDetails(true)}
+                        className="flex flex-1 items-center justify-center gap-x-2 rounded border border-black px-4 py-2 transition-all duration-200 hover:scale-105 hover:border-primary hover:text-primary"
                     >
-                        <FiEdit3 />
-                        Edit
+                        <CgNotes />
+                        Logs
+                    </button>
+                    <button
+                        onClick={() => setOpenEditForm(true)}
+                        className="flex w-full items-center justify-center"
+                    >
+                        <FiEdit3 className="h-6 w-6 transition-all duration-200 hover:scale-110 hover:text-primary" />
                     </button>
                     <button
                         onClick={handleDelete}
-                        className="flex w-24 flex-1 items-center justify-center gap-x-2 rounded border border-black px-2 py-2 transition-all duration-200 hover:scale-105 hover:border-red-500 hover:text-red-500"
+                        className="flex w-full items-center justify-center"
                     >
-                        <MdDelete /> Delete
+                        <MdDelete className="h-6 w-6 transition-all duration-200 hover:scale-110 hover:text-red-500" />
                     </button>
+                    {/* <div className="relative grid place-content-center z-20">
+                        <button>
+                            <HiMenu className="h-8 w-8" />
+                        </button>
+                        <div className="absolute -bottom-4 flex flex-col bg-white z-[100]">
+                            <button
+                                onClick={() => setOpenEditForm(true)}
+                                className="flex w-full flex-1 items-center justify-center gap-x-2 rounded border border-black px-2 py-2 transition-all duration-200 hover:scale-105 hover:border-primary hover:text-primary"
+                            >
+                                <FiEdit3 />
+                                Edit
+                            </button>
+                            <button
+                                onClick={handleDelete}
+                                className="flex w-full flex-1 items-center justify-center gap-x-2 rounded border border-black px-2 py-2 transition-all duration-200 hover:scale-105 hover:border-red-500 hover:text-red-500"
+                            >
+                                <MdDelete /> Delete
+                            </button>
+                        </div>
+                    </div> */}
                 </td>
             </tr>
 

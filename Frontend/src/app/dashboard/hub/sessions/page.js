@@ -86,9 +86,10 @@ const Sessions = () => {
         handleEffect();
     }, [page]);
 
-    if (loading) {
+    if (loading || refreshing) {
         return <Loading />;
     }
+    
     return (
         <main className="relative flex flex-col space-y-4 overflow-hidden">
             <Alert />
@@ -102,70 +103,64 @@ const Sessions = () => {
                     Refresh
                 </button>
             </div>
-            {refreshing ? (
-                <div className="grid w-full place-content-center py-20">
-                    <HashLoader color="#191970" />
-                </div>
-            ) : (
-                <>
-                    <div className="scrollbar-table relative overflow-x-auto rounded-md border border-primary shadow-lg">
-                        <table className="min-w-full divide-y-2 divide-primary bg-white text-sm ">
-                            <thead className="ltr:text-left rtl:text-right">
-                                <tr className="bg-primary bg-opacity-25 text-sm font-semibold">
-                                    <th className="whitespace-nowrap px-4 py-3 text-text">
-                                        Session ID
-                                    </th>
-                                    <th className="whitespace-nowrap px-4 py-3 text-text">
-                                        Start Time
-                                    </th>
-                                    <th className="whitespace-nowrap px-4 py-3 text-text">
-                                        End Time{" "}
-                                    </th>
-                                    <th className="whitespace-nowrap px-4 py-3 text-text">
-                                        Status{" "}
-                                    </th>
-                                    <th className="whitespace-nowrap px-4 py-3 text-text">
-                                        Location
-                                    </th>
-                                    <th className="whitespace-nowrap px-4 py-3 text-text">
-                                        ChargePoint
-                                    </th>
 
-                                    <th className="whitespace-nowrap px-4 py-3 text-text">
-                                        Duration
-                                        <span className="text-sm text-white font-medium">
-                                            {` `}(H)
-                                        </span>
-                                    </th>
-                                    <th className="whitespace-nowrap px-4 py-3 text-text">
-                                        Consumption{" "}
-                                        <span className="text-sm text-white font-medium">
-                                            {` `}(Kw)
-                                        </span>
-                                    </th>
-                                    <th className="whitespace-nowrap px-4 py-3 text-text">
-                                        Cost{" "}
-                                        <span className="text-sm text-white font-medium">
-                                            {` `}(₹)
-                                        </span>
-                                    </th>
-                                </tr>
-                            </thead>
+            <div className="scrollbar-table relative overflow-x-auto rounded-md border border-primary shadow-lg">
+                <table className="min-w-full divide-y-2 divide-primary bg-white text-sm ">
+                    <thead className="ltr:text-left rtl:text-right">
+                        <tr className="bg-primary bg-opacity-25 text-sm font-semibold">
+                            <th className="whitespace-nowrap px-4 py-3 text-text">
+                                Session ID
+                            </th>
+                            <th className="whitespace-nowrap px-4 py-3 text-text">
+                                Start Time
+                            </th>
+                            <th className="whitespace-nowrap px-4 py-3 text-text">
+                                End Time{" "}
+                            </th>
+                            <th className="whitespace-nowrap px-4 py-3 text-text">
+                                Status{" "}
+                            </th>
+                            <th className="whitespace-nowrap px-4 py-3 text-text">
+                                Location
+                            </th>
+                            <th className="whitespace-nowrap px-4 py-3 text-text">
+                                ChargePoint
+                            </th>
 
-                            <tbody className="divide-y divide-gray-200 text-center">
-                                {sessions.map((sessions) => {
-                                    return (
-                                        <TableRow
-                                            sessions={sessions}
-                                            key={sessions._id}
-                                        />
-                                    );
-                                })}
-                            </tbody>
-                        </table>
-                    </div>
-                </>
-            )}
+                            <th className="whitespace-nowrap px-4 py-3 text-text">
+                                Duration
+                                <span className="text-sm font-medium text-white">
+                                    {` `}(H)
+                                </span>
+                            </th>
+                            <th className="whitespace-nowrap px-4 py-3 text-text">
+                                Consumption{" "}
+                                <span className="text-sm font-medium text-white">
+                                    {` `}(Kw)
+                                </span>
+                            </th>
+                            <th className="whitespace-nowrap px-4 py-3 text-text">
+                                Cost{" "}
+                                <span className="text-sm font-medium text-white">
+                                    {` `}(₹)
+                                </span>
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody className="divide-y divide-gray-200 text-center">
+                        {sessions.map((sessions) => {
+                            return (
+                                <TableRow
+                                    sessions={sessions}
+                                    key={sessions._id}
+                                />
+                            );
+                        })}
+                    </tbody>
+                </table>
+            </div>
+
             <div className="flex items-center justify-end py-4 text-xl">
                 <BsCaretLeftFill
                     className="cursor-pointer text-primary"

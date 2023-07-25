@@ -86,7 +86,7 @@ const Logs = () => {
         handleEffect();
     }, [page]);
 
-    if (loading) {
+    if (loading || refreshing) {
         return <Loading />;
     }
     return (
@@ -102,48 +102,40 @@ const Logs = () => {
                     Refresh
                 </button>
             </div>
-            {refreshing ? (
-                <div className="grid w-full place-content-center py-20">
-                    <HashLoader color="#191970" />
-                </div>
-            ) : (
-                <>
-                    <div className="scrollbar-table relative overflow-x-auto rounded-md border border-primary shadow-lg">
-                        <table className="min-w-full divide-y-2 divide-primary bg-white text-sm ">
-                            <thead className="ltr:text-left rtl:text-right">
-                                <tr className="bg-primary bg-opacity-25 font-semibold">
-                                    <th className="whitespace-nowrap px-4 py-3 text-text">
-                                        
-                                    </th>
-                                    <th className="whitespace-nowrap px-4 py-3 text-text">
-                                        TimeStamp
-                                    </th>
-                                    <th className="whitespace-nowrap px-4 py-3 text-text">
-                                        Origin
-                                    </th>
-                                    <th className="whitespace-nowrap px-4 py-3 text-text">
-                                        ChargeStation{" "}
-                                    </th>
-                                    <th className="whitespace-nowrap px-4 py-3 text-text">
-                                        Message{" "}
-                                    </th>
-                                    <th className="whitespace-nowrap px-4 py-3 text-text">
-                                        Error Message{" "}
-                                    </th>
-                                </tr>
-                            </thead>
 
-                            <tbody className="divide-y divide-gray-200 text-center">
-                                {logs.map((logs) => {
-                                    return (
-                                        <TableRow logs={logs} key={logs._id} />
-                                    );
-                                })}
-                            </tbody>
-                        </table>
-                    </div>
-                </>
-            )}
+            <>
+                <div className="scrollbar-table relative overflow-x-auto rounded-md border border-primary shadow-lg">
+                    <table className="min-w-full divide-y-2 divide-primary bg-white text-sm ">
+                        <thead className="ltr:text-left rtl:text-right">
+                            <tr className="bg-primary bg-opacity-25 font-semibold">
+                                <th className="whitespace-nowrap px-4 py-3 text-text"></th>
+                                <th className="whitespace-nowrap px-4 py-3 text-text">
+                                    TimeStamp
+                                </th>
+                                <th className="whitespace-nowrap px-4 py-3 text-text">
+                                    Origin
+                                </th>
+                                <th className="whitespace-nowrap px-4 py-3 text-text">
+                                    ChargeStation{" "}
+                                </th>
+                                <th className="whitespace-nowrap px-4 py-3 text-text">
+                                    Message{" "}
+                                </th>
+                                <th className="whitespace-nowrap px-4 py-3 text-text">
+                                    Error Message{" "}
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody className="divide-y divide-gray-200 text-center">
+                            {logs.map((logs) => {
+                                return <TableRow logs={logs} key={logs._id} />;
+                            })}
+                        </tbody>
+                    </table>
+                </div>
+            </>
+
             <div className="flex items-center justify-end py-4 text-xl">
                 <BsCaretLeftFill
                     className="cursor-pointer text-primary"

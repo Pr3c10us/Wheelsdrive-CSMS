@@ -90,7 +90,7 @@ const ChargePoints = () => {
         handleEffect();
     }, [page]);
 
-    if (loading) {
+    if (loading || refreshing) {
         return <Loading />;
     }
     return (
@@ -114,12 +114,7 @@ const ChargePoints = () => {
                     Create
                 </button>
             </div>
-            {refreshing ? (
-                <div className="grid w-full place-content-center py-20">
-                    <HashLoader color="#191970" />
-                </div>
-            ) : (
-                <>
+            
                     <div className="scrollbar-table relative overflow-x-auto rounded-md border border-primary shadow-lg">
                         <table className="min-w-full divide-y-2 divide-primary bg-white text-sm">
                             <thead className="ltr:text-left rtl:text-right">
@@ -164,8 +159,7 @@ const ChargePoints = () => {
                         setOpenForm={setOpenForm}
                         handleRefresh={handleRefresh}
                     />
-                </>
-            )}
+              
             <div className="flex items-center justify-end py-4 text-xl">
                 <BsCaretLeftFill
                     className="cursor-pointer text-primary"

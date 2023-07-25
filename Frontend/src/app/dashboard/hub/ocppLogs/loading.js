@@ -4,16 +4,13 @@ import { HiPlus } from "react-icons/hi2";
 
 const Loading = () => {
     return (
-        <main className="relative flex animate-pulse flex-col space-y-4 overflow-hidden">
+        <main className="relative flex animate-pulse flex-col space-y-4 overflow-hidden py-5">
             <div className="flex w-full justify-end gap-x-2">
-                <button className="flex items-center justify-center gap-x-1 rounded-md bg-gray-300 px-2 py-1 text-sm text-gray-300 sm:gap-x-2 sm:px-4 sm:text-lg ">
+                <button className="flex items-center justify-center gap-x-1 rounded-md bg-gray-300 px-4 py-1.5 text-sm text-gray-300 sm:gap-x-2 sm:px-8 sm:text-lg ">
                     {" "}
                     Refresh
                 </button>
-                <button className="flex  items-center justify-center gap-x-1 rounded-md bg-gray-300 px-2 py-1 text-sm text-gray-300  sm:gap-x-2 sm:px-4 sm:text-lg">
-                    {" "}
-                    Create
-                </button>
+               
             </div>
 
             <div className="relative overflow-hidden rounded-md border shadow-lg">
