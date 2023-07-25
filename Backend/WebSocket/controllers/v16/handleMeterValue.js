@@ -18,9 +18,7 @@ const handleMeterValue = async (messageIn) => {
     // Get chargePointId from messageIn
     const chargePointId = messageIn[messageIn.length - 2];
     // Get chargePoint from database
-    const chargePoint = await ChargePointModel.findOne({
-        connectionId: chargePointId,
-    });
+    const chargePoint = await ChargePointModel.findById(chargePointId);
     if (!chargePoint) {
         const errorCode = "InternalError";
         // Return Error Message with error code FormationViolation
@@ -34,7 +32,7 @@ const handleMeterValue = async (messageIn) => {
         });
         return callError;
     }
-
+    
     let connectorId = -1;
     let meterValue = [];
 

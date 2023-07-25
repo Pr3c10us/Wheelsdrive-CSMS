@@ -21,9 +21,7 @@ const handleBootNotification = async (messageIn) => {
     const ocppVersion = messageIn[messageIn.length - 1];
 
     // Get chargePoint from database
-    const chargePoint = await ChargePointModel.findOne({
-        connectionId: chargePointId,
-    });
+    const chargePoint = await ChargePointModel.findById(chargePointId);
     if (!chargePoint) {
         const errorCode = "InternalError";
         // Return Error Message with error code FormationViolation
