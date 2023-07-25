@@ -53,7 +53,7 @@ const LogsModal = ({ openForm, setOpenForm, chargePoint }) => {
                             <div className="col-span-2 mb-4 flex w-full flex-col gap-y-4 rounded bg-black text-white last:border-none overflow-auto">
                                 {logs.map((log) => {
                                     return (
-                                        <div className="flex w-full flex-col text-base border-b border-white p-4">
+                                        <div className="flex w-full flex-col text-base border-b border-white p-4 overflow-auto">
                                             <h2 className="font-semibold">
                                                 <span className="text-sm font-semibold text-accent">
                                                     message :
