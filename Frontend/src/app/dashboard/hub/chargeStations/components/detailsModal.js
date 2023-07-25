@@ -49,7 +49,7 @@ const DetailsModal = ({ openForm, setOpenForm, chargePoint }) => {
             },
             {
                 name: "WebSocket URI",
-                value: `${process.env.NEXT_PUBLIC_WEBSOCKET_URI}/${chargePoint._id}`,
+                value: `${process.env.NEXT_PUBLIC_WEBSOCKET_URI}/${chargePoint.connectionId}`,
             },
             {
                 name: "ClientCertificate",

@@ -72,10 +72,10 @@ wss.on("connection", async (ws, request) => {
     //     ws.close();
     //     return;
     // }
-    if (!mongoose.Types.ObjectId.isValid(chargePointId)) {
-        ws.close();
-        return;
-    }
+    // if (!mongoose.Types.ObjectId.isValid(chargePointId)) {
+    //     ws.close();
+    //     return;
+    // }
 
     // Combine userId and chargePointId to create a unique key
     // const chargePointKey = userId + chargePointId;
@@ -102,7 +102,9 @@ wss.on("connection", async (ws, request) => {
     //     admin: userId,
     //     _id: chargePointId,
     // }); // VERY IMPORTANT VARIABLE
-    const chargePointInfo = await ChargePointModel.findById(chargePointId); // VERY IMPORTANT VARIABLE
+    const chargePointInfo = await ChargePointModel.findOne({
+        connectionId: chargePointId,
+    }); // VERY IMPORTANT VARIABLE
     // Resume the websocket connection back
     ws.resume();
 
@@ -261,8 +263,8 @@ app.post("/admin/reset/:connectorId", adminAuthorization, async (req, res) => {
     }
 
     // Get ChargePoint Info from request
-    const chargePointId = connectorInfo.chargePoint._id.toString();
-    const chargePointKey = chargePointId;
+    const connectionId = connectorInfo.chargePoint.connectionId;
+    const chargePointKey = connectionId;
     const ws = clientConnections.get(chargePointKey);
     if (!ws) {
         return res.status(404).json({ msg: "Charger has been disconnected" });
@@ -271,7 +273,7 @@ app.post("/admin/reset/:connectorId", adminAuthorization, async (req, res) => {
     // Get ChargePoint Info from database
     const chargePointInfo = await ChargePointModel.findOne({
         admin,
-        _id: chargePointId,
+        connectionId,
     });
     if (!chargePointInfo) {
         return res.status(404).json({ msg: "ChargePoint not found" });
@@ -319,8 +321,8 @@ app.post(
         }
 
         // Get ChargePoint Info from request
-        const chargePointId = connectorInfo.chargePoint._id.toString();
-        const chargePointKey = chargePointId;
+        const connectionId = connectorInfo.chargePoint.connectionId;
+        const chargePointKey = connectionId;
         const ws = clientConnections.get(chargePointKey);
         if (!ws) {
             return res
@@ -339,7 +341,7 @@ app.post(
         // Get ChargePoint Info from database
         const chargePointInfo = await ChargePointModel.findOne({
             admin,
-            _id: chargePointId,
+            connectionId,
         });
         if (!chargePointInfo) {
             return res.status(404).json({ msg: "ChargePoint not found" });
@@ -394,8 +396,8 @@ app.post(
         }
 
         // Get ChargePoint Info from request
-        const chargePointId = connectorInfo.chargePoint._id.toString();
-        const chargePointKey = chargePointId;
+        const connectionId = connectorInfo.chargePoint.connectionId;
+        const chargePointKey = connectionId;
         const ws = clientConnections.get(chargePointKey);
         if (!ws) {
             return res
@@ -406,7 +408,7 @@ app.post(
         // Get ChargePoint Info from database
         const chargePointInfo = await ChargePointModel.findOne({
             admin,
-            _id: chargePointId,
+            connectionId,
         });
         if (!chargePointInfo) {
             return res.status(404).json({ msg: "ChargePoint not found" });
@@ -491,8 +493,8 @@ app.post(
         }
 
         // Get ChargePoint Info from request
-        const chargePointId = connectorInfo.chargePoint._id.toString();
-        const chargePointKey = chargePointId;
+        const connectionId = connectorInfo.chargePoint.connectionId;
+        const chargePointKey = connectionId;
         const ws = clientConnections.get(chargePointKey);
         if (!ws) {
             return res
@@ -503,7 +505,7 @@ app.post(
         // Get ChargePoint Info from database
         const chargePointInfo = await ChargePointModel.findOne({
             admin,
-            _id: chargePointId,
+            connectionId,
         });
         if (!chargePointInfo) {
             return res.status(404).json({ msg: "ChargePoint not found" });

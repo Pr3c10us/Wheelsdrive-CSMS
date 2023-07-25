@@ -6,6 +6,7 @@ const Location = require("../../Database/models/Location");
 const mongoose = require("mongoose");
 const { PutObjectCommand } = require("@aws-sdk/client-s3");
 const s3 = require("../aws/s3");
+const { generateUniqueConnectionId } = require("../utils/randomString");
 
 const createChargePoint = async (req, res) => {
     // get admin id
@@ -59,6 +60,12 @@ const createChargePoint = async (req, res) => {
     req.body.location = location;
     // add admin to request body
     req.body.admin = admin;
+
+    // ##########################################################################
+    // generate 8 digit random string for endpoint and check if it already exist
+    const connectionId = await generateUniqueConnectionId();
+    // add connectionId to request body
+    req.body.connectionId = connectionId;
 
     // ##########################################################################
     // Create ChargePoint
@@ -298,7 +305,7 @@ const deleteChargePoint = async (req, res) => {
     });
     // Delete all connector with the chargePointId
     await Connector.deleteMany({ chargePoint });
-    
+
     res.json({ msg: "chargePoint Deleted" });
 };
 
