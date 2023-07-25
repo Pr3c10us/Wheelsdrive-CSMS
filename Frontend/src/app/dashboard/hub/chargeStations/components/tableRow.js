@@ -19,12 +19,12 @@ import EditFormModal from "./editFormModal";
 import ConnectorTable from "./connectorComponents/conectorTable";
 import DetailsModal from "./detailsModal";
 import { CgNotes } from "react-icons/cg";
+import LogsModal from "./logsModal";
 
 const TableRow = ({ chargePoint, handleRefresh }) => {
     const [openEditForm, setOpenEditForm] = useState(false);
     const [openDetails, setOpenDetails] = useState(false);
     const [showConnectors, setShowConnectors] = useState(false);
-    const [showMenu, setShowMenu] = useState(false);
     const [showLogs, setShowLogs] = useState(false);
 
     const dispatch = useDispatch();
@@ -92,7 +92,7 @@ const TableRow = ({ chargePoint, handleRefresh }) => {
                         Details
                     </button>
                     <button
-                        onClick={() => setOpenDetails(true)}
+                        onClick={() => setShowLogs(true)}
                         className="flex flex-1 items-center justify-center gap-x-2 rounded border border-black px-4 py-2 transition-all duration-200 hover:scale-105 hover:border-primary hover:text-primary"
                     >
                         <CgNotes />
@@ -100,36 +100,16 @@ const TableRow = ({ chargePoint, handleRefresh }) => {
                     </button>
                     <button
                         onClick={() => setOpenEditForm(true)}
-                        className="flex w-full items-center justify-center"
+                        className="flex items-center justify-center"
                     >
                         <FiEdit3 className="h-6 w-6 transition-all duration-200 hover:scale-110 hover:text-primary" />
                     </button>
                     <button
                         onClick={handleDelete}
-                        className="flex w-full items-center justify-center"
+                        className="flex items-center justify-center"
                     >
                         <MdDelete className="h-6 w-6 transition-all duration-200 hover:scale-110 hover:text-red-500" />
                     </button>
-                    {/* <div className="relative grid place-content-center z-20">
-                        <button>
-                            <HiMenu className="h-8 w-8" />
-                        </button>
-                        <div className="absolute -bottom-4 flex flex-col bg-white z-[100]">
-                            <button
-                                onClick={() => setOpenEditForm(true)}
-                                className="flex w-full flex-1 items-center justify-center gap-x-2 rounded border border-black px-2 py-2 transition-all duration-200 hover:scale-105 hover:border-primary hover:text-primary"
-                            >
-                                <FiEdit3 />
-                                Edit
-                            </button>
-                            <button
-                                onClick={handleDelete}
-                                className="flex w-full flex-1 items-center justify-center gap-x-2 rounded border border-black px-2 py-2 transition-all duration-200 hover:scale-105 hover:border-red-500 hover:text-red-500"
-                            >
-                                <MdDelete /> Delete
-                            </button>
-                        </div>
-                    </div> */}
                 </td>
             </tr>
 
@@ -148,6 +128,11 @@ const TableRow = ({ chargePoint, handleRefresh }) => {
             <DetailsModal
                 openForm={openDetails}
                 setOpenForm={setOpenDetails}
+                chargePoint={chargePoint}
+            />
+            <LogsModal
+                openForm={showLogs}
+                setOpenForm={setShowLogs}
                 chargePoint={chargePoint}
             />
         </>
