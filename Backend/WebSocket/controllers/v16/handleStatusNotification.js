@@ -19,7 +19,9 @@ const handleStatusNotification = async (messageIn) => {
     let connectorId = 0;
 
     // Get chargePoint from database
-    const chargePoint = await ChargePointModel.findById(chargePointId);
+    const chargePoint = await ChargePointModel.findOne({
+        connectionId: chargePointId,
+    });
     if (!chargePoint) {
         const errorCode = "InternalError";
         // Return Error Message with error code FormationViolation
