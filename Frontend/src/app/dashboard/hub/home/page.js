@@ -36,6 +36,16 @@ const Home = () => {
     return (
         <main className="flex flex-col space-y-12 px-2 sm:px-0">
             <section className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+                <div className="flex flex-col items-center justify-center gap-y-2 rounded border border-primary px-4 py-6 font-semibold shadow-xl">
+                    <span className="text-xs">Created ChargeStations</span>
+                    <div className="flex items-center justify-center gap-x-1">
+                        <BsEvStationFill
+                            title="Connected"
+                            className="h-5 w-5 text-primary"
+                        />
+                        <span>{dashboardData.totalChargePoints}</span>
+                    </div>
+                </div>
                 <div className="grid grid-cols-2 items-center justify-center gap-y-2 rounded border border-primary px-4 py-6 font-semibold shadow-xl">
                     <div className="flex flex-col items-center justify-center">
                         <span className="text-xs">Online</span>
@@ -60,16 +70,6 @@ const Home = () => {
                                 {dashboardData.totalDisconnectedChargePoints}
                             </span>
                         </div>
-                    </div>
-                </div>
-                <div className="flex flex-col items-center justify-center gap-y-2 rounded border border-primary px-4 py-6 font-semibold shadow-xl">
-                    <span className="text-xs">Created ChargePoints</span>
-                    <div className="flex items-center justify-center gap-x-1">
-                        <BsEvStationFill
-                            title="Connected"
-                            className="h-5 w-5 text-primary"
-                        />
-                        <span>{dashboardData.totalChargePoints}</span>
                     </div>
                 </div>
                 <div className="flex flex-col items-center justify-center gap-y-2 rounded border border-primary px-4 py-6 font-semibold shadow-xl">
