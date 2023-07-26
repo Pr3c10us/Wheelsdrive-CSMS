@@ -53,7 +53,7 @@ const Locations = () => {
     };
     // useEffect(() => {
     //     handleRefresh();
-    // }, [refresh]);
+    // }, [refreshing]);
 
     const handleEffect = async () => {
         try {
@@ -94,16 +94,16 @@ const Locations = () => {
         return <Loading />;
     }
     return (
-        <main className="flex flex-col space-y-4 overflow-hidden relative">
+        <main className="relative flex flex-col space-y-4 overflow-hidden">
             <Alert
             // errorMessage={errorMessage}
             // errorMessageType={errorMessageType}
             // showErrorMessage={showErrorMessage}
             />
-            <div className="w-full flex gap-x-2 justify-end">
+            <div className="flex w-full justify-end gap-x-2">
                 <button
                     onClick={handleRefresh}
-                    className="sm:px-4 px-2 flex items-center justify-center gap-x-1 sm:gap-x-2 py-1 text-sm sm:text-lg border-2 text-primary border-primary rounded-md "
+                    className="flex items-center justify-center gap-x-1 rounded-md border-2 border-primary px-2 py-1 text-sm text-primary sm:gap-x-2 sm:px-4 sm:text-lg "
                 >
                     {" "}
                     <MdRefresh className="text-xl" />
@@ -111,56 +111,58 @@ const Locations = () => {
                 </button>
                 <button
                     onClick={() => setOpenForm(true)}
-                    className="sm:px-4 px-2 flex items-center justify-center gap-x-1 sm:gap-x-2 py-1 text-sm sm:text-lg bg-primary rounded-md text-white"
+                    className="flex items-center justify-center gap-x-1 rounded-md bg-primary px-2 py-1 text-sm text-white sm:gap-x-2 sm:px-4 sm:text-lg"
                 >
                     {" "}
                     <MdAdd className="text-xl" />
                     Create
                 </button>
             </div>
-            
-                    <div className="overflow-x-auto relative border-primary border rounded-md shadow-lg scrollbar-table">
-                        <table className="min-w-full divide-y-2 divide-primary bg-white text-sm ">
-                            <thead className="ltr:text-left rtl:text-right">
-                                <tr className="bg-primary bg-opacity-25 font-semibold text-lg">
-                                    <th className="whitespace-nowrap px-4 py-3 text-text">
-                                        Name
-                                    </th>
-                                    <th className="whitespace-nowrap px-4 py-3 text-text">
-                                        Address
-                                    </th>
-                                    <th className="whitespace-nowrap px-4 py-3 text-text">
-                                        City{" "}
-                                    </th>
-                                    <th className="whitespace-nowrap px-4 py-3 text-text">
-                                        Display
-                                    </th>
-                                    <th className="whitespace-nowrap px-4 py-3 text-text">
-                                        Action
-                                    </th>
-                                </tr>
-                            </thead>
 
-                            <tbody className="divide-y text-center divide-gray-200">
-                                {locations.map((location) => {
-                                    return (
-                                        <TableRow
-                                            location={location}
-                                            key={location._id}
-                                        />
-                                    );
-                                })}
-                            </tbody>
-                        </table>
-                    </div>
-                    <CreateFormModal
-                        openForm={openForm}
-                        setOpenForm={setOpenForm}
-                    />
-              
-            <div className="flex items-center justify-end text-xl py-4">
+            <div className="scrollbar-table relative overflow-x-auto rounded-md border border-primary shadow-lg">
+                <table className="min-w-full divide-y-2 divide-primary bg-white text-sm ">
+                    <thead className="ltr:text-left rtl:text-right">
+                        <tr className="bg-primary bg-opacity-25 text-lg font-semibold">
+                            <th className="whitespace-nowrap px-4 py-3 text-text">
+                                Name
+                            </th>
+                            <th className="whitespace-nowrap px-4 py-3 text-text">
+                                Address
+                            </th>
+                            {/* <th className="whitespace-nowrap px-4 py-3 text-text">
+                                        City{" "}
+                                    </th> */}
+                            <th className="whitespace-nowrap px-4 py-3 text-text">
+                                Display
+                            </th>
+                            <th className="whitespace-nowrap px-4 py-3 text-text">
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody className="divide-y divide-gray-200 text-center">
+                        {locations.map((location) => {
+                            return (
+                                <TableRow
+                                    location={location}
+                                    key={location._id}
+                                    handleRefresh={handleRefresh}
+                                />
+                            );
+                        })}
+                    </tbody>
+                </table>
+            </div>
+            <CreateFormModal
+                openForm={openForm}
+                setOpenForm={setOpenForm}
+                handleRefresh={handleRefresh}
+            />
+
+            <div className="flex items-center justify-end py-4 text-xl">
                 <BsCaretLeftFill
-                    className="text-primary cursor-pointer"
+                    className="cursor-pointer text-primary"
                     onClick={() => {
                         if (page <= 1) {
                             return;
@@ -168,11 +170,11 @@ const Locations = () => {
                         setPage(page - 1);
                     }}
                 />
-                <p className="border shadow-md shadow-gray-400 border-black rounded px-1.5 py-1">
+                <p className="rounded border border-black px-1.5 py-1 shadow-md shadow-gray-400">
                     {page}
                 </p>
                 <BsCaretRightFill
-                    className="text-primary cursor-pointer"
+                    className="cursor-pointer text-primary"
                     onClick={() => {
                         setPage(page + 1);
                     }}

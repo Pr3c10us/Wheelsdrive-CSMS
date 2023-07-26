@@ -5,12 +5,13 @@ import axios from "axios";
 import { useState } from "react";
 import EditFormModal from "./editFormModal";
 
-const TableRow = ({ location }) => {
+const TableRow = ({ location, handleRefresh }) => {
     const [openEditForm, setOpenEditForm] = useState(false);
     const handleDelete = async () => {
         await axios.delete(
             `${process.env.NEXT_PUBLIC_API_URL}location/admin/${location._id}`
         );
+        handleRefresh()
     };
     return (
         <>
@@ -19,11 +20,17 @@ const TableRow = ({ location }) => {
                     <span className="p-2">{location.name}</span>
                 </td>
                 <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
-                    <span className="p-2">{location.address}</span>
+                    <span className="p-2">
+                        {location.address.length > 60
+                            ? location.address
+                                  .substring(0, 57)
+                                  .concat(` . . . `)
+                            : location.address}
+                    </span>
                 </td>
-                <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
+                {/* <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
                     <span className="p-2">{location.city}</span>
-                </td>
+                </td> */}
                 <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
                     <span className="grid place-content-center p-2 text-lg">
                         {location.display ? (
@@ -57,6 +64,7 @@ const TableRow = ({ location }) => {
                 openForm={openEditForm}
                 setOpenForm={setOpenEditForm}
                 location={location}
+                handleRefresh={handleRefresh}
             />
         </>
     );
