@@ -9,7 +9,7 @@ const { order, verifyPayment } = require("../controllers/userPayment");
 
 //   Create payment routes
 router.route("/order").post(userAuthorization, order);
-router.route("/verify").post(userAuthorization, verifyPayment);
+router.route("/verify").post(verifyPayment);
 
 // Export payment routes
 module.exports = router;
