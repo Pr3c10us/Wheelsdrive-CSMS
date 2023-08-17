@@ -43,6 +43,11 @@ const transactionSchema = new mongoose.Schema(
         cost: {
             type: Number,
         },
+        transactionType: {
+            type: String,
+            enum: ["Customer", "Admin"],
+            default: "Admin",
+        },
         chargePoint: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "ChargePoint",

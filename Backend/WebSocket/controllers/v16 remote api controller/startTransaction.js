@@ -6,7 +6,7 @@ const remoteStartTransaction16 = async (
     ws,
     res,
     idTag,
-    connectorId
+    connectorId,
 ) => {
     const msgOut = [
         2,

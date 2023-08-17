@@ -16,6 +16,10 @@ const { UnauthorizedError, BadRequestError } = require("../errors");
 // ###########################################################
 
 const adminSignUp = async (req, res) => {
+    // Check if balance was provided
+    if (req.body.balance) {
+        throw new BadRequestError("Balance is not required");
+    }
     // Handle Email Verification
     //
     //

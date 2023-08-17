@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const { PublishCommand } = require("@aws-sdk/client-sns");
 const { snsClient } = require("../aws/sns");
 const jwt = require("jsonwebtoken");
+const RFID = require("../../Database/models/RFID");
 
 const signup = async (req, res) => {
     // check if balance field is filled
@@ -46,8 +47,22 @@ const signup = async (req, res) => {
         throw new BadRequestError("Error sending otp");
     }
 
+    // create rfid for user
+    let rfid;
+    rfid = Math.floor(Math.random() * 900000) + 100000;
+    exists = await RFID.exists({ rfid });
+    while (exists) {
+        rfid = Math.floor(Math.random() * 900000) + 100000;
+        exists = await RFID.exists({ rfid });
+    }
+
     // create user
-    await User.create(req.body);
+    const user = await User.create(req.body);
+    await RFID.create({
+        name: req.body.username,
+        rfid,
+        user: user
+    });
 
     res.status(200).json({
         msg: "Created",

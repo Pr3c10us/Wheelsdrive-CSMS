@@ -9,6 +9,7 @@ const handleVersion16 = async (chargePointStatusClass) => {
     ws.on("message", async (message) => {
         const messageIn = JSON.parse(message);
 
+        // messageIn.push(ws);
         messageIn.push(chargePointId);
         messageIn.push(ocppVersion);
         // const messageTypeId = ocppMessage[0];
@@ -19,7 +20,7 @@ const handleVersion16 = async (chargePointStatusClass) => {
         // If the messageTypeId is CALL,
         if (messageIn[0] == 2) {
             // Handle the incoming message
-            const messageOut = await processRequest(messageIn);
+            const messageOut = await processRequest(messageIn,ws);
             // Send a CALLRESULT message back to the client
             ws.send(JSON.stringify(messageOut));
         }

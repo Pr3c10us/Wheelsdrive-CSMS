@@ -9,7 +9,7 @@ const handleStartTransaction = require("./handleStartTransaction");
 const handleStatusNotification = require("./handleStatusNotification");
 const handleStopTransaction = require("./handleStopTransaction");
 
-const processRequest = async (messageIn) => {
+const processRequest = async (messageIn,ws) => {
     let messageOut = null;
     console.log(messageIn);
     // Create Switch statement for messageIn.Action
@@ -34,7 +34,7 @@ const processRequest = async (messageIn) => {
             messageOut = await handleDataTransfer(messageIn);
             break;
         case "StartTransaction":
-            messageOut = await handleStartTransaction(messageIn);
+            messageOut = await handleStartTransaction(messageIn,ws);
             break;
 
         case "StopTransaction":

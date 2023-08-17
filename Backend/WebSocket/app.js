@@ -26,7 +26,10 @@ const handleVersion16 = require("./controllers/v16/handleVersion16");
 const Admin = require("../Database/models/Admin");
 
 // Import Middleware
-const { adminAuthorization } = require("./middleware/adminAuthorization");
+const {
+    adminAuthorization,
+    userAuthorization,
+} = require("./middleware/adminAuthorization");
 
 // Import ocpp version 1.6 remote functions
 const remoteReset16 = require("./controllers/v16 remote api controller/reset");
@@ -36,6 +39,8 @@ const remoteStartTransaction16 = require("./controllers/v16 remote api controlle
 const Transaction = require("../Database/models/Transaction");
 const Connector = require("../Database/models/Connector");
 const remoteStopTransaction16 = require("./controllers/v16 remote api controller/stopTransaction");
+const User = require("../Database/models/User");
+const Rate = require("../Database/models/Rates");
 
 // ######################################################################################################
 // ######################################################################################################
@@ -218,27 +223,27 @@ app.use(express.json());
 // ######################################################################################################
 // ######################################################################################################
 // Api Request handlers
-app.get("/send/:userId/:adminId/:chargePointId", async (req, res) => {
-    const userId = req.params.userId;
-    const chargePointId = req.params.chargePointId;
-    const chargePointKey = userId + chargePointId;
-    const ws = clientConnections.get(chargePointKey);
-    if (!ws) {
-        return res.status(404).json({ msg: "Charger has been disconnected" });
-    }
-    if (ws) {
-        ws.send(
-            JSON.stringify([
-                2,
-                "jcuwUHUz3mXrcB9TAx29iGt47LDyfF93pWAv",
-                "Heartbeat",
-                {},
-            ])
-        );
-        res.send("Message sent");
-    } else {
-        res.send("Client not found");
-    }
+app.get("/send/", async (req, res) => {
+    // const userId = req.params.userId;
+    // const chargePointId = req.params.chargePointId;
+    // const chargePointKey = userId + chargePointId;
+    // const ws = clientConnections.get(chargePointKey);
+    // if (!ws) {
+    //     return res.status(404).json({ msg: "Charger has been disconnected" });
+    // }
+    // if (ws) {
+    //     ws.send(
+    //         JSON.stringify([
+    //             2,
+    //             "jcuwUHUz3mXrcB9TAx29iGt47LDyfF93pWAv",
+    //             "Heartbeat",
+    //             {},
+    //         ])
+    //     );
+    //     res.send("Message sent");
+    // } else {
+    // }
+    res.send("Client not found");
 });
 
 // Remote reset handler
@@ -257,7 +262,9 @@ app.post("/admin/reset/:connectorId", adminAuthorization, async (req, res) => {
     // get connector info
     const connectorId = req.params.connectorId;
 
-    const connectorInfo = await Connector.findById(connectorId);
+    const connectorInfo = await Connector.findById(connectorId).populate(
+        "chargePoint"
+    );
     if (!connectorInfo) {
         return res.status(404).json({ msg: "Connector not found" });
     }
@@ -314,7 +321,9 @@ app.post(
         // get connector info
         const connector = req.params.connectorId;
 
-        const connectorInfo = await Connector.findById(connector);
+        const connectorInfo = await Connector.findById(connector).populate(
+            "chargePoint"
+        );
 
         if (!connectorInfo) {
             return res.status(404).json({ msg: "Connector not found" });
@@ -389,10 +398,15 @@ app.post(
         // get connector info
         const connector = req.params.connectorId;
 
-        const connectorInfo = await Connector.findById(connector);
+        const connectorInfo = await Connector.findById(connector).populate(
+            "chargePoint"
+        );
 
         if (!connectorInfo) {
             return res.status(404).json({ msg: "Connector not found" });
+        }
+        if (connectorInfo.lastStatus != "Available") {
+            return res.status(404).json({ msg: "Connector is in use" });
         }
 
         // Get ChargePoint Info from request
@@ -464,7 +478,7 @@ app.post(
     }
 );
 
-// Remote Start Transaction handler
+// Remote Stop Transaction handler
 app.post(
     "/admin/stopTransaction/:connectorId",
     adminAuthorization,
@@ -486,7 +500,9 @@ app.post(
         // get connector info
         const connector = req.params.connectorId;
 
-        const connectorInfo = await Connector.findById(connector);
+        const connectorInfo = await Connector.findById(connector).populate(
+            "chargePoint"
+        );
 
         if (!connectorInfo) {
             return res.status(404).json({ msg: "Connector not found" });
@@ -495,6 +511,11 @@ app.post(
         // Get ChargePoint Info from request
         const connectionId = connectorInfo.chargePoint.connectionId;
         const chargePointKey = connectionId;
+        // console.log({
+        //     chargePointKey,
+        //     clientConnections,
+        //     connectorInfo,
+        // });
         const ws = clientConnections.get(chargePointKey);
         if (!ws) {
             return res
@@ -512,7 +533,7 @@ app.post(
         }
 
         // let idTag = req.body.idTag || adminRfid.rfid;
-        let connectorId = req.body.connectorId || 0;
+        let connectorId = connectorInfo.connectorId || 0;
         // const connector = await Connector.findOne({
         //     chargePoint: chargePointInfo,
         //     connectorId,
@@ -545,6 +566,236 @@ app.post(
         }
         let transactionId =
             req.body.transactionId || latestTransaction.transactionUniqueId;
+
+        if (!chargePointInfo.ocppVersion) {
+            return res.status(404).json({ msg: "ChargePoint not connected" });
+        }
+
+        // Run respective function depending on the protocol
+        if (chargePointInfo.ocppVersion == "ocpp1.6") {
+            await remoteStopTransaction16(
+                chargePointInfo,
+                ws,
+                res,
+                transactionId,
+                connectorId
+            );
+        } else if (
+            chargePointInfo.ocppVersion == "ocpp2.0" ||
+            chargePointInfo.ocppVersion == "ocpp2.0.1"
+        ) {
+            return;
+        }
+    }
+);
+
+// User Start Transaction handler
+app.post(
+    "/user/startTransaction/:connectorId",
+    userAuthorization,
+    async (req, res) => {
+        // Get User Info from request
+        const { id } = req.user;
+        // get user info
+        const user = await User.findById(id);
+        if (!user) {
+            return res.status(404).json({ msg: "User Not found" });
+        }
+        if (user.balance <= 0) {
+            return res.status(404).json({ msg: "Fund your Account" });
+        }
+        // Get admin Rfid from database
+        const userRfid = await RFID.findOne({ user });
+
+        const connector = req.params.connectorId;
+
+        const connectorInfo = await Connector.findById(connector).populate(
+            "chargePoint"
+        );
+
+        if (connectorInfo.rate) {
+            const rate = await Rate.findById(connectorInfo.rate);
+            if (rate) {
+                const chargingTime = user.balance / rate.price;
+                const chargingTimeInMilliSeconds = chargingTime * 3600000;
+                // if chargingTimeInMilliSeconds is less than 1 minute then block the user
+                if (chargingTimeInMilliSeconds < 300000) {
+                    return res
+                        .status(404)
+                        .json({
+                            msg: "Fund your Account, you can't charge for more than 5 minute with balance in your account",
+                        });
+                }
+            }
+        }
+
+        if (!connectorInfo) {
+            return res.status(404).json({ msg: "Connector not found" });
+        }
+        if (connectorInfo.lastStatus != "Available") {
+            return res.status(404).json({ msg: "Connector is in use" });
+        }
+
+        // Get ChargePoint Info from request
+        const connectionId = connectorInfo.chargePoint.connectionId;
+        const chargePointKey = connectionId;
+        const ws = clientConnections.get(chargePointKey);
+        if (!ws) {
+            return res
+                .status(404)
+                .json({ msg: "Charger has been disconnected" });
+        }
+
+        // Get ChargePoint Info from database
+        const chargePointInfo = await ChargePointModel.findOne({
+            // admin,
+            connectionId,
+        });
+        if (!chargePointInfo) {
+            return res.status(404).json({ msg: "ChargePoint not found" });
+        }
+        // get admin of chargePoint
+        const admin = await Admin.findById(chargePointInfo.admin);
+        if (!admin) {
+            return res.status(404).json({ msg: "Admin not found" });
+        }
+        // get admin Rfid from database
+        const adminRfid = await RFID.findOne({ admin });
+
+        // make admin rfid as parent rfid for user
+        userRfid.parentRFID = adminRfid.rfid;
+
+        // Get connectorId from request query, convert to number and set to 0 if not provided
+        let connectorId = Number(req.body.connectorId);
+        if (!connectorId) {
+            return res.status(400).json({ msg: "ConnectorId not provided" });
+        }
+        // const connector = await Connector.findOne({
+        //     chargePoint: chargePointInfo,
+        //     connectorId,
+        // });
+
+        let idTag = userRfid.rfid;
+
+        // If connector is not found don't add connector to the transaction
+        let latestTransaction;
+        // Get transaction
+        latestTransaction = await Transaction.findOne({
+            chargePoint: chargePointInfo,
+            connectorInfo,
+            // startRFID: idTag,
+            admin,
+        }).sort({
+            createdAt: -1,
+        });
+        if (latestTransaction) {
+            if (!latestTransaction.stopTime) {
+                return res.status(404).json({ msg: "Connector is Occupied" });
+            }
+        }
+
+        if (!chargePointInfo.ocppVersion) {
+            return res.status(404).json({ msg: "ChargePoint not connected" });
+        }
+
+        await userRfid.save();
+
+        // Run respective function depending on the protocol
+        if (chargePointInfo.ocppVersion == "ocpp1.6") {
+            await remoteStartTransaction16(
+                chargePointInfo,
+                ws,
+                res,
+                idTag,
+                connectorId
+            );
+        } else if (
+            chargePointInfo.ocppVersion == "ocpp2.0" ||
+            chargePointInfo.ocppVersion == "ocpp2.0.1"
+        ) {
+            return;
+        }
+    }
+);
+
+// User Stop Transaction handler
+app.post(
+    "/user/stopTransaction/:connectorId",
+    userAuthorization,
+    async (req, res) => {
+        // Get User Info from request
+        const { id } = req.user;
+        // get user info
+        const user = await User.findById(id);
+        if (!user) {
+            return res.status(404).json({ msg: "User Not found" });
+        }
+        // Get admin Rfid from database
+        const userRfid = await RFID.findOne({ user });
+        // // Get Admin from database
+        // if (!admin) {
+        //     return res.status(404).json({ msg: "Admin not found" });
+        // }
+
+        // get connector info
+        const connector = req.params.connectorId;
+
+        const connectorInfo = await Connector.findById(connector).populate(
+            "chargePoint"
+        );
+
+        if (!connectorInfo) {
+            return res.status(404).json({ msg: "Connector not found" });
+        }
+
+        // Get ChargePoint Info from request
+        const connectionId = connectorInfo.chargePoint.connectionId;
+        const chargePointKey = connectionId;
+        // console.log({
+        //     chargePointKey,
+        //     clientConnections,
+        //     connectorInfo,
+        // });
+        const ws = clientConnections.get(chargePointKey);
+        if (!ws) {
+            return res
+                .status(404)
+                .json({ msg: "Charger has been disconnected" });
+        }
+
+        // Get ChargePoint Info from database
+        const chargePointInfo = await ChargePointModel.findOne({
+            // admin,
+            connectionId,
+        });
+        if (!chargePointInfo) {
+            return res.status(404).json({ msg: "ChargePoint not found" });
+        }
+
+        // let idTag = req.body.idTag || adminRfid.rfid;
+        let connectorId = connectorInfo.connectorId;
+        // const connector = await Connector.findOne({
+        //     chargePoint: chargePointInfo,
+        //     connectorId,
+        // });
+        // If connector is not found don't add connector to the transaction
+        let latestTransaction;
+        if (connector) {
+            // Get transaction
+            latestTransaction = await Transaction.findOne({
+                chargePoint: chargePointInfo,
+                startRFID: userRfid.rfid,
+                connector,
+            }).sort({
+                createdAt: -1,
+            });
+            if (!latestTransaction || latestTransaction.stopTime) {
+                return res.status(404).json({ msg: "No transaction to Stop" });
+            }
+        } else {
+            return res.status(404).json({ msg: "Connector not found" });
+        }
+        let transactionId = latestTransaction.transactionUniqueId;
 
         if (!chargePointInfo.ocppVersion) {
             return res.status(404).json({ msg: "ChargePoint not connected" });

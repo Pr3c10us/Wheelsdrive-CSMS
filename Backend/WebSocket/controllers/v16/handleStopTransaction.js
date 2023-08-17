@@ -7,6 +7,8 @@ const RFID = require("../../../Database/models/RFID");
 const Rate = require("../../../Database/models/Rates");
 const cleanChargeTagId = require("../../utils/cleanChargeTagId");
 const updateConnector = require("../../utils/updateConnector");
+const User = require("../../../Database/models/User");
+const Admin = require("../../../Database/models/Admin");
 
 const handleStopTransaction = async (messageIn) => {
     // Initialize messageTypeId to null
@@ -59,6 +61,7 @@ const handleStopTransaction = async (messageIn) => {
 
         // Clean idTag and assign it to idTag
         let idTag = await cleanChargeTagId(jsonInPayload.idTag);
+        // console.log({ jsonInPayload });
 
         // If idTag is null return status "Accepted"
         if (idTag === null || !idTag) {
@@ -94,10 +97,10 @@ const handleStopTransaction = async (messageIn) => {
                         jsonOutPayload.idTagInfo.status = "Accepted";
                     }
                 } else {
-                    jsonOutPayload.idTagInfo.status = "Invalid";
+                    jsonOutPayload.idTagInfo.status = "Accepted";
                 }
             } catch (error) {
-                jsonOutPayload.idTagInfo.status = "Invalid";
+                jsonOutPayload.idTagInfo.status = "Accepted";
             }
         }
 
@@ -188,6 +191,28 @@ const handleStopTransaction = async (messageIn) => {
                                 totalTime *
                                 (transaction.discountChargingRate / 100);
                         transaction.totalEnergy = connectorPower * totalTime;
+
+                        // we want to get rid and check if it has user and if it does not have admin
+                        // Get RFID from database
+                        const rfid = await RFID.findOne({
+                            rfid: transaction.startRFID,
+                        });
+                        if (rfid.user && !rfid.admin) {
+                            const user = await User.findById(rfid.user._id);
+                            const admin = await Admin.findById(
+                                chargePoint.admin._id
+                            );
+
+                            if (user && admin) {
+                                user.balance = user.balance - transaction.cost;
+                                await user.save();
+                                admin.balance =
+                                    admin.balance + transaction.cost;
+                                await admin.save();
+                                rfid.parentRFID = null;
+                                await rfid.save();
+                            }
+                        }
 
                         await transaction.save();
                     }

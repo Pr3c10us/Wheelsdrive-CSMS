@@ -8,6 +8,7 @@ const ChargePointSchema = new mongoose.Schema(
         },
         connectionId: {
             type: String,
+            unique: true,
         },
         endpoint: {
             type: String,

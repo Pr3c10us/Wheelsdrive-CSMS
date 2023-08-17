@@ -24,6 +24,10 @@ const AdminSchema = new mongoose.Schema({
     company: {
         type: String,
     },
+    balance : {
+        type: Number,
+        default: 0,
+    },
     isAdmin: {
         type: Boolean,
         default: true,

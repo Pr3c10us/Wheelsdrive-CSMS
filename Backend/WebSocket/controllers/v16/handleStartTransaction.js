@@ -8,12 +8,14 @@ const Rate = require("../../../Database/models/Rates");
 const cleanChargeTagId = require("../../utils/cleanChargeTagId");
 const updateConnector = require("../../utils/updateConnector");
 const generateTransactionId = require("../../utils/generateTransactionId");
+const User = require("../../../Database/models/User");
+const { v4: uuidv4 } = require("uuid");
 
-const handleStartTransaction = async (messageIn) => {
+const handleStartTransaction = async (d, ws) => {
     // Initialize messageTypeId to null
     let messageTypeId = null;
-    // Initialize uniqueId to messageIn.UniqueId
-    let uniqueId = messageIn[1];
+    // Initialize uniqueId to d.UniqueId
+    let uniqueId = d[1];
     // Initialize jsonOutPayload to some default values
     let jsonOutPayload = {
         idTagInfo: {
@@ -24,11 +26,11 @@ const handleStartTransaction = async (messageIn) => {
         transactionId: 0,
     };
 
-    // Initialize jsonPayload to messageIn.Payload
-    let jsonInPayload = messageIn[3];
+    // Initialize jsonPayload to d.Payload
+    let jsonInPayload = d[3];
 
-    // Get chargePointId from messageIn
-    const chargePointId = messageIn[messageIn.length - 2];
+    // Get chargePointId from d
+    const chargePointId = d[d.length - 2];
     // Get chargePoint from database
     const chargePoint = await ChargePointModel.findById(chargePointId);
     if (!chargePoint) {
@@ -37,7 +39,7 @@ const handleStartTransaction = async (messageIn) => {
         const callError = [4, uniqueId, errorCode, "", {}];
         await Log.create({
             errorCode: errorCode,
-            message: messageIn[2],
+            message: d[2],
             origin: "csms",
             chargePoint,
             admin: chargePoint.admin._id,
@@ -48,7 +50,7 @@ const handleStartTransaction = async (messageIn) => {
     // Create a new log before we handle message
     await Log.create({
         result: JSON.stringify(jsonInPayload),
-        message: messageIn[2],
+        message: d[2],
         origin: "charger",
         connectorId: jsonInPayload.connectorId,
         chargePoint,
@@ -63,13 +65,14 @@ const handleStartTransaction = async (messageIn) => {
         let idTag = await cleanChargeTagId(jsonInPayload.idTag);
         connectorId = jsonInPayload.connectorId;
 
+        let rfid;
         // If idTag is null return status "Accepted"
         if (idTag === null || !idTag) {
-            jsonOutPayload.idTagInfo.status = "Accepted";
+            jsonOutPayload.idTagInfo.status = "Blocked";
         } else {
             try {
                 // Get RFID from database
-                const rfid = await RFID.findOne({
+                rfid = await RFID.findOne({
                     rfid: idTag,
                     admin: chargePoint.admin._id,
                 });
@@ -98,7 +101,36 @@ const handleStartTransaction = async (messageIn) => {
                         jsonOutPayload.idTagInfo.status = "Accepted";
                     }
                 } else {
-                    jsonOutPayload.idTagInfo.status = "Invalid";
+                    rfid = await RFID.findOne({
+                        rfid: idTag,
+                        // admin: chargePoint.admin._id,
+                    });
+                    const connector = await Connector.findOne({
+                        connectorId,
+                        chargePoint,
+                    }).populate("rate");
+                    if (connector.rate) {
+                        const connectorRate = await Rate.findById(
+                            connector.rate._id
+                        );
+                        const user = await User.findById(rfid.user._id);
+                        const chargingTime = user.balance / connectorRate.price;
+                        // convert chargingTime from hours to milliseconds
+                        const chargingTimeInMilliSeconds =
+                            chargingTime * 3600000;
+                        // if chargingTimeInMilliSeconds is less than 1 minute then block the user
+                        if (chargingTimeInMilliSeconds < 300000) {
+                            jsonOutPayload.idTagInfo.status = "Blocked";
+                        } else {
+                            if (rfid && !rfid.admin && rfid.parentRFID) {
+                                jsonOutPayload.idTagInfo.status = "Accepted";
+                                jsonOutPayload.idTagInfo.parentIdTag =
+                                    rfid.parentRFID || rfid.rfid;
+                            } else {
+                                jsonOutPayload.idTagInfo.status = "Invalid";
+                            }
+                        }
+                    }
                 }
             } catch (error) {
                 jsonOutPayload.idTagInfo.status = "Invalid";
@@ -160,13 +192,59 @@ const handleStartTransaction = async (messageIn) => {
                     location: chargePoint.location._id,
                 });
 
+                // if rfid has no admin but has user and if connector rate is provided then calculate how much time user can charge and update expiry date
+                if (rfid) {
+                    if (rfid.user) {
+                        transaction.transactionType = "Customer";
+                        const connector = await Connector.findOne({
+                            connectorId,
+                            chargePoint,
+                        }).populate("rate");
+                        if (connector.rate) {
+                            const connectorRate = await Rate.findById(
+                                connector.rate._id
+                            );
+                            if (connectorRate) {
+                                const user = await User.findById(rfid.user._id);
+                                const chargingTime =
+                                    user.balance / connectorRate.price;
+                                // convert chargingTime from hours to milliseconds
+                                const chargingTimeInMilliSeconds =
+                                    chargingTime * 3600000;
+                                // get expiry date
+                                const expiryDate = new Date(
+                                    new Date().getTime() +
+                                        chargingTimeInMilliSeconds
+                                );
+                                jsonOutPayload.idTagInfo.expiryDate =
+                                    expiryDate.toISOString();
+                                
+                                setTimeout(async () => {
+                                    const msgOut = [
+                                        2,
+                                        uuidv4(),
+                                        "RemoteStopTransaction",
+                                        {
+                                            transactionId:
+                                                transaction.transactionUniqueId,
+                                        },
+                                    ];
+
+                                    ws.send(JSON.stringify(msgOut));
+                                }, chargingTimeInMilliSeconds);
+                                await transaction.save();
+                            }
+                        }
+                    }
+                }
+
                 jsonOutPayload.transactionId = transaction.transactionUniqueId;
             } catch (error) {
                 errorCode = "InternalError";
                 const callError = [4, uniqueId, errorCode, "", {}];
                 await Log.create({
                     errorCode: errorCode,
-                    message: messageIn[2],
+                    message: d[2],
                     origin: "csms",
                     chargePoint,
                     connectorId: jsonInPayload.connectorId,
@@ -181,7 +259,7 @@ const handleStartTransaction = async (messageIn) => {
         // Create a new log after we handle transaction
         await Log.create({
             result: JSON.stringify(jsonOutPayload),
-            message: messageIn[2],
+            message: d[2],
             origin: "csms",
             connectorId: jsonInPayload.connectorId,
             chargePoint,
@@ -194,7 +272,7 @@ const handleStartTransaction = async (messageIn) => {
         const callError = [4, uniqueId, errorCode, "", {}];
         await Log.create({
             errorCode: errorCode,
-            message: messageIn[2],
+            message: d[2],
             origin: "csms",
             chargePoint,
             connectorId: jsonInPayload.connectorId,
