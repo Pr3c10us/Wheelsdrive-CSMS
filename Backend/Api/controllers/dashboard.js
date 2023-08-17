@@ -3,6 +3,9 @@ const Location = require("../../Database/models/Location");
 const Transaction = require("../../Database/models/Transaction");
 
 const revenue = async (req, res) => {
+    const { id } = req.admin;
+    let adminFilter = { $match: { admin: id } }; // Add this filter
+
     const { type } = req.query;
     // return console.log(type);
 
@@ -23,11 +26,13 @@ const revenue = async (req, res) => {
                 createdAt: {
                     $gte: new Date(new Date().getFullYear(), 0, 1),
                 },
+                admin: id,
             },
         };
     }
 
     const pipeline = [
+        // adminFilter, // Apply the admin filter
         dateFilter,
         {
             $group: {
@@ -47,6 +52,9 @@ const revenue = async (req, res) => {
 };
 
 const totalTransaction = async (req, res) => {
+    const { id } = req.admin;
+    let adminFilter = { $match: { admin: id } }; // Add this filter
+
     const { type } = req.query;
     // return console.log(type);
 
@@ -67,11 +75,13 @@ const totalTransaction = async (req, res) => {
                 createdAt: {
                     $gte: new Date(new Date().getFullYear(), 0, 1),
                 },
+                admin: id,
             },
         };
     }
 
     const pipeline = [
+        // adminFilter, // Apply the admin filter
         dateFilter,
         {
             $group: {
@@ -91,6 +101,9 @@ const totalTransaction = async (req, res) => {
 };
 
 const power = async (req, res) => {
+    const { id } = req.admin;
+    let adminFilter = { $match: { admin: id } }; // Add this filter
+
     const { type } = req.query;
     // return console.log(type);
 
@@ -111,11 +124,13 @@ const power = async (req, res) => {
                 createdAt: {
                     $gte: new Date(new Date().getFullYear(), 0, 1),
                 },
+                admin: id,
             },
         };
     }
 
     const pipeline = [
+        // adminFilter, // Apply the admin filter
         dateFilter,
         {
             $group: {
@@ -135,7 +150,8 @@ const power = async (req, res) => {
 };
 
 const otherDashboardData = async (req, res) => {
-    const chargePoints = await ChargePoint.find({});
+    const { id } = req.admin;
+    const chargePoints = await ChargePoint.find({ admin: id });
     const totalChargePoints = chargePoints.length;
     const totalConnectedChargePoints = chargePoints.filter(
         (chargePoint) => chargePoint.isConnected
@@ -145,11 +161,11 @@ const otherDashboardData = async (req, res) => {
     ).length;
 
     // get all locations
-    const locations = await Location.find({});
+    const locations = await Location.find({ admin: id });
     const totalLocations = locations.length;
 
     // get all transactions
-    const transactions = await Transaction.find({});
+    const transactions = await Transaction.find({ admin: id });
     const totalPower = transactions.reduce((acc, transaction) => {
         return acc + (transaction.totalEnergy || 0);
     }, 0);
