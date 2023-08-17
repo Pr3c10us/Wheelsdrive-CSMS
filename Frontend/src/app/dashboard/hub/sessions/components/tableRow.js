@@ -3,14 +3,18 @@ import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 import { useState } from "react";
 import { LuPlugZap } from "react-icons/lu";
 import { IoMdDoneAll } from "react-icons/io";
+import PDF from "./pdf";
 
 const TableRow = ({ sessions }) => {
+    const [showReceipt, setShowReceipt] = useState(false);
+
+    // create a component that will be used as template for the PDF
     return (
         <>
             <tr className="text-xs">
                 <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
                     <span className="p-2">{sessions.transactionUniqueId}</span>
-                </td> 
+                </td>
                 <td className="w-[50px] whitespace-nowrap break-words px-4 py-4 font-medium text-text">
                     {sessions.startTime &&
                         new Date(sessions.startTime).toUTCString()}
@@ -65,7 +69,22 @@ const TableRow = ({ sessions }) => {
                         </span>
                     )}
                 </td>
+                <td className="whitespace-nowrap px-4 py-4 font-medium text-text">
+                    <button
+                        className="p-2 bg-primary rounded px-4 text-white"
+                        onClick={() => setShowReceipt(true)}
+                    >
+                        show receipt{" "}
+                    </button>
+                </td>
             </tr>
+            {showReceipt && (
+                <PDF
+                    setShowReceipt={setShowReceipt}
+                    showReceipt={showReceipt}
+                    sessions={sessions}
+                />
+            )}
         </>
     );
 };

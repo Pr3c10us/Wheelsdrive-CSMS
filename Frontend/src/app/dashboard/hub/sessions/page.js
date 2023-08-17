@@ -89,9 +89,12 @@ const Sessions = () => {
     if (loading || refreshing) {
         return <Loading />;
     }
-    
+
     return (
-        <main className="relative flex flex-col space-y-4 overflow-hidden">
+        <main
+            className="relative flex flex-col space-y-4 overflow-hidden"
+            
+        >
             <Alert />
             <div className="flex w-full justify-end gap-x-2">
                 <button
@@ -145,6 +148,7 @@ const Sessions = () => {
                                     {` `}(₹)
                                 </span>
                             </th>
+                            <th className="whitespace-nowrap px-4 py-3 text-text"></th>
                         </tr>
                     </thead>
 

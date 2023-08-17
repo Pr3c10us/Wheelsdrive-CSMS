@@ -50,4 +50,5 @@ const getSessions = async (req, res) => {
     res.json({ nbHits: sessions.length, sessions });
 };
 
+
 module.exports = { getSessions };
