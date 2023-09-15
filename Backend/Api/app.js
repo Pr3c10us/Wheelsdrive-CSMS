@@ -31,13 +31,13 @@ const swaggerUi = require("swagger-ui-express");
 // CORS MIDDLEWARE
 // Set up cors options and middleware
 const corsOptions = {
-    origin: [
-        process.env.CLIENT_ORIGIN_1,
-        process.env.CLIENT_ORIGIN_2,
-        process.env.CLIENT_ORIGIN_3,
-        process.env.CLIENT_ORIGIN_4,
-    ],
-    credentials: true,
+  origin: [
+    process.env.CLIENT_ORIGIN_1,
+    process.env.CLIENT_ORIGIN_2,
+    process.env.CLIENT_ORIGIN_3,
+    process.env.CLIENT_ORIGIN_4,
+  ],
+  credentials: true,
 };
 app.use(cors(corsOptions));
 
@@ -53,7 +53,7 @@ app.use(express.json());
 
 // HOME ROUTE
 app.get("/", (req, res) => {
-    res.json({ msg: "Welcome To Wheelsdrive" });
+  res.json({ msg: "Welcome To Wheelsdrive" });
 });
 
 // ADMIN AUTH ROUTES
@@ -136,14 +136,12 @@ app.use(errorHandler);
 // CREATE SERVER
 const port = process.env.PORT || 5000;
 const serverApp = async () => {
-    try {
-        await connectToMongodb();
-        server.listen(port, () =>
-            console.log(`Server listening on port ${port}`)
-        );
-        // await webSocketHandler(wss)
-    } catch (error) {
-        console.log(error);
-    }
+  try {
+    await connectToMongodb();
+    server.listen(port, () => console.log(`Server listening on port ${port}`));
+    // await webSocketHandler(wss)
+  } catch (error) {
+    console.log(error);
+  }
 };
 serverApp();
