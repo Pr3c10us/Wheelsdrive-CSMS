@@ -1,0 +1,28 @@
+name: Deploy to Instance
+
+env:
+    REPO_NAME: ${{ github.event.repository.name }}
+    REPO_URL: ${{ github.event.repository.url }}
+
+on:
+    push:
+        branches:
+            - master
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v2
+
+            - name: Connect to AWS Lightsail, extract file and delete the file
+              uses: appleboy/ssh-action@v0.1.7
+              with:
+                  host: ${{ secrets.HOST_IP }}
+                  key: ${{ secrets.SSH_KEY }}
+                  passphrase: ""
+                  port: 22
+                  script: |
+                      ls
