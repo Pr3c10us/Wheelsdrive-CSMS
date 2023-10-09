@@ -25,4 +25,4 @@ jobs:
                   passphrase: ""
                   port: 22
                   script: |
-                      ls -la
+                      ls -la 
