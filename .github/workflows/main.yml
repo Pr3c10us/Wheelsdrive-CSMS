@@ -29,25 +29,25 @@ jobs:
                       if [ -d /home/ubuntu/Wheelsdrive-CSMS ]; then
                         cd /home/ubuntu/Wheelsdrive-CSMS && git pull
                       else
-                        git clone https://github.com/Pr3c10us/Wheelsdrive-CSMS.git /home/ubuntu/Wheelsdrive-CSMS
+                        git clone https://github.com/Pr3c10us/Wheelsdrive-CSMS.git /home/ubuntu/Wheelsdrive-CSMS2
                       fi
-                      cd /home/ubuntu/Wheelsdrive-CSMS/Backend/Api && sudo npm install && if sudo npm stop; then
-                        # If command1 succeeds
-                        echo "Command 1 succeeded"
-                        # Run another command
-                        sudo npm start
-                      else
-                          # If command1 fails
-                          echo "Command 1 failed"
-                          # Run a different command
-                          sudo npm start
-                      cd /home/ubuntu/Wheelsdrive-CSMS/Backend/WebSocket && sudo npm install && if sudo npm stop; then
-                        # If command1 succeeds
-                        echo "Command 1 succeeded"
-                        # Run another command
-                        sudo npm start
-                      else
-                          # If command1 fails
-                          echo "Command 1 failed"
-                          # Run a different command
-                          sudo npm start
+                      # cd /home/ubuntu/Wheelsdrive-CSMS/Backend/Api && sudo npm install && if sudo npm stop; then
+                      #   # If command1 succeeds
+                      #   echo "Command 1 succeeded"
+                      #   # Run another command
+                      #   sudo npm start
+                      # else
+                      #     # If command1 fails
+                      #     echo "Command 1 failed"
+                      #     # Run a different command
+                      #     sudo npm start
+                      # cd /home/ubuntu/Wheelsdrive-CSMS/Backend/WebSocket && sudo npm install && if sudo npm stop; then
+                      #   # If command1 succeeds
+                      #   echo "Command 1 succeeded"
+                      #   # Run another command
+                      #   sudo npm start
+                      # else
+                      #     # If command1 fails
+                      #     echo "Command 1 failed"
+                      #     # Run a different command
+                      #     sudo npm start
