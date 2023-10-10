@@ -41,6 +41,7 @@ jobs:
                           echo "Command 1 failed"
                           # Run a different command
                           sudo npm start
+                      fi  
                       cd /home/ubuntu/Wheelsdrive-CSMS/Backend/WebSocket && sudo npm install && if sudo npm stop; then
                         # If command1 succeeds
                         echo "Command 1 succeeded"
@@ -51,3 +52,4 @@ jobs:
                           echo "Command 1 failed"
                           # Run a different command
                           sudo npm start
+                      fi
